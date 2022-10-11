@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:insudocs/src/login_signup/aadhar/aadhar_otp_page.dart';
+import 'package:insudocs/src/login_signup/aadhar/aadhar_page.dart';
+import 'package:insudocs/src/login_signup/choose_role.dart';
+import 'package:insudocs/src/login_signup/details_page.dart';
+import 'package:insudocs/src/login_signup/intro_page.dart';
+import 'package:insudocs/src/login_signup/login_page.dart';
+import 'package:insudocs/src/login_signup/setup_complete_page.dart';
+import 'package:insudocs/src/login_signup/signup_page.dart';
+import 'package:insudocs/src/main/main_page.dart';
 
 import 'sample_feature/sample_item_details_view.dart';
 import 'sample_feature/sample_item_list_view.dart';
@@ -56,7 +65,10 @@ class MyApp extends StatelessWidget {
           // Define a light and dark color theme. Then, read the user's
           // preferred ThemeMode (light, dark, or system default) from the
           // SettingsController to display the correct theme.
-          theme: ThemeData(),
+          theme: ThemeData(
+            brightness: Brightness.light,
+            primarySwatch: Colors.blue,
+          ),
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
 
@@ -67,6 +79,24 @@ class MyApp extends StatelessWidget {
               settings: routeSettings,
               builder: (BuildContext context) {
                 switch (routeSettings.name) {
+                  case MainPage.routeName:
+                    return const MainPage();
+                  case IntroPage.routeName:
+                    return const IntroPage();
+                  case LoginPage.routeName:
+                    return const LoginPage();
+                  case SignUpPage.routeName:
+                    return const SignUpPage();
+                  case ChooseRolePage.routeName:
+                    return const ChooseRolePage();
+                  case DetailsPage.routeName:
+                    return const DetailsPage();
+                  case AadharPage.routeName:
+                    return const AadharPage();
+                  case AadharWebViewPage.routeName:
+                    return const AadharWebViewPage();
+                  case SetupCompletePage.routeName:
+                    return const SetupCompletePage();
                   case SettingsView.routeName:
                     return SettingsView(controller: settingsController);
                   case SampleItemDetailsView.routeName:
