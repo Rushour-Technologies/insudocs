@@ -7,11 +7,13 @@ import 'package:url_strategy/url_strategy.dart';
 import 'src/app.dart';
 import 'src/settings/settings_controller.dart';
 import 'src/settings/settings_service.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
   // Set up the SettingsController, which will glue user settings to multiple
   // Flutter Widgets.
   final settingsController = SettingsController(SettingsService());
+  setPathUrlStrategy();
 
   WidgetsFlutterBinding.ensureInitialized();
 
