@@ -1,0 +1,10 @@
+SuperUser:
+
+String name;
+String email;
+String phone;
+Map<String, int> userCount = [
+    "total users": 0,
+    "total counsellors": 0,
+    "pending users": 0
+];
