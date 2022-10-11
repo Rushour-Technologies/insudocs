@@ -2,8 +2,6 @@ import 'dart:convert';
 
 class SaviourModel {
   String name;
-  String email;
-  String phone;
   String qualification;
   String universityName;
   String specialization;
@@ -16,8 +14,6 @@ class SaviourModel {
   int pendingRequests;
   SaviourModel({
     required this.name,
-    required this.email,
-    required this.phone,
     required this.qualification,
     required this.universityName,
     required this.specialization,
@@ -33,8 +29,6 @@ class SaviourModel {
   Map<String, dynamic> toMap() {
     return {
       'name': name,
-      'email': email,
-      'phone': phone,
       'qualification': qualification,
       'universityName': universityName,
       'specialization': specialization,
@@ -51,8 +45,6 @@ class SaviourModel {
   factory SaviourModel.fromMap(Map<String, dynamic> map) {
     return SaviourModel(
       name: map['name'] ?? '',
-      email: map['email'] ?? '',
-      phone: map['phone'] ?? '',
       qualification: map['qualification'] ?? '',
       universityName: map['universityName'] ?? '',
       specialization: map['specialization'] ?? '',
