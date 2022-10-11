@@ -20,7 +20,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  setPathUrlStrategy();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   // Load the user's preferred theme while the splash screen is displayed.
