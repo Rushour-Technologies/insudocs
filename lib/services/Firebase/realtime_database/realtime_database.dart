@@ -1,7 +1,7 @@
 import 'dart:collection';
 
-// import 'package:insudocs/services/Firebase/FireAuth/fireauth.dart';
-import 'package:insudocs/services/Firebase/fireauth/fireauth.dart';
+// import 'package:insudox/services/Firebase/FireAuth/fireauth.dart';
+import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';

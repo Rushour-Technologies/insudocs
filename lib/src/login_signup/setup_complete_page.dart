@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insudocs/src/common_widgets/base_components.dart';
-import 'package:insudocs/globals.dart';
-import 'package:insudocs/src/login_signup/components.dart';
+import 'package:insudox/src/common_widgets/base_components.dart';
+import 'package:insudox/globals.dart';
+import 'package:insudox/src/login_signup/components.dart';
 
 class SetupCompletePage extends StatelessWidget {
   const SetupCompletePage({Key? key}) : super(key: key);

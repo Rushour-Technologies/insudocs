@@ -2,8 +2,8 @@ import 'package:age_calculator/age_calculator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insudocs/globals.dart';
-import 'package:insudocs/services/Firebase/firestore/firestore.dart';
+import 'package:insudox/globals.dart';
+import 'package:insudox/services/Firebase/firestore/firestore.dart';
 
 class About extends StatefulWidget {
   const About({Key? key}) : super(key: key);

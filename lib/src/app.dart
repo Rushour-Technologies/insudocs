@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:insudocs/src/login_signup/aadhar/aadhar_otp_page.dart';
-import 'package:insudocs/src/login_signup/aadhar/aadhar_page.dart';
-import 'package:insudocs/src/login_signup/choose_role.dart';
-import 'package:insudocs/src/login_signup/details_page.dart';
-import 'package:insudocs/src/login_signup/intro_page.dart';
-import 'package:insudocs/src/login_signup/login_page.dart';
-import 'package:insudocs/src/login_signup/setup_complete_page.dart';
-import 'package:insudocs/src/login_signup/signup_page.dart';
-import 'package:insudocs/src/main/main_page.dart';
+import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox/src/login_signup/aadhar/aadhar_otp_page.dart';
+import 'package:insudox/src/login_signup/aadhar/aadhar_page.dart';
+import 'package:insudox/src/login_signup/choose_role.dart';
+import 'package:insudox/src/login_signup/details_page.dart';
+import 'package:insudox/src/login_signup/intro_page.dart';
+import 'package:insudox/src/login_signup/login_page.dart';
+import 'package:insudox/src/login_signup/setup_complete_page.dart';
+import 'package:insudox/src/login_signup/signup_page.dart';
+import 'package:insudox/src/main/main_page.dart';
 
 import 'sample_feature/sample_item_details_view.dart';
 import 'sample_feature/sample_item_list_view.dart';
@@ -78,6 +79,8 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute<void>(
               settings: routeSettings,
               builder: (BuildContext context) {
+                if (checkLoggedIn()) {}
+
                 switch (routeSettings.name) {
                   case MainPage.routeName:
                     return const MainPage();
@@ -101,6 +104,9 @@ class MyApp extends StatelessWidget {
                     return SettingsView(controller: settingsController);
                   case SampleItemDetailsView.routeName:
                     return const SampleItemDetailsView();
+
+                  case '/licenses':
+                    return const LicensePage();
                   case SampleItemListView.routeName:
                   default:
                     return const SampleItemListView();

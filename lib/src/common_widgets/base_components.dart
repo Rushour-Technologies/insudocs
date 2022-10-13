@@ -1,7 +1,8 @@
+import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insudocs/globals.dart';
-import 'package:insudocs/src/main/tabs/incoming_requests/components.dart';
+import 'package:insudox/globals.dart';
+import 'package:insudox/src/main/components/search_fields.dart';
 
 Widget baseBackground({
   required child,
@@ -133,14 +134,31 @@ Widget mainViewAppBar({
         ),
         child: Align(
           alignment: Alignment.topLeft,
-          child: Text(
-            page,
-            style: TextStyle(
-              fontFamily: 'DM Sans',
-              fontSize: width * 0.02,
-              fontWeight: FontWeight.bold,
-              color: GlobalColor.secondary,
-            ),
+          child: Stack(
+            children: [
+              Positioned(
+                top: 2,
+                left: 2,
+                child: Text(
+                  page,
+                  style: TextStyle(
+                    fontFamily: 'DM Sans',
+                    fontSize: width * 0.02,
+                    fontWeight: FontWeight.bold,
+                    color: GlobalColor.secondary.withOpacity(0.5),
+                  ),
+                ),
+              ),
+              Text(
+                page,
+                style: TextStyle(
+                  fontFamily: 'DM Sans',
+                  fontSize: width * 0.02,
+                  fontWeight: FontWeight.bold,
+                  color: GlobalColor.secondary,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -155,26 +173,7 @@ Widget mainViewAppBar({
                       direction: Axis.horizontal,
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          flex: 1,
-                          child: SearchDropDownFilter(
-                              items: ['items'], onChanged: (value) {}),
-                        ),
-                        Flexible(
-                          flex: 1,
-                          child: SearchDropDownFilter(
-                              items: ['items'], onChanged: (value) {}),
-                        ),
-                        Flexible(
-                          flex: 10,
-                          child: SearchFormField(
-                            searchController: searchController,
-                            hintText: 'Search',
-                            redirectFunction: () {},
-                          ),
-                        ),
-                      ],
+                      children: [],
                     ),
                   ),
                 )

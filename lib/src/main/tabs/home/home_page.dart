@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:html' as html;
-import 'package:insudocs/src/common_widgets/base_components.dart';
-import 'package:insudocs/globals.dart';
-import 'package:insudocs/src/main/tabs/home/components.dart';
-import 'package:insudocs/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox/src/common_widgets/base_components.dart';
+import 'package:insudox/globals.dart';
+import 'package:insudox/src/main/tabs/home/components.dart';
+import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

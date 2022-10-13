@@ -3,10 +3,10 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
-import 'package:insudocs/src/common_widgets/base_components.dart';
-import 'package:insudocs/globals.dart';
-import 'package:insudocs/src/login_signup/components.dart';
-import 'package:insudocs/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox/src/common_widgets/base_components.dart';
+import 'package:insudox/globals.dart';
+import 'package:insudox/src/login_signup/components.dart';
+import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);

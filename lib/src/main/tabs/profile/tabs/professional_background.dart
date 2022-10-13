@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insudocs/globals.dart';
-import 'package:insudocs/services/Firebase/firestore/firestore.dart';
+import 'package:insudox/globals.dart';
+import 'package:insudox/services/Firebase/firestore/firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfessionalBackground extends StatefulWidget {
@@ -88,11 +88,6 @@ class _ProfessionalBackgroundState extends State<ProfessionalBackground> {
           dataStyle,
         ),
         headingRow('Uploaded Documents', headingStyle),
-        // downloaderButton(data != null
-        //     ? data!['xml'] != null
-        //         ? data!['xml']['fileUrl']
-        //         : null
-        //     : null),
         Row(
           children: [
             Column(

@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:insudocs/src/common_widgets/base_components.dart';
-import 'package:insudocs/src/main/tabs/notifications/components.dart';
-import 'package:insudocs/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox/src/common_widgets/base_components.dart';
+import 'package:insudox/src/main/tabs/notifications/components.dart';
+import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({Key? key}) : super(key: key);

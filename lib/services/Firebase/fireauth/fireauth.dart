@@ -5,11 +5,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
-import 'package:insudocs/globals.dart';
+import 'package:insudox/globals.dart';
 
-import 'package:insudocs/services/Firebase/fireAuth/google_auth.dart'
+import 'package:insudox/services/Firebase/fireAuth/google_auth.dart'
     as google_auth;
-import 'package:insudocs/services/Firebase/firestore/firestore.dart';
+import 'package:insudox/services/Firebase/firestore/firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;

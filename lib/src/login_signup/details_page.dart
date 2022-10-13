@@ -6,11 +6,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insudocs/src/common_widgets/base_components.dart';
-import 'package:insudocs/globals.dart';
-import 'package:insudocs/src/login_signup/components.dart';
-import 'package:insudocs/services/Firebase/fireauth/fireauth.dart';
-import 'package:insudocs/services/Firebase/firestore/firestore.dart';
+import 'package:insudox/src/common_widgets/base_components.dart';
+import 'package:insudox/globals.dart';
+import 'package:insudox/src/login_signup/components.dart';
+import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox/services/Firebase/firestore/firestore.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({Key? key}) : super(key: key);

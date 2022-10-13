@@ -3,11 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
-import 'package:insudocs/src/common_widgets/base_components.dart';
-import 'package:insudocs/globals.dart';
-import 'package:insudocs/src/main/components.dart';
-import 'package:insudocs/src/main/tabs/messages/chatInterface.dart';
-import 'package:insudocs/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox/src/common_widgets/base_components.dart';
+import 'package:insudox/globals.dart';
+import 'package:insudox/src/main/components/vertical_tab_bar.dart';
+import 'package:insudox/src/main/tabs/messages/chatInterface.dart';
+import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 
 class MessagesPage extends StatefulWidget {
   const MessagesPage({Key? key}) : super(key: key);

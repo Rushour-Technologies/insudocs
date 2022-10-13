@@ -1,16 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:insudocs/src/common_widgets/base_components.dart';
-import 'package:insudocs/globals.dart';
-import 'package:insudocs/src/main/components.dart';
-import 'package:insudocs/src/main/tabs/home/home_page.dart';
-import 'package:insudocs/src/main/tabs/incoming_requests/incoming_requests_page.dart';
-import 'package:insudocs/src/main/tabs/messages/messages_page.dart';
-import 'package:insudocs/src/main/tabs/notifications/notifications_page.dart';
-import 'package:insudocs/src/main/tabs/profile/profile_page.dart';
+import 'package:insudox/src/common_widgets/base_components.dart';
+import 'package:insudox/globals.dart';
+import 'package:insudox/src/main/components/vertical_tab_bar.dart';
+import 'package:insudox/src/main/tabs/clients/clients_page.dart';
+import 'package:insudox/src/main/tabs/home/home_page.dart';
+import 'package:insudox/src/main/tabs/saviours/saviours_page.dart';
+import 'package:insudox/src/main/tabs/messages/messages_page.dart';
+import 'package:insudox/src/main/tabs/notifications/notifications_page.dart';
+import 'package:insudox/src/main/tabs/profile/profile_page.dart';
 
-import 'package:insudocs/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -50,19 +51,25 @@ class _MainPageState extends State<MainPage> {
               ),
               tabs: const [
                 VerticalTabBarItem(
-                    icon: Icon(Icons.home_outlined), label: 'Home'),
+                  icon: Icon(Icons.home_outlined),
+                  label: 'Home',
+                ),
                 VerticalTabBarItem(
-                    icon: Icon(Icons.info_outline), label: 'Clients'),
+                  icon: Icon(Icons.info_outline),
+                  label: 'Clients',
+                ),
                 VerticalTabBarItem(
-                    icon: Icon(Icons.move_to_inbox_outlined),
-                    label: 'Saviours'),
+                  icon: Icon(Icons.move_to_inbox_outlined),
+                  label: 'Saviours',
+                ),
                 VerticalTabBarItem(
-                    icon: Icon(Icons.notifications_active_outlined),
-                    label: 'Notifications'),
-                // VerticalTabBarItem(
-                //     icon: Icon(Icons.feedback_outlined), label: 'Messages'),
+                  icon: Icon(Icons.notifications_active_outlined),
+                  label: 'Notifications',
+                ),
                 VerticalTabBarItem(
-                    icon: Icon(Icons.person_outline_rounded), label: 'Profile'),
+                  icon: Icon(Icons.person_outline_rounded),
+                  label: 'Profile',
+                ),
               ],
             ),
             Align(
@@ -78,7 +85,7 @@ class _MainPageState extends State<MainPage> {
                   },
                   child: ListTile(
                     leading: Icon(
-                      color: Colors.white,
+                      color: GlobalColor.navigationUnselected,
                       Icons.logout_rounded,
                     ),
                     title: Text(
@@ -98,10 +105,12 @@ class _MainPageState extends State<MainPage> {
       ),
       mainView: VerticalTabBarView(
         controller: _controller,
-        children: [
+        children: const [
           HomePage(),
-          IncomingRequestPage(),
-          MessagesPage(),
+          ClientsPage(),
+          IncomingRequestPage(
+            title: 'SAVIOURS',
+          ),
           NotificationsPage(),
           ProfilePage(),
         ],

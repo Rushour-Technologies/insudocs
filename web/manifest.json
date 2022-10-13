@@ -1,6 +1,6 @@
 {
-    "name": "insudocs",
-    "short_name": "insudocs",
+    "name": "insudox",
+    "short_name": "insudox",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

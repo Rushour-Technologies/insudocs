@@ -2,21 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insudocs/src/common_widgets/base_components.dart';
-import 'package:insudocs/globals.dart';
-import 'package:insudocs/src/main/tabs/incoming_requests/components.dart';
-import 'package:insudocs/services/Firebase/fireauth/fireauth.dart';
-import 'package:insudocs/services/Firebase/firestore/firestore.dart';
+import 'package:insudox/src/common_widgets/base_components.dart';
+import 'package:insudox/globals.dart';
+import 'package:insudox/src/main/tabs/saviours/components.dart';
+import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox/services/Firebase/firestore/firestore.dart';
 
 class IncomingRequestPage extends StatefulWidget {
-  const IncomingRequestPage({Key? key}) : super(key: key);
-
+  const IncomingRequestPage({Key? key, required this.title}) : super(key: key);
+  final String title;
   @override
   State<IncomingRequestPage> createState() => _IncomingRequestPageState();
 }
 
 class _IncomingRequestPageState extends State<IncomingRequestPage> {
-  final TextEditingController _searchController = TextEditingController();
   late User? user;
 
   @override
@@ -34,7 +33,7 @@ class _IncomingRequestPageState extends State<IncomingRequestPage> {
       height: screenHeight,
       name: user != null ? user!.displayName ?? user!.email : '',
       // searchController: _searchController,
-      page: 'INCOMING REQUESTS',
+      page: widget.title,
       child: Padding(
         padding: EdgeInsets.only(top: screenHeight * 0.025),
         child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -77,27 +76,11 @@ class _IncomingRequestPageState extends State<IncomingRequestPage> {
               );
             }
           },
-
-          // infoList
-          //     .map(
-          //       (e) => RequestCard(incomingRequestInfo: e),
-          //     )
-          //     .toList(),
         ),
       ),
     );
   }
 }
-
-// List<IncomingRequestInfo> infoList = [
-//   IncomingRequestInfo(),
-//   IncomingRequestInfo(),
-//   IncomingRequestInfo(),
-//   IncomingRequestInfo(),
-//   IncomingRequestInfo(),
-//   IncomingRequestInfo(),
-//   IncomingRequestInfo(),
-// ];
 
 class IncomingRequestInfo {
   const IncomingRequestInfo({
@@ -117,7 +100,6 @@ class IncomingRequestInfo {
         clientType = json['clientType'] as String,
         type = json['type'] as int,
         uid = json['uid'] as String,
-        // type = 1,
         standard = json['standard'] as String,
         testStatus = (json['testStatus'] as List).contains(1),
         vidyaBotStatus = false;

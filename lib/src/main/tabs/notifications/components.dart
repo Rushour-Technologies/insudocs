@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:insudocs/globals.dart';
+import 'package:insudox/globals.dart';
 
 class NotificationCard extends StatelessWidget {
   const NotificationCard({Key? key, required this.notification})

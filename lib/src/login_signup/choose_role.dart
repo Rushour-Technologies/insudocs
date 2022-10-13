@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
-import 'package:insudocs/globals.dart';
-import 'package:insudocs/models/role_storage.dart';
-import 'package:insudocs/services/Firebase/firestore/firestore.dart';
-import 'package:insudocs/src/common_widgets/base_components.dart';
-import 'package:insudocs/src/login_signup/components.dart';
+import 'package:insudox/globals.dart';
+import 'package:insudox/models/role_storage.dart';
+import 'package:insudox/services/Firebase/firestore/firestore.dart';
+import 'package:insudox/src/common_widgets/base_components.dart';
+import 'package:insudox/src/login_signup/components.dart';
 
 class ChooseRolePage extends StatefulWidget {
   const ChooseRolePage({Key? key}) : super(key: key);

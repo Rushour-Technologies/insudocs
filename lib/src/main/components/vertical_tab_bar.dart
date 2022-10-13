@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insudocs/globals.dart';
+import 'package:insudox/globals.dart';
 
 class VerticalTabBar extends StatefulWidget {
   const VerticalTabBar({
@@ -45,19 +45,17 @@ class _VerticalTabBarState extends State<VerticalTabBar> {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Column(
-      // mainAxisSize: MainAxisSize.min,
-      // mainAxisAlignment: MainAxisAlignment.center,
       children: widget.tabs.asMap().keys.map(
         ((index) {
           tab = widget.tabs.elementAt(index);
           return GestureDetector(
             onTap: () {
-              print("hi $index");
               if (_currentIndex == index) {
                 return;
               }
-              print("$_currentIndex : $index");
+
               isOnColor[index] = true;
+
               if (_currentIndex != -1) {
                 isOnColor[_currentIndex] = false;
               }
@@ -73,16 +71,16 @@ class _VerticalTabBarState extends State<VerticalTabBar> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(screenWidth / 150),
                 color: isOnColor[index]
-                    ? GlobalColor.bottomNavigationSelected.withOpacity(0.35)
+                    ? GlobalColor.navigationSelected.withOpacity(0.35)
                     : Colors.transparent,
               ),
               child: ListTile(
-                iconColor: Colors.white,
-                tileColor: Colors.white,
-                textColor: Colors.white,
+                iconColor: GlobalColor.navigationUnselected,
+                tileColor: GlobalColor.navigationUnselected,
+                textColor: GlobalColor.navigationUnselected,
                 selected: isOnColor[index],
-                selectedColor: GlobalColor.bottomNavigationSelected,
-                selectedTileColor: GlobalColor.bottomNavigationSelected,
+                selectedColor: GlobalColor.navigationSelected,
+                selectedTileColor: GlobalColor.navigationSelected,
                 leading: tab.icon,
                 title: Text(
                   tab.label,
@@ -117,10 +115,10 @@ class VerticalTabBarItem {
 class VerticalTabController extends ChangeNotifier {
   int _index = 0;
 
-  // Index getter
+  /// Index getter
   int get index => _index;
 
-  // Index setter
+  /// Index setter
   set setIndex(indexValue) {
     _index = indexValue;
     notifyListeners();

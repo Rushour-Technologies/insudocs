@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:insudocs/src/common_widgets/base_components.dart';
-import 'package:insudocs/src/login_signup/components.dart';
+import 'package:insudox/src/common_widgets/base_components.dart';
+import 'package:insudox/src/login_signup/components.dart';
 
 class MobileAuthPage extends StatefulWidget {
   MobileAuthPage({Key? key}) : super(key: key);

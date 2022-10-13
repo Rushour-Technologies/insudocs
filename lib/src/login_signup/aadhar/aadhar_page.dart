@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insudocs/models/aadhar.dart';
-import 'package:insudocs/src/common_widgets/base_components.dart';
-import 'package:insudocs/globals.dart';
-import 'package:insudocs/src/login_signup/components.dart';
-import 'package:insudocs/services/AadharOTP/otp_auth.dart';
-import 'package:insudocs/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox/models/aadhar.dart';
+import 'package:insudox/src/common_widgets/base_components.dart';
+import 'package:insudox/globals.dart';
+import 'package:insudox/src/login_signup/components.dart';
+import 'package:insudox/services/AadharOTP/otp_auth.dart';
+import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 
 class AadharPage extends StatefulWidget {
   const AadharPage({Key? key}) : super(key: key);

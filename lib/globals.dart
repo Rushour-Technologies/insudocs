@@ -42,6 +42,10 @@ class GlobalColor {
     Color(0xFFFFC04C)
   ];
 
+  static const Color white = Color(0xFFFFFFFF);
+
+  static const Color black = Color(0xFF000000);
+
   static const Color background = Color(0xFFFFFFFF);
 
   static const Color buttonText = Color(0xFF615793);
@@ -52,11 +56,11 @@ class GlobalColor {
 
   static const Color graphBg = Color(0xFFC1EFFF);
 
-  static const Color searchFieldText = Color(0x00000000);
+  static const Color searchFieldText = Color(0xFF000000);
 
-  static const Color searchFieldBackground = Color(0xFFFFC861);
+  static const Color searchFieldBackground = Color(0xFF615793);
 
-  static const Color formFieldText = Color(0x00000000);
+  static const Color formFieldText = Color(0xFF000000);
 
   static const Color formFieldHintText = Color(0xFFFFFFFF);
 
@@ -68,9 +72,15 @@ class GlobalColor {
 
   static const Color notificationBg = Color(0xFFC1EFFF);
 
-  static const Color bottomNavigation = Color(0xFF615793);
+  static const Color navigation = Color(0xFF615793);
 
-  static const Color bottomNavigationSelected = Color(0xFFFFB01D);
+  static const Color navigationSelected = Color(0xFFFFB01D);
 
-  static const Color bottomNavigationUnselected = Color(0xFFFFFFFF);
+  static const Color navigationUnselected = Color(0xFFFFFFFF);
+
+  static const Color link = Color(0xFF0000FF);
+
+  static const Color notificationTitle = Color(0xFF000000);
+
+  static const Color transparent = Colors.transparent;
 }

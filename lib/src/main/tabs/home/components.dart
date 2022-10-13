@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
-import 'package:insudocs/globals.dart';
-import 'package:insudocs/services/Firebase/firestore/firestore.dart';
+import 'package:insudox/globals.dart';
+import 'package:insudox/services/Firebase/firestore/firestore.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:insudocs/src/common_widgets/base_components.dart';
+import 'package:insudox/src/common_widgets/base_components.dart';
 
-import 'package:insudocs/globals.dart';
-import 'package:insudocs/src/login_signup/components.dart';
-import 'package:insudocs/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox/globals.dart';
+import 'package:insudox/src/login_signup/components.dart';
+import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

@@ -5,9 +5,9 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:insudocs/globals.dart';
-import 'package:insudocs/src/login_signup/details_page.dart';
-import 'package:insudocs/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox/globals.dart';
+import 'package:insudox/src/login_signup/details_page.dart';
+import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 
 TextFormField normalformfield(
   TextEditingController controller,
