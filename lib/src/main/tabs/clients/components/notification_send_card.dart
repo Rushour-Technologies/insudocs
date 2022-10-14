@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:insudox/globals.dart';
-import 'package:insudox/src/login_signup/components.dart';
+import 'package:insudox/src/classes/insurance_enums.dart';
+import 'package:insudox/src/main/components/default.dart';
+
 import 'package:insudox/src/main/components/search_fields.dart';
 
 class NotificationSendCard extends StatefulWidget {
@@ -30,6 +32,7 @@ class _NotificationSendCardState extends State<NotificationSendCard> {
     return Container(
       width: screenWidth * 0.75,
       decoration: BoxDecoration(
+        // boxShadow: defaultBoxShadow(),
         color: GlobalColor.notificationBg,
         borderRadius: BorderRadius.circular(screenHeight / 50),
       ),
@@ -47,20 +50,15 @@ class _NotificationSendCardState extends State<NotificationSendCard> {
                     screenHeight: screenHeight,
                     title: 'Send a common notification to : '),
                 SizedBox(
-                  width: screenWidth * 0.05,
+                  width: screenWidth * 0.1,
                   child: SearchDropDownFilter(
                     height: screenHeight * 0.05,
-                    width: screenWidth * 0.05,
-                    items: const [
-                      "All",
-                      "Health",
-                      "Life",
-                      "Claim",
-                      "Track",
-                    ],
+                    width: screenWidth,
+                    items: Filters.values.map((e) => e.data).toList(),
                     optionValue: optionValue,
                     onChanged: (value) {
                       optionValue.value = value;
+                      setState(() {});
                     },
                   ),
                 ),
@@ -165,22 +163,22 @@ Widget formField({
         enabledBorder: OutlineInputBorder(
           gapPadding: 1,
           borderSide: const BorderSide(color: Colors.grey),
-          borderRadius: BorderRadius.circular(screenHeight / 50),
+          borderRadius: BorderRadius.circular(screenHeight / 80),
         ),
         errorBorder: OutlineInputBorder(
           gapPadding: 1,
           borderSide: const BorderSide(color: Colors.grey),
-          borderRadius: BorderRadius.circular(screenHeight / 50),
+          borderRadius: BorderRadius.circular(screenHeight / 80),
         ),
         focusedErrorBorder: OutlineInputBorder(
           gapPadding: 1,
           borderSide: const BorderSide(color: Colors.grey),
-          borderRadius: BorderRadius.circular(screenHeight / 50),
+          borderRadius: BorderRadius.circular(screenHeight / 80),
         ),
         focusedBorder: OutlineInputBorder(
           gapPadding: 1,
           borderSide: const BorderSide(color: Colors.grey),
-          borderRadius: BorderRadius.circular(screenHeight / 50),
+          borderRadius: BorderRadius.circular(screenHeight / 80),
         ),
       ),
     ),

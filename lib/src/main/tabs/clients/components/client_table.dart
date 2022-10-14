@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:insudox/globals.dart';
 import 'package:insudox/src/classes/client_data_model.dart';
 import 'package:insudox/src/classes/insurance_ENUMS.dart';
+import 'package:insudox/src/main/components/default.dart';
+import 'package:insudox/src/main/components/search_fields.dart';
+import 'package:insudox/src/main/tabs/clients/components/notification_send_card.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class ClientsTable extends StatefulWidget {
@@ -12,13 +15,24 @@ class ClientsTable extends StatefulWidget {
 }
 
 class _ClientsTableState extends State<ClientsTable> {
+  final ValueNotifier<int> filterType = ValueNotifier<int>(0);
+  final ValueNotifier<int> filterStatus = ValueNotifier<int>(0);
+  final ValueNotifier<String> name = ValueNotifier<String>('');
+  final ValueNotifier<bool> filterOn = ValueNotifier<bool>(false);
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     return Column(
       children: [
-        TableFilters(),
+        TableFilters(
+          filterOn: filterOn,
+          filterStatus: filterStatus,
+          filterType: filterType,
+          name: name,
+          setState: setState,
+        ),
         Table(
             border: TableBorder.all(
               color: GlobalColor.transparent,
@@ -47,15 +61,21 @@ class _ClientsTableState extends State<ClientsTable> {
                   CustomTableCell(
                     data: 'Report',
                     isHeader: true,
-                  ),
+                  )
                 ],
-              ),
+              )
             ]),
         SizedBox(
-          height: screenHeight * 0.45,
+          height: screenHeight * 0.65,
           child: SingleChildScrollView(
             child: Table(
               children: clientDataList
+                  .where((element) =>
+                      !filterOn.value ||
+                      InsuranceStatus.values[element.insuraceStatus].data ==
+                              InsuranceStatus.values[filterStatus.value].data &&
+                          InsuranceType.values[element.insuranceType].data ==
+                              InsuranceType.values[filterType.value].data)
                   .map(
                     (client) => TableRow(
                       children: [
@@ -72,7 +92,7 @@ class _ClientsTableState extends State<ClientsTable> {
                           data: 'Download',
                           link: client.reportLink,
                           isLink: true,
-                        ),
+                        )
                       ],
                     ),
                   )
@@ -86,24 +106,28 @@ class _ClientsTableState extends State<ClientsTable> {
   }
 }
 
-ClientDataModel clientDataModel = ClientDataModel(
-  name: 'John Doe',
-  insuranceType: 1,
-  insuraceStatus: 0,
-  email: 'pataderushikesh@gmail.com',
-  reportLink: 'https://www.google.com',
-);
+ClientDataModel clientDataModel(
+  int insuranceType,
+  int insuranceStatus,
+) =>
+    ClientDataModel(
+      name: 'John Doe',
+      insuranceType: insuranceType,
+      insuraceStatus: insuranceStatus,
+      email: 'pataderushikesh@gmail.com',
+      reportLink: 'https://www.google.com',
+    );
 List<ClientDataModel> clientDataList =
-    List.generate(20, (index) => clientDataModel);
+    List.generate(20, (index) => clientDataModel(index % 2, index % 3));
 
 class CustomTableCell extends StatelessWidget {
-  const CustomTableCell({
-    Key? key,
-    required this.data,
-    this.isHeader = false,
-    this.isLink = false,
-    this.link = "",
-  }) : super(key: key);
+  const CustomTableCell(
+      {Key? key,
+      required this.data,
+      this.isHeader = false,
+      this.isLink = false,
+      this.link = ""})
+      : super(key: key);
   final String data, link;
   final bool isHeader, isLink;
 
@@ -164,10 +188,163 @@ class CustomTableCell extends StatelessWidget {
 }
 
 class TableFilters extends StatelessWidget {
-  const TableFilters({super.key});
+  const TableFilters(
+      {super.key,
+      required this.filterOn,
+      required this.setState,
+      required this.filterType,
+      required this.filterStatus,
+      required this.name});
+
+  final ValueNotifier<bool> filterOn;
+  final ValueNotifier<int> filterType;
+  final ValueNotifier<int> filterStatus;
+  final ValueNotifier<String> name;
+  final void Function(Function()) setState;
+
+  static final TextEditingController _searchController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
+
+    final TextStyle headerStyle = TextStyle(
+      color: GlobalColor.white,
+      fontFamily: 'DM Sans',
+      fontWeight: FontWeight.bold,
+      fontSize: screenWidth * 0.015,
+    );
+
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(screenHeight * 0.02),
+        // boxShadow: defaultBoxShadow(),
+        color: GlobalColor.tertiary,
+      ),
+      child: ListTile(
+        tileColor: GlobalColor.tertiary,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Table Filters',
+              style: headerStyle,
+            ),
+            Column(
+              children: [
+                Text(
+                  "Filter : ${filterOn.value ? 'On' : 'Off'}",
+                  style: TextStyle(
+                    color: GlobalColor.black,
+                    fontFamily: 'DM Sans',
+                    fontWeight: FontWeight.bold,
+                    fontSize: screenWidth * 0.01,
+                  ),
+                ),
+                Switch(
+                  activeColor: GlobalColor.primary,
+                  value: filterOn.value,
+                  onChanged: (value) {
+                    setState(() {
+                      filterOn.value = !filterOn.value;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(screenHeight * 0.02),
+        ),
+        subtitle: Align(
+          alignment: Alignment.center,
+          child: SizedBox(
+            height: screenHeight * 0.1,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: screenHeight * 0.01,
+                horizontal: screenWidth * 0.015,
+              ),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                        SizedBox(
+                          width: screenWidth * 0.5,
+                          child: formField(
+                              screenWidth: screenWidth,
+                              screenHeight: screenHeight,
+                              hint: 'Search a name',
+                              controller: _searchController,
+                              validator: (value) {
+                                name.value = value ?? '';
+
+                                return "";
+                              },
+                              setState: () {},
+                              errorText: ''),
+                        ),
+                      ] +
+                      (filterOn.value
+                          ? [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  formTitle(
+                                      screenHeight: screenHeight * 0.75,
+                                      title: 'Insurance Type'),
+                                  SizedBox(
+                                    width: screenWidth * 0.06,
+                                    child: SearchDropDownFilter(
+                                      height: screenHeight * 0.05,
+                                      width: screenWidth,
+                                      items: InsuranceType.values
+                                          .map((e) => e.data)
+                                          .toList(),
+                                      optionValue: filterType,
+                                      onChanged: (value) {
+                                        filterType.value = value;
+                                        setState(() {});
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  formTitle(
+                                      screenHeight: screenHeight * 0.75,
+                                      title: 'Insurance Status'),
+                                  SizedBox(
+                                    width: screenWidth * 0.06,
+                                    child: SearchDropDownFilter(
+                                      height: screenHeight * 0.05,
+                                      width: screenWidth,
+                                      items: InsuranceStatus.values
+                                          .map((e) => e.data)
+                                          .toList(),
+                                      optionValue: filterStatus,
+                                      onChanged: (value) {
+                                        filterStatus.value = value;
+                                        print(filterStatus.value);
+                                        print(filterType.value);
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ]
+                          : [])),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

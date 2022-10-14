@@ -43,10 +43,16 @@ class _SearchDropDownFilterState extends State<SearchDropDownFilter> {
               .map(
                 (item) => DropdownMenuItem<String>(
                   value: item,
-                  child: Text(
-                    item,
-                    style: const TextStyle(
-                      fontFamily: 'DM Sans',
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: widget.height * 0.005,
+                    ),
+                    child: Text(
+                      item,
+                      style: TextStyle(
+                        fontFamily: 'DM Sans',
+                        fontSize: widget.width * 0.0075,
+                      ),
                     ),
                   ),
                 ),

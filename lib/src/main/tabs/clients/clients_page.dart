@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 import 'package:insudox/src/common_widgets/base_components.dart';
-import 'package:insudox/src/main/components/default_padding.dart';
+import 'package:insudox/src/main/components/default.dart';
 import 'package:insudox/src/main/tabs/clients/components/client_table.dart';
 import 'package:insudox/src/main/tabs/clients/components/notification_send_card.dart';
 
@@ -42,7 +42,7 @@ class _ClientsPageState extends State<ClientsPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           defaultPadding(child: NotificationSendCard(), height: screenHeight),
-          defaultPadding(child: ClientsTable(), height: screenHeight),  
+          defaultPadding(child: ClientsTable(), height: screenHeight),
         ],
       ),
     );

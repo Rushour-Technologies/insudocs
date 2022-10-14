@@ -28,6 +28,12 @@ class _IncomingRequestPageState extends State<IncomingRequestPage> {
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
+
+    final noRequestStyle = TextStyle(
+      color: GlobalColor.black,
+      fontFamily: 'DM Sans',
+      fontSize: screenHeight * 0.025,
+    );
     return mainViewAppBar(
       width: screenWidth,
       height: screenHeight,
@@ -62,16 +68,22 @@ class _IncomingRequestPageState extends State<IncomingRequestPage> {
                       }).toList());
                 } else {
                   return Center(
-                    child: Text('No Requests'),
+                    child: Text(
+                      'No Requests',
+                      style: noRequestStyle,
+                    ),
                   );
                 }
               } else {
                 return Center(
-                  child: Text('No Requests'),
+                  child: Text(
+                    'No Requests',
+                    style: noRequestStyle,
+                  ),
                 );
               }
             } else {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }

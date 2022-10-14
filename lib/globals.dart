@@ -70,7 +70,7 @@ class GlobalColor {
 
   static const Color drawerBackground = Color(0xFF59BFFF);
 
-  static const Color notificationBg = Color(0xFFC1EFFF);
+  static const Color notificationBg = Color(0xFFFEF6E6);
 
   static const Color navigation = Color(0xFF615793);
 
