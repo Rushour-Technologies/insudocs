@@ -42,7 +42,7 @@ class _ClientsPageState extends State<ClientsPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           defaultPadding(child: NotificationSendCard(), height: screenHeight),
-          defaultPadding(child: ClientsTable(), height: screenHeight),
+          defaultPadding(child: ClientsTable(), height: screenHeight),  
         ],
       ),
     );
