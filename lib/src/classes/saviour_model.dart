@@ -1,18 +1,20 @@
 import 'dart:convert';
 
 class SaviourModel {
-  String name;
-  String qualification;
-  String universityName;
-  String specialization;
-  bool priorExperience;
-  int yearsOfExperience;
-  String adhaarNumber;
-  String gender;
-  int closedClients;
-  int currentClients;
-  int pendingRequests;
-  SaviourModel({
+  final String name;
+  final String qualification;
+  final String qualificationFileLink;
+  final String universityName;
+  final String specialization;
+  final String specializationFileLink;
+  final bool priorExperience;
+  final int yearsOfExperience;
+  final String adhaarNumber;
+  final String gender;
+  final int closedClients;
+  final int currentClients;
+  final int pendingRequests;
+  const SaviourModel({
     required this.name,
     required this.qualification,
     required this.universityName,
@@ -24,6 +26,8 @@ class SaviourModel {
     required this.closedClients,
     required this.currentClients,
     required this.pendingRequests,
+    required this.qualificationFileLink,
+    required this.specializationFileLink,
   });
 
   Map<String, dynamic> toMap() {
@@ -55,6 +59,8 @@ class SaviourModel {
       closedClients: map['closedClients']?.toInt() ?? 0,
       currentClients: map['currentClients']?.toInt() ?? 0,
       pendingRequests: map['pendingRequests']?.toInt() ?? 0,
+      qualificationFileLink: map['qualificationFileLink'] ?? '',
+      specializationFileLink: map['specializationFileLink'] ?? '',
     );
   }
 }

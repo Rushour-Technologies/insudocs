@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insudox/globals.dart';
-import 'package:insudox/src/classes/client_data_model.dart';
+import 'package:insudox/src/classes/client_model.dart';
 import 'package:insudox/src/classes/insurance_ENUMS.dart';
 import 'package:insudox/src/main/components/default.dart';
 import 'package:insudox/src/main/components/search_fields.dart';
@@ -106,18 +106,20 @@ class _ClientsTableState extends State<ClientsTable> {
   }
 }
 
-ClientDataModel clientDataModel(
+ClientModel clientDataModel(
   int insuranceType,
   int insuranceStatus,
 ) =>
-    ClientDataModel(
+    ClientModel(
       name: 'John Doe',
       insuranceType: insuranceType,
       insuraceStatus: insuranceStatus,
       email: 'pataderushikesh@gmail.com',
       reportLink: 'https://www.google.com',
+      uid: '123',
+      photoURL: DEFAULT_PROFILE_PICTURE,
     );
-List<ClientDataModel> clientDataList =
+List<ClientModel> clientDataList =
     List.generate(20, (index) => clientDataModel(index % 2, index % 3));
 
 class CustomTableCell extends StatelessWidget {

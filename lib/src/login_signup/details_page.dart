@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insudox/src/common_widgets/base_components.dart';
 import 'package:insudox/globals.dart';
+import 'package:insudox/src/login_signup/aadhar/aadhar_page.dart';
 import 'package:insudox/src/login_signup/components.dart';
 import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 import 'package:insudox/services/Firebase/firestore/firestore.dart';
@@ -41,10 +42,10 @@ class _DetailsPageState extends State<DetailsPage> {
         style: TextStyle(
           fontFamily: 'Cabin',
           fontSize: screenHeight * 0.035,
-          color: GlobalColor.buttonText,
+          color: GlobalColor.snackbarText,
         ),
       ),
-      backgroundColor: GlobalColor.buttonBackground,
+      backgroundColor: GlobalColor.snackbarBg,
     ));
   }
 
@@ -85,13 +86,13 @@ class _DetailsPageState extends State<DetailsPage> {
       'universityName': universityNameController.text,
       'specialisation': specialisationController.text,
       'experience': experienceController.text,
-      'experienceFile': _experienceFile.url,
-      'educationFile': _educationFile.url,
+      'experienceFileLink': _experienceFile.url,
+      'qualificationFileLink': _educationFile.url,
       'declaration': _declaration,
       'detailsFilled': true,
     }, SetOptions(merge: true));
 
-    Navigator.of(context).restorablePushNamed('/aadhar');
+    Navigator.of(context).restorablePushNamed(AadharPage.routeName);
 
     return false;
   }
@@ -120,10 +121,10 @@ class _DetailsPageState extends State<DetailsPage> {
               style: TextStyle(
                 fontFamily: 'Cabin',
                 fontSize: screenHeight * 0.035,
-                color: GlobalColor.buttonText,
+                color: GlobalColor.snackbarText,
               ),
             ),
-            backgroundColor: GlobalColor.buttonBackground,
+            backgroundColor: GlobalColor.snackbarBg,
           ),
         );
       }
@@ -240,7 +241,8 @@ class _DetailsPageState extends State<DetailsPage> {
                     children: [
                       formfieldTitle(
                         screenWidth: screenWidth,
-                        title: 'Any prior experience in counselling?',
+                        title:
+                            'Any prior experience in insurance related fields?',
                       ),
                       Row(
                         children: [
@@ -301,7 +303,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   children: [
                     formfieldTitle(
                       screenWidth: screenWidth,
-                      title: 'Upload proof of Counselling Experience:',
+                      title: 'Upload Resume / CV :',
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: screenWidth * 0.02),

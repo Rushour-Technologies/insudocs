@@ -10,6 +10,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 import 'package:insudox/services/Firebase/firestore/firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class AadharWebViewPage extends StatefulWidget {
   const AadharWebViewPage({Key? key}) : super(key: key);
@@ -39,7 +40,7 @@ class _AadharWebViewPageState extends State<AadharWebViewPage> {
             color: GlobalColor.buttonText,
           ),
         ),
-        backgroundColor: GlobalColor.buttonBackground,
+        backgroundColor: GlobalColor.buttonBg,
       );
 
   aadharListener() async {
@@ -99,11 +100,7 @@ class _AadharWebViewPageState extends State<AadharWebViewPage> {
   }
 
   Future<void> _launchUrl() async {
-    if (!await launchUrl(
-      Uri.parse(link),
-      mode: LaunchMode.inAppWebView,
-      webViewConfiguration: const WebViewConfiguration(enableJavaScript: true),
-    )) {
+    if (!await launchUrlString(link)) {
       throw 'Could not launch $link';
     }
   }
@@ -142,7 +139,7 @@ class _AadharWebViewPageState extends State<AadharWebViewPage> {
               style: TextStyle(
                 fontFamily: 'Cabin',
                 fontSize: screenWidth * 0.03,
-                color: GlobalColor.buttonText,
+                color: GlobalColor.white,
               ),
             ),
             Text(
@@ -151,7 +148,7 @@ class _AadharWebViewPageState extends State<AadharWebViewPage> {
               style: TextStyle(
                 fontFamily: 'Cabin',
                 fontSize: screenWidth * 0.02,
-                color: GlobalColor.buttonText,
+                color: GlobalColor.white,
               ),
             ),
           ],

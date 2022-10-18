@@ -78,7 +78,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
         automaticallyImplyLeading: false,
-        backgroundColor: GlobalColor.drawerBackground,
+        backgroundColor: GlobalColor.drawerBg,
         title: Padding(
           padding: EdgeInsets.only(left: screenWidth * 0.025),
           child: FutureBuilder(

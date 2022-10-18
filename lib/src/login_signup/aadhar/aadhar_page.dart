@@ -53,20 +53,20 @@ class _AadharPageState extends State<AadharPage> {
             color: GlobalColor.buttonText,
           ),
         ),
-        backgroundColor: GlobalColor.buttonBackground,
+        backgroundColor: GlobalColor.buttonBg,
       ));
       return;
     }
     setState(() {});
     String userId = getCurrentUserId();
-    print(userId);
+
     Map<String, dynamic> results = await aadharSignIn(userId);
-    print(results);
+
     aadhar.setId = results['id'];
     aadhar.setLink = results['url'];
     aadhar.setNumber = aadharController.text;
 
-    Navigator.of(context)
+    await Navigator.of(context)
         .restorablePushNamedAndRemoveUntil('/aadhar_otp', (route) => false);
   }
 

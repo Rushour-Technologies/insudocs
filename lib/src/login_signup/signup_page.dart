@@ -39,10 +39,10 @@ class _SignUpPageState extends State<SignUpPage> {
             style: TextStyle(
               fontFamily: 'Cabin',
               fontSize: screenHeight * 0.035,
-              color: GlobalColor.buttonText,
+              color: GlobalColor.snackbarText,
             ),
           ),
-          backgroundColor: GlobalColor.buttonBackground,
+          backgroundColor: GlobalColor.snackbarBg,
         ),
       );
       // errorTextPassword = errorTextConfirmPassword = "Passwords do not match!";
@@ -72,10 +72,10 @@ class _SignUpPageState extends State<SignUpPage> {
               style: TextStyle(
                 fontFamily: 'Cabin',
                 fontSize: screenHeight * 0.035,
-                color: GlobalColor.buttonText,
+                color: GlobalColor.snackbarText,
               ),
             ),
-            backgroundColor: GlobalColor.buttonBackground,
+            backgroundColor: GlobalColor.snackbarBg,
           ),
         );
       }

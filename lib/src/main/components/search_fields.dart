@@ -30,7 +30,7 @@ class _SearchDropDownFilterState extends State<SearchDropDownFilter> {
       width: widget.width,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey.shade400),
-        color: GlobalColor.searchFieldBackground,
+        color: GlobalColor.searchFieldBg,
         borderRadius: BorderRadius.circular(widget.height / 100),
       ),
       child: DropdownButtonHideUnderline(
@@ -85,7 +85,7 @@ class SearchFormField extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     return Container(
       decoration: BoxDecoration(
-        color: GlobalColor.searchFieldBackground,
+        color: GlobalColor.searchFieldBg,
         borderRadius: BorderRadius.circular(screenHeight / 75),
       ),
       child: TextFormField(
@@ -109,7 +109,7 @@ class SearchFormField extends StatelessWidget {
             fontSize: screenHeight / 50,
             fontFamily: 'DM Sans',
           ),
-          fillColor: GlobalColor.searchFieldBackground,
+          fillColor: GlobalColor.searchFieldBg,
           hintText: hintText,
           suffixIcon: IconButton(
             onPressed: () {},

@@ -36,10 +36,10 @@ class _LoginPageState extends State<LoginPage> {
             style: TextStyle(
               fontFamily: 'Cabin',
               fontSize: screenHeight * 0.035,
-              color: GlobalColor.buttonText,
+              color: GlobalColor.snackbarText,
             ),
           ),
-          backgroundColor: GlobalColor.buttonBackground,
+          backgroundColor: GlobalColor.snackbarBg,
         ),
       );
     }

@@ -7,7 +7,7 @@ class IntroPage extends StatefulWidget {
   const IntroPage({Key? key}) : super(key: key);
 
   /// The route name for this page.
-  static const routeName = '/intro';
+  static const routeName = '/ ';
 
   @override
   State<IntroPage> createState() => _IntroPageState();

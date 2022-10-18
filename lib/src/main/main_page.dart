@@ -6,7 +6,7 @@ import 'package:insudox/globals.dart';
 import 'package:insudox/src/main/components/vertical_tab_bar.dart';
 import 'package:insudox/src/main/tabs/clients/clients_page.dart';
 import 'package:insudox/src/main/tabs/home/home_page.dart';
-import 'package:insudox/src/main/tabs/saviours/saviours_page.dart';
+import 'package:insudox/src/main/tabs/incoming_requests/incoming_requests_page.dart';
 import 'package:insudox/src/main/tabs/messages/messages_page.dart';
 import 'package:insudox/src/main/tabs/notifications/notifications_page.dart';
 import 'package:insudox/src/main/tabs/profile/profile_page.dart';
