@@ -6,6 +6,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:insudox/src/classes/insurance_enums.dart';
 import 'package:insudox/src/common_widgets/base_components.dart';
 import 'package:insudox/globals.dart';
 import 'package:insudox/src/login_signup/aadhar/aadhar_page.dart';
@@ -23,12 +24,14 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  final TextEditingController qualificationController = TextEditingController();
+  final TextEditingController qualificationController =
+      TextEditingController(text: 'B.Tech CSE');
   final TextEditingController universityNameController =
-      TextEditingController();
+      TextEditingController(text: 'MIT WPU');
   final TextEditingController specialisationController =
-      TextEditingController();
-  final TextEditingController experienceController = TextEditingController();
+      TextEditingController(text: 'Software Engineering');
+  final TextEditingController experienceController =
+      TextEditingController(text: '2');
   FileStorage _educationFile = FileStorage(), _experienceFile = FileStorage();
   bool _declaration = false;
   bool _experience = false;
@@ -84,12 +87,16 @@ class _DetailsPageState extends State<DetailsPage> {
     userDocumentReference().set({
       'qualification': qualificationController.text,
       'universityName': universityNameController.text,
-      'specialisation': specialisationController.text,
+      'specialization': specialisationController.text,
       'experience': experienceController.text,
       'experienceFileLink': _experienceFile.url,
       'qualificationFileLink': _educationFile.url,
       'declaration': _declaration,
       'detailsFilled': true,
+      'approvalStatus': ApprovalStatus.PENDING.data,
+      'email': getCurrentUser()!.email,
+      'photoURL': getCurrentUser()!.photoURL ?? DEFAULT_PROFILE_PICTURE,
+      'uid': getCurrentUser()!.uid,
     }, SetOptions(merge: true));
 
     Navigator.of(context).restorablePushNamed(AadharPage.routeName);

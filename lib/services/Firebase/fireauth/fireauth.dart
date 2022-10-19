@@ -263,5 +263,6 @@ Future<bool> deviceFCMKeyOperations({bool add = false}) async {
       SetOptions(merge: true),
     );
   }
+
   return false;
 }

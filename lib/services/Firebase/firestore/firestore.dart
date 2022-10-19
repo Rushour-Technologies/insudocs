@@ -5,13 +5,14 @@ import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:insudox/src/classes/insurance_enums.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 CollectionReference userDocumentCollection({required String collection}) {
   // print(getCurrentUserId());
   return firestore
-      .collection('users')
+      .collection('saviours')
       .doc(getCurrentUserId())
       .collection(collection);
 }
@@ -24,11 +25,11 @@ DocumentReference exploreDataRoleSpecificDocument({required Role role}) {
 }
 
 CollectionReference usersCollectionReference() {
-  return firestore.collection('users');
+  return firestore.collection('saviours');
 }
 
 DocumentReference<Map<String, dynamic>> userDocumentReference() {
-  return firestore.collection('users').doc(getCurrentUserId());
+  return firestore.collection('saviours').doc(getCurrentUserId());
 }
 
 Future<void> deleteDocumentByReference(DocumentReference reference) async {
@@ -44,6 +45,18 @@ setPublicData({
       .set(data, SetOptions(merge: true));
 }
 
+/// Super Admin Portal
+Future<void> acceptDenySaviour({
+  bool accept = true,
+  required String userId,
+}) async {
+  await firestore.collection('saviours').doc(userId).update({
+    'approvalStatus':
+        (accept ? ApprovalStatus.APPROVED : ApprovalStatus.REJECTED).data,
+  });
+}
+
+/// Saviour Portal
 Future<void> setRequestStatus({
   bool accept = true,
   required String userId,

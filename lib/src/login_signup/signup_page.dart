@@ -7,6 +7,7 @@ import 'package:insudox/src/common_widgets/base_components.dart';
 import 'package:insudox/globals.dart';
 import 'package:insudox/src/login_signup/components.dart';
 import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox/src/login_signup/details_page.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -55,15 +56,11 @@ class _SignUpPageState extends State<SignUpPage> {
 
       // print(result);
       if (result[0] == 0) {
-        // if ((await checkAdmin())!) {
-        //   Navigator.pushNamedAndRemoveUntil(
-        //       context, '/admin_main_page', (route) => false);
-        // }
-        await Navigator.of(context).restorablePushNamed(
-          "/choose_role",
-        );
+        Navigator.of(context).restorablePushNamedAndRemoveUntil(
+            DetailsPage.routeName, (route) => false);
         passwordController.text =
             confirmPasswordController.text = emailController.text = '';
+        return;
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

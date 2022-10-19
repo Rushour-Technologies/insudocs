@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:insudox/firebase_options.dart';
@@ -12,6 +13,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   setPathUrlStrategy();
+  await FirebaseAuth.instance.authStateChanges().first;
 
   runApp(MyApp());
 }

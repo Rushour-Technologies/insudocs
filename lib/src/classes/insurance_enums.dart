@@ -6,9 +6,9 @@ enum InsuranceType {
 
 /// Insurance status enums
 enum InsuranceStatus {
-  CLAIM,
+  FILE,
   TRACK,
-  APPROVED,
+  CLEARED,
 }
 
 /// Filters enums
@@ -16,8 +16,15 @@ enum Filters {
   ALL,
   HEALTH,
   LIFE,
-  CLAIM,
+  FILE,
   TRACK,
+  CLEARED,
+}
+
+enum ApprovalStatus {
+  REJECTED,
+  PENDING,
+  APPROVED,
 }
 
 extension InsuranceTypeExtension on InsuranceType {
@@ -29,5 +36,9 @@ extension InsuranceStatusExtension on InsuranceStatus {
 }
 
 extension FiltersExtension on Filters {
+  String get data => toString().split('.').last;
+}
+
+extension ApprovalStatusExtension on ApprovalStatus {
   String get data => toString().split('.').last;
 }

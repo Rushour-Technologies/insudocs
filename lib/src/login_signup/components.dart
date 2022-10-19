@@ -6,8 +6,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:insudox/globals.dart';
+import 'package:insudox/src/login_signup/aadhar/aadhar_page.dart';
 import 'package:insudox/src/login_signup/details_page.dart';
 import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox/src/main/main_page.dart';
 
 TextFormField normalformfield(
   TextEditingController controller,
@@ -270,17 +272,17 @@ Widget googleSignInCard(context, screenHeight, screenWidth, {bool? signIn}) {
       if (await signInWithGoogle()) {
         if (!(await checkDetails())) {
           Navigator.of(context).restorablePushNamedAndRemoveUntil(
-              '/choose_role', (route) => false);
-        }
-        if (await checkAadhar()) {
-          Navigator.of(context)
-              .restorablePushNamedAndRemoveUntil('/main', (route) => false);
+              DetailsPage.routeName, (route) => false);
+          return;
+        } else if (await checkAadhar()) {
+          Navigator.of(context).restorablePushNamedAndRemoveUntil(
+              MainPage.routeName, (route) => false);
+          return;
         } else {
-          Navigator.of(context)
-              .restorablePushNamedAndRemoveUntil('/aadhar', (route) => false);
+          Navigator.of(context).restorablePushNamedAndRemoveUntil(
+              AadharPage.routeName, (route) => false);
+          return;
         }
-
-        // }
       }
     }),
     child: Card(
@@ -374,7 +376,6 @@ Widget continueCard(
         ),
       ),
       onPressed: () async {
-        // print('I am pressed');
         if (setState != null) {
           setState(() {});
           await onClickFunction(screenHeight);

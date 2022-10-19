@@ -74,9 +74,9 @@ class _ProfessionalBackgroundState extends State<ProfessionalBackground> {
           dataStyle,
         ),
         detailsRow(
-          'Specialisations : ',
+          'Specializations : ',
           data != null
-              ? data!['specialisation'] ?? "Not Provided"
+              ? data!['specialization'] ?? "Not Provided"
               : "Not Provided",
           dataHeadingStyle,
           dataStyle,
@@ -93,14 +93,15 @@ class _ProfessionalBackgroundState extends State<ProfessionalBackground> {
             Column(
               children: [
                 Text(
-                  'Experience file :',
+                  'CV / Resume file :',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: screenWidth * 0.01,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                downloaderButton(data != null ? data!['experienceFile'] : null),
+                downloaderButton(
+                    data != null ? data!['qualificationFileLink'] : null),
               ],
             ),
             Padding(
@@ -108,7 +109,7 @@ class _ProfessionalBackgroundState extends State<ProfessionalBackground> {
               child: Column(
                 children: [
                   Text(
-                    'Qualification file :',
+                    'Experience file :',
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: screenWidth * 0.01,
@@ -116,7 +117,7 @@ class _ProfessionalBackgroundState extends State<ProfessionalBackground> {
                     ),
                   ),
                   downloaderButton(
-                      data != null ? data!['educationFile'] : null),
+                      data != null ? data!['experienceFileLink'] : null),
                 ],
               ),
             ),

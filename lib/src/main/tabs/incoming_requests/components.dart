@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insudox/globals.dart';
+import 'package:insudox/services/Firebase/firestore/firestore.dart';
 import 'package:insudox/src/classes/insurance_enums.dart';
 import 'package:insudox/src/main/tabs/incoming_requests/incoming_requests_page.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -73,7 +74,22 @@ class RequestCard extends StatelessWidget {
                           info: InsuranceStatus
                               .values[clientRequestInfo!.insuraceStatus].data,
                         ),
-                        acceptDeny(height: screenHeight, width: screenWidth),
+                        acceptDeny(
+                          height: screenHeight,
+                          width: screenWidth,
+                          onAccept: () {
+                            acceptDenySaviour(
+                              accept: true,
+                              userId: clientRequestInfo!.uid,
+                            );
+                          },
+                          onDeny: () {
+                            acceptDenySaviour(
+                              userId: clientRequestInfo!.uid,
+                              accept: false,
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -105,20 +121,19 @@ class RequestCard extends StatelessWidget {
                           width: screenWidth,
                           height: screenHeight,
                           heading: 'Qualification',
-                          info: saviourRequestInfo!.qualificationSummary,
+                          info: saviourRequestInfo!.qualification,
                         ),
                         headingInfo(
                           width: screenWidth,
                           height: screenHeight,
                           heading: 'Specialization',
-                          info: saviourRequestInfo!.specilizationSummary,
+                          info: saviourRequestInfo!.specialization,
                         ),
                         headingInfo(
                           width: screenWidth,
                           height: screenHeight,
                           heading: 'Experience',
-                          info:
-                              "${saviourRequestInfo!.yearsOfExperience} years",
+                          info: "${saviourRequestInfo!.experience} years",
                         ),
                         downloadButton(
                           height: screenHeight,
@@ -130,9 +145,24 @@ class RequestCard extends StatelessWidget {
                           height: screenHeight,
                           width: screenWidth,
                           title: 'Specilization File',
-                          url: saviourRequestInfo!.specializationFileLink,
+                          url: saviourRequestInfo!.experienceFileLink,
                         ),
-                        acceptDeny(height: screenHeight, width: screenWidth),
+                        acceptDeny(
+                          height: screenHeight,
+                          width: screenWidth,
+                          onAccept: () {
+                            acceptDenySaviour(
+                              userId: saviourRequestInfo!.uid,
+                              accept: true,
+                            );
+                          },
+                          onDeny: () {
+                            acceptDenySaviour(
+                              userId: saviourRequestInfo!.uid,
+                              accept: false,
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -205,7 +235,12 @@ Widget profileCard({
   );
 }
 
-Widget acceptDeny({required double height, required double width}) {
+Widget acceptDeny({
+  required double height,
+  required double width,
+  required Function onAccept,
+  required Function onDeny,
+}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
     children: [
@@ -217,7 +252,9 @@ Widget acceptDeny({required double height, required double width}) {
           ),
           fixedSize: Size(width * 0.07, height * 0.01),
         ),
-        onPressed: () {},
+        onPressed: () {
+          onAccept();
+        },
         icon: Icon(
           Icons.check_rounded,
         ),
@@ -238,7 +275,9 @@ Widget acceptDeny({required double height, required double width}) {
             borderRadius: BorderRadius.circular(height / 120),
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          onDeny();
+        },
         icon: Icon(
           Icons.close_rounded,
         ),

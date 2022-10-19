@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:insudox/globals.dart';
 import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 import 'package:insudox/services/Firebase/firestore/firestore.dart';
+import 'package:insudox/src/classes/insurance_enums.dart';
 import 'package:insudox/src/common_widgets/base_components.dart';
 import 'package:insudox/src/main/tabs/incoming_requests/components.dart';
 
@@ -17,7 +18,7 @@ class IncomingRequestPage extends StatefulWidget {
 
 class _IncomingRequestPageState extends State<IncomingRequestPage> {
   late User? user;
-  final bool protoTypeMode = true;
+  final bool protoTypeMode = false;
 
   @override
   void initState() {
@@ -52,14 +53,14 @@ class _IncomingRequestPageState extends State<IncomingRequestPage> {
                 }).toList())
             : StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 stream: firestore
-                    .collection('all_requests')
-                    .doc(getCurrentUserId())
-                    .collection('requests')
-                    .where('request_status', isEqualTo: 'pending')
+                    .collection('saviours')
+                    .where('approvalStatus',
+                        isEqualTo: ApprovalStatus.PENDING.data)
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.active) {
                     if (snapshot.hasData) {
+                      print(snapshot.data!.docs.length);
                       if (snapshot.data!.docs.isNotEmpty) {
                         return Wrap(
                             runSpacing: screenHeight * 0.02,
@@ -117,20 +118,20 @@ List<ClientRequestInfo> clientRequestInfoList = List.generate(
 
 List<SaviourRequestInfo> saviourRequestInfoList = List.generate(
   20,
-  (index) => const SaviourRequestInfo(
+  (index) => SaviourRequestInfo(
     name: 'John Doe',
     email: 'water@gmail.com',
     photoURL: DEFAULT_PROFILE_PICTURE,
     adhaarNumber: '123456789012',
     gender: 'M',
-    priorExperience: true,
     qualificationFileLink: 'https://www.google.com',
-    specializationFileLink: 'https://www.google.com',
-    yearsOfExperience: 2,
+    experienceFileLink: 'https://www.google.com',
+    experience: "2",
     universityName: 'IIT',
     uid: 'sdf',
-    specilizationSummary: 'Heath Claim',
-    qualificationSummary: 'B.Tech',
+    specialization: 'Heath Claim',
+    qualification: 'B.Tech',
+    approvalStatus: ApprovalStatus.PENDING.data,
   ),
 );
 
@@ -180,42 +181,43 @@ class SaviourRequestInfo extends IncomingRequestInfo {
     required super.name,
     required this.qualificationFileLink,
     required this.universityName,
-    required this.specializationFileLink,
-    required this.priorExperience,
-    required this.yearsOfExperience,
+    required this.experienceFileLink,
+    required this.experience,
     required this.adhaarNumber,
     required this.gender,
     required super.email,
     required super.photoURL,
     required super.uid,
-    required this.qualificationSummary,
-    required this.specilizationSummary,
+    required this.qualification,
+    required this.specialization,
+    required this.approvalStatus,
   });
 
   factory SaviourRequestInfo.fromMap(Map<String, dynamic> map) =>
       SaviourRequestInfo(
         name: map['name'] as String,
-        qualificationSummary: map['qualificationSummary'] as String,
-        specilizationSummary: map['specilizationSummary'] as String,
+        qualification: map['qualification'] as String,
+        specialization: map['specialization'] as String,
         qualificationFileLink: map['qualificationFileLink'] as String,
         universityName: map['universityName'] as String,
-        specializationFileLink: map['specializationFileLink'] as String,
-        priorExperience: map['priorExperience'] as bool,
-        yearsOfExperience: map['yearsOfExperience'] as int,
-        adhaarNumber: map['adhaarNumber'] as String,
+        experienceFileLink: map['experienceFileLink'] as String,
+        experience: map['experience'] as String,
+        adhaarNumber: map['maskedNumber'] as String,
         photoURL: map['photoURL'] as String,
         email: map['email'] as String,
         gender: map['gender'] as String,
         uid: map['uid'] as String,
+        approvalStatus: map['approvalStatus'] as String,
       );
 
   final String universityName;
   final String qualificationFileLink;
-  final String specializationFileLink;
-  final bool priorExperience;
-  final int yearsOfExperience;
+  final String experienceFileLink;
+
+  final String experience;
   final String adhaarNumber;
   final String gender;
-  final String qualificationSummary;
-  final String specilizationSummary;
+  final String qualification;
+  final String specialization;
+  final String approvalStatus;
 }

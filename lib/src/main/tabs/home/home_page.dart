@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late User? user;
+  bool? isStateSet = false;
 
   @override
   void initState() {
@@ -25,6 +26,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    user = getCurrentUser();
+
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
 
@@ -32,8 +35,6 @@ class _HomePageState extends State<HomePage> {
       width: screenWidth,
       height: screenHeight,
       name: user != null ? user!.displayName ?? user!.email : '',
-      // name: 'NaksheKADAM',
-      // photoURL: user.photoURL ?? '',
       page: 'DASHBOARD',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -68,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Successful set-up completion!',
+                          'Welcome Super Admin!',
                           style: TextStyle(
                             fontFamily: 'DM Sans',
                             fontSize: screenHeight * 0.035,
@@ -78,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         Container(
                           child: Text(
-                            'You are now a certified counsellor with us. You can accept and deny requests from different students and parents and begin. Self-attested types (student types 1,2,3 and 4) of each student and reports of each of the users’ tests and bot conversations will be provided to you for better understanding of your potential clients',
+                            'Explore, view, notify and manage all the clients and saviors on our InsuDox software using this portal. Accept the requests of incoming volunteers wanting to become saviors by checking their CV and work experience to select the best candidates to help file their claim.',
                             style: TextStyle(
                               fontFamily: 'DM Sans',
                               fontSize: screenHeight * 0.0275,

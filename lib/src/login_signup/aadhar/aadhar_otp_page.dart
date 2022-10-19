@@ -64,22 +64,21 @@ class _AadharWebViewPageState extends State<AadharWebViewPage> {
         getCurrentUserId(): {
           'name': user.displayName ??
               "${(temp['firstName'] as String).capitalized} ${(temp['lastName'] as String).capitalized}",
-          'educationFile': temp['educationFile'],
-          'experienceFile': temp['experienceFile'],
+          'qualificationFileLink': temp['qualificationFileLink'],
+          'experienceFileLink': temp['experienceFileLink'],
           'experience': temp['experience'],
-          'imageUrl': temp['imageUrl'],
+          'photoURL': temp['photoURL'] ?? user.photoURL,
           'qualification': temp['qualification'],
-          'specialisation': temp['specialisation'],
+          'specialization': temp['specialization'],
           'universityName': temp['universityName'],
         }
       };
       // print(data);
 
       await setPublicData(
-          data: data,
-          role: (temp['role'] == 'expert')
-              ? types.Role.expert
-              : types.Role.counsellor);
+        data: data,
+        role: types.Role.saviour,
+      );
       Navigator.of(context).restorablePushNamedAndRemoveUntil(
           '/setup_complete', (route) => false);
     } else if (!authenticationNotifier.isAuthenticated &&
