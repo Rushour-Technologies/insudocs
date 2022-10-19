@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'dart:html' as html;
-import 'package:insudox/src/common_widgets/base_components.dart';
 import 'package:insudox/globals.dart';
-import 'package:insudox/src/main/tabs/home/components.dart';
+
 import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox/src/main/components/default.dart';
+import 'package:insudox/src/main/tabs/home/client_side.dart';
+import 'package:insudox/src/main/tabs/home/super_admin_side.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,11 +18,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late User? user;
-  bool? isStateSet = false;
 
   @override
   void initState() {
     user = getCurrentUser();
+
     super.initState();
   }
 
@@ -31,81 +33,40 @@ class _HomePageState extends State<HomePage> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
 
-    return mainViewAppBar(
-      width: screenWidth,
-      height: screenHeight,
-      name: user != null ? user!.displayName ?? user!.email : '',
-      page: 'DASHBOARD',
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: screenHeight * 0.025),
-            child: Container(
-              height: screenHeight * 0.3,
-              // width: screenWidth * 0.6,
-              decoration: BoxDecoration(
-                color: GlobalColor.dashboard,
-                borderRadius: BorderRadius.circular(screenHeight / 50),
-              ),
-              child: Flex(
-                direction: Axis.horizontal,
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: Image.asset(
-                      'assets/images/dashboard.png',
-                      width: screenWidth * 0.15,
-                      height: screenHeight * 0.225,
+    return FutureBuilder(
+        future: getRole(),
+        builder: (context, role) {
+          if (role.hasData) {
+            return role.data == types.Role.saviour
+                ? clientHome(
+                    screenWidth: screenWidth,
+                    screenHeight: screenHeight,
+                    user: user!,
+                  )
+                : superAdminHome(
+                    screenWidth: screenWidth,
+                    screenHeight: screenHeight,
+                    user: user!,
+                  );
+          } else {
+            return Center(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Data is loading',
+                      style: TextStyle(
+                        color: GlobalColor.black,
+                        fontSize: screenWidth * 0.025,
+                        fontFamily: 'DM Sans',
+                      ),
                     ),
-                  ),
-                  Flexible(
-                    flex: 2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Welcome Super Admin!',
-                          style: TextStyle(
-                            fontFamily: 'DM Sans',
-                            fontSize: screenHeight * 0.035,
-                            color: GlobalColor.secondary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            'Explore, view, notify and manage all the clients and saviors on our InsuDox software using this portal. Accept the requests of incoming volunteers wanting to become saviors by checking their CV and work experience to select the best candidates to help file their claim.',
-                            style: TextStyle(
-                              fontFamily: 'DM Sans',
-                              fontSize: screenHeight * 0.0275,
-                              color: Colors.black,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        )
-                      ],
+                    const CircularProgressIndicator(
+                      color: GlobalColor.primary,
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: screenHeight * 0.025),
-            child: ClientCard(),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: screenHeight * 0.025),
-            child: Graph(),
-          ),
-        ],
-      ),
-    );
+                  ]),
+            );
+          }
+        });
   }
 }

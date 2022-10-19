@@ -43,8 +43,6 @@ class _ProfilePageState extends State<ProfilePage>
       width: screenWidth,
       height: screenHeight,
       name: user != null ? user.displayName ?? user.email : '',
-      // name: 'NaksheKADAM',
-      // photoURL: user.photoURL ?? '',
       page: 'YOUR PROFILE',
       child: SizedBox(
         width: screenWidth * 0.75,

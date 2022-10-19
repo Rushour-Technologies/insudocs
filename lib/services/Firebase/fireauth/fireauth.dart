@@ -212,7 +212,7 @@ void initialData() async {
       id: user.uid,
       imageUrl: user.photoURL ?? DEFAULT_PROFILE_PICTURE,
       lastName: user.displayName!.split(' ')[1],
-      role: null,
+      role: types.Role.saviour,
     ),
   );
 
@@ -265,4 +265,17 @@ Future<bool> deviceFCMKeyOperations({bool add = false}) async {
   }
 
   return false;
+}
+
+Future<String> checkRole() async {
+  CollectionReference users = usersCollectionReference();
+  User user = getCurrentUser()!;
+  if (checkLoggedIn()) {
+    Map<String, dynamic> data =
+        (await users.doc(user.uid).get()).data() as Map<String, dynamic>;
+
+    return data['role'];
+  }
+
+  return "none";
 }

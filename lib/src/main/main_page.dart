@@ -1,17 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:insudox/src/common_widgets/base_components.dart';
+
 import 'package:insudox/globals.dart';
+import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox/src/common_widgets/base_components.dart';
 import 'package:insudox/src/main/components/vertical_tab_bar.dart';
 import 'package:insudox/src/main/tabs/clients/clients_page.dart';
 import 'package:insudox/src/main/tabs/home/home_page.dart';
 import 'package:insudox/src/main/tabs/incoming_requests/incoming_requests_page.dart';
-import 'package:insudox/src/main/tabs/messages/messages_page.dart';
 import 'package:insudox/src/main/tabs/notifications/notifications_page.dart';
 import 'package:insudox/src/main/tabs/profile/profile_page.dart';
-
-import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
