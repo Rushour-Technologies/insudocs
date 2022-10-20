@@ -38,7 +38,7 @@ class _SendFeedbackState extends State<SendFeedback> {
         height: screenHeight * 0.06,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xff615793),
+            primary: const Color(0xff615793),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(screenHeight * 0.01),
             ),

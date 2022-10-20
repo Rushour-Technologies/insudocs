@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insudox/models/aadhar.dart';
+import 'package:insudox/src/classes/aadhar.dart';
 import 'package:insudox/src/common_widgets/base_components.dart';
 import 'package:insudox/globals.dart';
 import 'package:insudox/src/login_signup/components.dart';

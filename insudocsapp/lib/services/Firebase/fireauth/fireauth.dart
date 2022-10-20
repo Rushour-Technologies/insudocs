@@ -22,7 +22,6 @@ Future<UserCredential> signInAnon() async {
 
 // google sign in
 Future<bool> signInWithGoogle() async {
-  print("reached");
   UserCredential? result = await google_auth.signInWithGoogle();
 
   CollectionReference users = usersCollectionReference();
@@ -49,7 +48,7 @@ Future<bool> logInWithGoogle() async {
   CollectionReference users = usersCollectionReference();
 
   if (!(await users.doc(result!.user!.uid).get()).exists) {
-    initialDatalogin();
+    await initialDatalogin();
   }
   if (result.user!.uid == _auth.currentUser!.uid) {
     deviceFCMKeyOperations(add: true);
@@ -132,25 +131,10 @@ Future<List<dynamic>> registerUser(
   }
 
   // Successful registration
-  print("initial data");
+
   await initialData(name);
 
   return [0, ''];
-}
-
-// Check if user is admin
-Future<bool?> checkAdmin() async {
-  DocumentReference user = userDocumentReference();
-  Map<String, dynamic>? data =
-      (await user.get()).data() as Map<String, dynamic>;
-  if (data.keys.contains('isAdmin')) {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('isAdmin', data['isAdmin']);
-    return data['isAdmin'];
-  }
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setBool('isAdmin', false);
-  return false;
 }
 
 // Check if form is filled
@@ -186,8 +170,8 @@ bool checkLoggedIn() {
 
 // Sign out user
 Future<bool> signOut() async {
-  await deviceFCMKeyOperations();
   await _auth.signOut();
+  await deviceFCMKeyOperations(add: false);
   return !checkLoggedIn();
 }
 
@@ -202,10 +186,9 @@ Future<bool> signOutGoogle() async {
 Future<void> initialData(String name) async {
   CollectionReference users = usersCollectionReference();
   User user = getCurrentUser()!;
-  await user.updateDisplayName(name).then(((value) => print(user.displayName)));
+
+  await user.updateDisplayName(name);
   await user.reload();
-  print(name);
-  print(user.displayName);
 
   await FirebaseChatCore.instance.createUserInFirestore(types.User(
     firstName: (user.displayName != null)
@@ -214,7 +197,7 @@ Future<void> initialData(String name) async {
     id: user.uid,
     imageUrl: user.photoURL ?? DEFAULT_PROFILE_PICTURE,
     lastName: (user.displayName != null)
-        ? (user.displayName?.split(' ')[0])
+        ? (user.displayName?.split(' ')[1])
         : name.split(' ')[1],
   ));
 
@@ -222,8 +205,7 @@ Future<void> initialData(String name) async {
   await users.doc(_auth.currentUser!.uid).set({
     "email": _auth.currentUser!.email,
     "formFilled": false,
-    "isAdmin": false,
-    "role": "none",
+    "role": types.Role.user.toShortString(),
     "name": name,
     'deviceIDs': {await FirebaseMessaging.instance.getToken(): 0},
   }, SetOptions(merge: true));
@@ -232,29 +214,13 @@ Future<void> initialData(String name) async {
   await users.doc(_auth.currentUser!.uid).update({
     "email": _auth.currentUser!.email,
     "formFilled": false,
-    "isAdmin": false,
-    "role": "none",
+    "role": types.Role.user.toShortString(),
     "name": name,
     'deviceIDs': {await FirebaseMessaging.instance.getToken(): 0},
   });
 }
 
-Future<bool> reportPerson({
-  required String id,
-  required String roomId,
-}) async {
-  FirebaseChatCore.instance.deleteRoom(roomId);
-  await firestore.collection('reports').doc(id).set({
-    'reportedId': id,
-    'roomId': roomId,
-    'reporterId': getCurrentUserId(),
-  });
-
-  await requestStatusUpdate(userId: id);
-  return false;
-}
-
-void initialDatalogin() async {
+Future<void> initialDatalogin() async {
   CollectionReference users = usersCollectionReference();
   User user = getCurrentUser()!;
   await FirebaseChatCore.instance.createUserInFirestore(types.User(
@@ -262,6 +228,7 @@ void initialDatalogin() async {
     id: user.uid,
     imageUrl: user.photoURL ?? DEFAULT_PROFILE_PICTURE,
     lastName: user.displayName!.split(' ')[1],
+    role: types.Role.user,
   ));
 
   await users.doc(_auth.currentUser!.uid).set({

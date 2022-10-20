@@ -4,7 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 import 'package:insudox/src/login_signup/aadhar/aadhar_otp_page.dart';
 import 'package:insudox/src/login_signup/aadhar/aadhar_page.dart';
-import 'package:insudox/src/login_signup/choose_role.dart';
+
 import 'package:insudox/src/login_signup/details_page.dart';
 import 'package:insudox/src/login_signup/intro_page.dart';
 import 'package:insudox/src/login_signup/login_page.dart';
@@ -79,8 +79,7 @@ class MyApp extends StatelessWidget {
                 return const LoginPage();
               case SignUpPage.routeName:
                 return const SignUpPage();
-              case ChooseRolePage.routeName:
-                return const ChooseRolePage();
+
               case DetailsPage.routeName:
                 return const DetailsPage();
               case AadharPage.routeName:

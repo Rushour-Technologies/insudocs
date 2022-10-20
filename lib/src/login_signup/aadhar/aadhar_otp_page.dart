@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insudox/models/aadhar.dart';
-import 'package:insudox/models/role_storage.dart';
+import 'package:insudox/src/classes/aadhar.dart';
+
 import 'package:insudox/src/common_widgets/base_components.dart';
 import 'package:insudox/globals.dart';
 import 'package:insudox/services/AadharOTP/otp_auth.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 import 'package:insudox/services/Firebase/firestore/firestore.dart';
-import 'package:url_launcher/url_launcher.dart';
+
 import 'package:url_launcher/url_launcher_string.dart';
 
 class AadharWebViewPage extends StatefulWidget {
@@ -27,7 +27,7 @@ class _AadharWebViewPageState extends State<AadharWebViewPage> {
   final Aadhar aadhar = Aadhar();
   final AadharAuthenticationNotifier authenticationNotifier =
       AadharAuthenticationNotifier();
-  final RoleStorage role = RoleStorage();
+
   bool done = false;
 
   String requestID = "", link = "", number = "", otp = "";

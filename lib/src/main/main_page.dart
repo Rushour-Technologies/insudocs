@@ -10,6 +10,7 @@ import 'package:insudox/src/main/components/vertical_tab_bar.dart';
 import 'package:insudox/src/main/tabs/clients/clients_page.dart';
 import 'package:insudox/src/main/tabs/home/home_page.dart';
 import 'package:insudox/src/main/tabs/incoming_requests/incoming_requests_page.dart';
+import 'package:insudox/src/main/tabs/messages/messages_page.dart';
 import 'package:insudox/src/main/tabs/notifications/notifications_page.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:insudox/src/main/tabs/profile/profile_page.dart';
@@ -119,7 +120,7 @@ class _MainPageState extends State<MainPage> {
                       ClientsPage(
                         role: role.data!,
                       ),
-                      IncomingRequestPage(
+                      MessagesPage(
                         role: role.data!,
                       ),
                       NotificationsPage(),

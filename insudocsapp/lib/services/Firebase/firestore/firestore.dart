@@ -1,5 +1,8 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:insudox_app/classes/enums.dart';
 import 'package:insudox_app/services/Firebase/fireauth/fireauth.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -74,21 +77,39 @@ Future<void> sendRequest({
   return;
 }
 
-Future<void> requestStatusUpdate({required String userId}) async {
-  await firestore
-      .collection('all_requests')
-      .doc(userId)
-      .collection('requests')
-      .doc(getCurrentUserId())
-      .update({
-    'requestStatus': 'reported',
-  });
+/// Requesting a status update for a specific document
+Future<ApprovalStatus> checkRequestStatus({required String docId}) async {
+  Map<String, dynamic> document =
+      (await firestore.collection('client_requests').doc(docId).get()).data() ??
+          {};
+  ApprovalStatus requestStatus = ApprovalStatus.PENDING;
+  for (var element in ApprovalStatus.values) {
+    if (document['requestStatus'] == element.data) {
+      requestStatus = element;
+      break;
+    }
+  }
 
-  await usersCollectionReference()
-      .doc(getCurrentUserId())
-      .collection('requests')
-      .doc(userId)
-      .update({
-    'requestStatus': 'reported',
+  return requestStatus;
+}
+
+/// Set the initial document details
+Future<String> setInitialDocumentDetails({
+  required String insuranceType,
+  required String insuranceStatus,
+  required String insuranceCompanyName,
+  required String extraQueries,
+  required List<String> uploadedFilesUrl,
+}) async {
+  return await firestore.collection("client_requests").add({
+    "userId": getCurrentUserId(),
+    "insuranceType": insuranceType,
+    "insuranceStatus": insuranceStatus,
+    "insuranceCompanyName": insuranceCompanyName,
+    "extraQueries": extraQueries,
+    "uploadedFilesUrl": uploadedFilesUrl,
+    'requestStatus': ApprovalStatus.PENDING.data,
+  }).then((value) async {
+    return value.id;
   });
 }

@@ -24,16 +24,8 @@ class _RequestsPageState extends State<RequestsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<double> tempDimensions = [
-      MediaQuery.of(context).size.width,
-      MediaQuery.of(context).size.height
-    ];
-    final double screenHeight = tempDimensions[0] > tempDimensions[1]
-        ? tempDimensions[0]
-        : tempDimensions[1];
-    final double screenWidth = tempDimensions[0] > tempDimensions[1]
-        ? tempDimensions[1]
-        : tempDimensions[0];
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
       floatingActionButton: Padding(

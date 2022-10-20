@@ -93,7 +93,7 @@ class _AadharLoginPageState extends State<AadharLoginPage>
               height: screenHeight * 0.06,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: COLOR_THEME['buttonBackground'],
+                  primary: COLOR_THEME['buttonBackground'],
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(screenHeight * 0.01),
                   ),

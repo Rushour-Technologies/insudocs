@@ -17,20 +17,6 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-// class _SplashState extends State<Splash> with TickerProviderStateMixin {
-  // bool isFirst = true; // Checks if the animation has already started and ended.
-
-  //Creates a animation controller that will be used to display the animation.
-  // late final AnimationController _controller = AnimationController(
-  //   vsync: this,
-  // );
-
-  // Creates a animation that will be used to animate the animation controller.
-  // late final Animation<double> _animation = CurvedAnimation(
-  //   parent: _controller,
-  //   curve: Curves.fastOutSlowIn,
-  // );
-
   /// This method is used to check the current status of the app authentication and redirect accrodingly.
   void check() async {
     if (checkLoggedIn()) {

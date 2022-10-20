@@ -143,7 +143,7 @@ class _ChatPageState extends State<ChatPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("Report"),
-          content: Text("Report this counsellor?"),
+          content: Text("Report this saviour?"),
           actions: <Widget>[
             ElevatedButton(
               child: Text("Cancel"),
@@ -159,9 +159,8 @@ class _ChatPageState extends State<ChatPage> {
                     .toList()[0]
                     .id;
 
-                await reportPerson(id: otherId, roomId: widget.room.id);
+                // await reportPerson(id: otherId, roomId: widget.room.id);
                 Navigator.of(context).pop();
-                // Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
             ),

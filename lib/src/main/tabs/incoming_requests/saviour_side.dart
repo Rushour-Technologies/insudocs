@@ -14,7 +14,7 @@ Widget saviourIncoming({
   required double screenHeight,
   required TextStyle noRequestStyle,
 }) {
-  const bool protoTypeMode = true;
+  const bool protoTypeMode = false;
 
   return mainViewAppBar(
     width: screenWidth,
@@ -33,7 +33,7 @@ Widget saviourIncoming({
               }).toList())
           : StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream: firestore
-                  .collection('saviours')
+                  .collection('all_requests')
                   .where('approvalStatus',
                       isEqualTo: ApprovalStatus.PENDING.data)
                   .snapshots(),

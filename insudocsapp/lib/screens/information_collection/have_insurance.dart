@@ -3,13 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:insudox_app/common_widgets/backgrounds/bigOneSmallOneBg.dart';
-import 'package:insudox_app/common_widgets/backgrounds/bigThreeBg.dart';
-import 'package:insudox_app/common_widgets/formfields.dart';
+
 import 'package:insudox_app/common_widgets/no_insurance_dialogbox.dart';
 import 'package:insudox_app/globals.dart';
 import 'package:insudox_app/screens/information_collection/info_collection.dart';
-import 'package:insudox_app/screens/main_page.dart';
-import 'package:insudox_app/services/Firebase/FireAuth/fireauth.dart';
 
 class HaveInsurance extends StatefulWidget {
   const HaveInsurance({Key? key}) : super(key: key);
@@ -40,7 +37,7 @@ class _HaveInsuranceState extends State<HaveInsurance> {
         height: screenHeight * 0.06,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xff615793),
+            primary: const Color(0xff615793),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(screenHeight * 0.01),
             ),

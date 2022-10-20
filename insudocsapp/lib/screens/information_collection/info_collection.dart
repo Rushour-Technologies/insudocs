@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:insudox_app/classes/enums.dart';
 import 'package:insudox_app/classes/file_model.dart';
 import 'package:insudox_app/common_widgets/backgrounds/bigOneSmallOneBg.dart';
 import 'package:insudox_app/common_widgets/formfields.dart';
@@ -55,7 +57,7 @@ class _InformationCollectionState extends State<InformationCollection> {
               height: screenHeight * 0.06,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff615793),
+                  primary: const Color(0xff615793),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(screenHeight * 0.01),
                   ),
@@ -85,23 +87,26 @@ class _InformationCollectionState extends State<InformationCollection> {
                     print(uploadedFileUrls);
                   }
 
+                  String uploadedDocumentId = await setInitialDocumentDetails(
+                    insuranceType: insuranceTypeController.text,
+                    insuranceStatus: claimTrackController.text,
+                    insuranceCompanyName: insuranceCompanyNameController.text,
+                    extraQueries: extraQueriesController.text,
+                    uploadedFilesUrl: uploadedFileUrls,
+                  );
+
                   await userDocumentReference()
-                      .collection("data")
-                      .doc("userInfo")
+                      .collection("policies")
+                      .doc(uploadedDocumentId)
                       .set({
                     "insuranceType": insuranceTypeController.text,
-                    "claimTrack": claimTrackController.text,
+                    "insuranceStatus": claimTrackController.text,
                     "insuranceCompanyName": insuranceCompanyNameController.text,
                     "extraQueries": extraQueriesController.text,
                     "uploadedFilesUrl": uploadedFileUrls,
+                    'requestStatus': ApprovalStatus.PENDING.data,
                   });
-                  await userDocumentReference().collection("policies").add({
-                    "insuranceType": insuranceTypeController.text,
-                    "claimTrack": claimTrackController.text,
-                    "insuranceCompanyName": insuranceCompanyNameController.text,
-                    "extraQueries": extraQueriesController.text,
-                    "uploadedFilesUrl": uploadedFileUrls,
-                  });
+
                   await userDocumentReference().update({
                     "formFilled": true,
                   });
@@ -268,7 +273,7 @@ class _InformationCollectionState extends State<InformationCollection> {
                                                   top: screenHeight * 0.005),
                                               child: ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
+                                                  primary:
                                                       const Color(0xff615793),
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:

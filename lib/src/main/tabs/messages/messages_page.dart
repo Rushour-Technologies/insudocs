@@ -10,8 +10,8 @@ import 'package:insudox/src/main/tabs/messages/chatInterface.dart';
 import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 
 class MessagesPage extends StatefulWidget {
-  const MessagesPage({Key? key}) : super(key: key);
-
+  const MessagesPage({Key? key, required this.role}) : super(key: key);
+  final types.Role role;
   @override
   State<MessagesPage> createState() => _MessagesPageState();
 }
@@ -82,7 +82,6 @@ class _MessagesPageState extends State<MessagesPage> {
           ),
           child: Scaffold(
             backgroundColor: Colors.transparent,
-            // appBar: chatBar(screenWidth, user, screenHeight),
             bottomNavigationBar: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -113,10 +112,6 @@ class _MessagesPageState extends State<MessagesPage> {
               height: screenHeight * 0.75,
               decoration: BoxDecoration(
                 color: Colors.white,
-                // borderRadius: BorderRadius.only(
-                //   bottomRight: Radius.circular(screenWidth / 20),
-                //   bottomLeft: Radius.circular(screenWidth / 20),
-                // ),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(screenHeight / 20),
                   topRight: Radius.circular(screenHeight / 20),
@@ -170,20 +165,18 @@ class _MessagesPageState extends State<MessagesPage> {
                             margin: const EdgeInsets.only(
                               bottom: 200,
                             ),
-                            child: const Text('No rooms'),
+                            child: Text(
+                              'No rooms',
+                              style: TextStyle(
+                                fontFamily: 'DM Sans',
+                                fontSize: screenWidth * 0.01,
+                              ),
+                            ),
                           );
                         }
 
                         return Column(
-                          children: snapshot.data!
-                              //     .where(
-                              //   (element) =>
-                              //       element.users.first.role ==
-                              //           types.Role.student ||
-                              //       element.users.first.role == types.Role.parent,
-                              // )
-                              .map((room) {
-                            // print(room.users);s
+                          children: snapshot.data!.map((room) {
                             types.User meUser = room.users
                                 .where((element) =>
                                     element.id != getCurrentUserId())
@@ -252,38 +245,6 @@ class _MessagesPageState extends State<MessagesPage> {
                 ],
               ),
             ),
-            //   ) Center(
-            //     child: Column(
-            //       mainAxisAlignment: MainAxisAlignment.start,
-            //       children: [
-            //         VerticalTabBar(
-            //           initialIndex: 0,
-            //           controller: _controller,
-            //           labelStyle: TextStyle(
-            //             fontFamily: 'DM Sans',
-            //             fontSize: screenWidth * 0.0125,
-            //           ),
-            //           tabs: [
-            //             VerticalTabBarItem(
-            //                 icon: Icon(Icons.home_outlined), label: 'Home'),
-            //             VerticalTabBarItem(
-            //                 icon: Icon(Icons.info_outline),
-            //                 label: 'Student Types'),
-            //             VerticalTabBarItem(
-            //                 icon: Icon(Icons.move_to_inbox_outlined),
-            //                 label: 'Incoming requests'),
-            //             VerticalTabBarItem(
-            //                 icon: Icon(Icons.message_outlined),
-            //                 label: 'Messages'),
-            //             VerticalTabBarItem(
-            //                 icon: Icon(Icons.notifications_active_outlined),
-            //                 label: 'Notifications'),
-            //           ],
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
           ),
         ),
       ),
