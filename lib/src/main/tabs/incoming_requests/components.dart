@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:insudox/globals.dart';
 import 'package:insudox/services/Firebase/firestore/firestore.dart';
+import 'package:insudox/src/classes/client_info_model.dart';
 import 'package:insudox/src/classes/insurance_enums.dart';
-import 'package:insudox/src/main/tabs/incoming_requests/incoming_requests_page.dart';
+import 'package:insudox/src/classes/saviour_info_model.dart';
+
 import 'package:url_launcher/url_launcher_string.dart';
 
 class RequestCard extends StatelessWidget {

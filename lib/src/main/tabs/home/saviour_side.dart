@@ -4,7 +4,7 @@ import 'package:insudox/globals.dart';
 import 'package:insudox/src/common_widgets/base_components.dart';
 import 'package:insudox/src/main/tabs/home/components.dart';
 
-Widget clientHome({
+Widget saviourHome({
   required double screenWidth,
   required double screenHeight,
   required User user,
