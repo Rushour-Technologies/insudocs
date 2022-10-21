@@ -85,7 +85,7 @@ class _DetailsPageState extends State<DetailsPage> {
       showSnackBar('Please accept the declaration');
       return false;
     }
-    userDocumentReference().set({
+    saviourDocumentReference().set({
       'qualification': qualificationController.text,
       'universityName': universityNameController.text,
       'specialization': specialisationController.text,

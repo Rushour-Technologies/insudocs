@@ -146,6 +146,6 @@ class _ProfilePageState extends State<ProfilePage>
 
 Future<String> getUserRole() async {
   DocumentSnapshot<Map<String, dynamic>> snapshot =
-      await userDocumentReference().get();
+      await saviourDocumentReference().get();
   return snapshot.data()!['role'];
 }

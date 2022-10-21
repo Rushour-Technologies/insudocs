@@ -17,7 +17,7 @@ class _ProfessionalBackgroundState extends State<ProfessionalBackground> {
   List<String>? age;
 
   void getData() async {
-    data = (await userDocumentReference().get()).data();
+    data = (await saviourDocumentReference().get()).data();
     setState(() {
       age = data!['dateOfBirth'].split('-');
       // print(age);

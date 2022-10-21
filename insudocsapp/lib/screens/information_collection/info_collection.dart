@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insudox_app/classes/enums.dart';
+
 import 'package:insudox_app/classes/file_model.dart';
 import 'package:insudox_app/common_widgets/backgrounds/bigOneSmallOneBg.dart';
 import 'package:insudox_app/common_widgets/formfields.dart';
@@ -14,7 +14,11 @@ import 'package:insudox_app/services/Firebase/firestore/firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class InformationCollection extends StatefulWidget {
-  const InformationCollection({Key? key}) : super(key: key);
+  const InformationCollection({
+    Key? key,
+    this.popBack = false,
+  }) : super(key: key);
+  final bool popBack;
 
   @override
   State<InformationCollection> createState() => _InformationCollectionState();
@@ -84,38 +88,28 @@ class _InformationCollectionState extends State<InformationCollection> {
                     await taskSnapshot.ref.getDownloadURL().then(
                           (value) => uploadedFileUrls.add(value),
                         );
-                    print(uploadedFileUrls);
                   }
 
-                  String uploadedDocumentId = await setInitialDocumentDetails(
+                  await sendInsuranceHelpRequest(
                     insuranceType: insuranceTypeController.text,
                     insuranceStatus: claimTrackController.text,
                     insuranceCompanyName: insuranceCompanyNameController.text,
                     extraQueries: extraQueriesController.text,
                     uploadedFilesUrl: uploadedFileUrls,
                   );
-
-                  await userDocumentReference()
-                      .collection("policies")
-                      .doc(uploadedDocumentId)
-                      .set({
-                    "insuranceType": insuranceTypeController.text,
-                    "insuranceStatus": claimTrackController.text,
-                    "insuranceCompanyName": insuranceCompanyNameController.text,
-                    "extraQueries": extraQueriesController.text,
-                    "uploadedFilesUrl": uploadedFileUrls,
-                    'requestStatus': ApprovalStatus.PENDING.data,
-                  });
-
-                  await userDocumentReference().update({
-                    "formFilled": true,
-                  });
-
-                  await Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => MainPage(),
-                    ),
-                  );
+                  if (widget.popBack) {
+                    Navigator.pop(context);
+                    return;
+                  } else {
+                    await Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainPage(),
+                      ),
+                      (route) => false,
+                    );
+                    return;
+                  }
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -225,7 +219,7 @@ class _InformationCollectionState extends State<InformationCollection> {
                                                   top: screenHeight * 0.02),
                                               child: CustomDropDownField(
                                                 items: InsuranceType.values
-                                                    .map((e) => e.data)
+                                                    .map((e) => e.name)
                                                     .toList(),
                                                 selectedItem:
                                                     insuranceTypeController,
@@ -238,7 +232,7 @@ class _InformationCollectionState extends State<InformationCollection> {
                                                   top: screenHeight * 0.02),
                                               child: CustomDropDownField(
                                                 items: InsuranceStatus.values
-                                                    .map((e) => e.data)
+                                                    .map((e) => e.name)
                                                     .toList()
                                                     .sublist(0, 2),
                                                 selectedItem:

@@ -1,26 +1,24 @@
-import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+
 import 'package:insudox_app/globals.dart';
 import 'package:insudox_app/services/Firebase/fireAuth/google_auth.dart'
     as google_auth;
 import 'package:insudox_app/services/Firebase/firestore/firestore.dart';
 import 'package:insudox_app/services/Firebase/push_notification/push_notification_service.dart';
-import 'package:insudox_app/services/Firebase/realtime_database/realtime_database.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
-// Anonymous sign in
+/// Anonymous sign in
 Future<UserCredential> signInAnon() async {
   UserCredential result = await _auth.signInAnonymously();
   return result;
 }
 
-// google sign in
+/// google sign in
 Future<bool> signInWithGoogle() async {
   UserCredential? result = await google_auth.signInWithGoogle();
 
@@ -59,7 +57,7 @@ Future<bool> logInWithGoogle() async {
   return (result.user!.uid == _auth.currentUser!.uid);
 }
 
-// Email pass sign in
+/// Email pass sign in
 Future<List<dynamic>> signInUser(
     {required String email, required String password}) async {
   if (email == '' && password == '') {
@@ -110,7 +108,7 @@ Future<List<dynamic>> passwordResetEmailUser({required String email}) async {
   return [0, ''];
 }
 
-// New register
+/// New register
 Future<List<dynamic>> registerUser(
     {required String email,
     required String password,
@@ -137,7 +135,7 @@ Future<List<dynamic>> registerUser(
   return [0, ''];
 }
 
-// Check if form is filled
+/// Check if form is filled
 Future<bool> checkFormFilled() async {
   CollectionReference users = usersCollectionReference();
   User user = getCurrentUser()!;
@@ -149,7 +147,7 @@ Future<bool> checkFormFilled() async {
   return false;
 }
 
-// Get current user id
+/// Get current user id
 String getCurrentUserId() {
   if (checkLoggedIn()) {
     return _auth.currentUser!.uid;

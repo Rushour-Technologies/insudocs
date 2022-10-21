@@ -51,22 +51,6 @@ class MessagesPageState extends State<MessagesPage> {
               print(room.users.first.role);
               return GestureDetector(
                 onTap: () async {
-                  // _chatView = Container(
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(
-                  //       screenHeight / 20,
-                  //     ),
-                  //   ),
-                  //   foregroundDecoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(
-                  //       screenHeight / 20,
-                  //     ),
-                  //   ),
-                  //   child: ChatPage(
-                  //     room: room,
-                  //   ),
-                  // );
-
                   await Navigator.push(
                     context,
                     MaterialPageRoute(

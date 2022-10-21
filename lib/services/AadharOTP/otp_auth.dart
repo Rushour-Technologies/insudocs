@@ -52,7 +52,7 @@ class AadharAuthenticationNotifier extends ChangeNotifier {
 
   void checkingIfAuthenticated() async {
     try {
-      DocumentReference userDocument = userDocumentReference();
+      DocumentReference userDocument = saviourDocumentReference();
       Map<String, dynamic> data = {};
       Timer.periodic(const Duration(seconds: 1), (timer) {
         if (_secondsRemaining == 0) {

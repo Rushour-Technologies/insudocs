@@ -50,7 +50,7 @@ class _AadharWebViewPageState extends State<AadharWebViewPage> {
       if (await checkAadhar()) {
         return Navigator.of(context).restorablePushNamed('/main');
       }
-      await userDocumentReference().update({'aadharFilled': true});
+      await saviourDocumentReference().update({'aadharFilled': true});
 
       countdown = authenticationNotifier.secondsRemaining;
       setState(() {});
@@ -58,7 +58,8 @@ class _AadharWebViewPageState extends State<AadharWebViewPage> {
       // Show authenticated snackbar
       ScaffoldMessenger.of(context).showSnackBar(
           aadharLoginStatus(authenticationNotifier.isAuthenticated));
-      Map<String, dynamic> temp = (await userDocumentReference().get()).data()!;
+      Map<String, dynamic> temp =
+          (await saviourDocumentReference().get()).data()!;
       User user = getCurrentUser()!;
       Map<String, dynamic> data = {
         getCurrentUserId(): {

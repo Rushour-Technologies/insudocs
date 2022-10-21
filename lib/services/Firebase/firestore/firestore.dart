@@ -6,10 +6,11 @@ import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:insudox/src/classes/insurance_enums.dart';
+import 'package:insudox/src/classes/policy_model.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-CollectionReference userDocumentCollection({required String collection}) {
+CollectionReference saviourDocumentCollection({required String collection}) {
   // print(getCurrentUserId());
   return firestore
       .collection('saviours')
@@ -24,11 +25,11 @@ DocumentReference exploreDataRoleSpecificDocument({required Role role}) {
       .doc(role.toString().split('.').last);
 }
 
-CollectionReference usersCollectionReference() {
+CollectionReference savioursCollectionReference() {
   return firestore.collection('saviours');
 }
 
-DocumentReference<Map<String, dynamic>> userDocumentReference() {
+DocumentReference<Map<String, dynamic>> saviourDocumentReference() {
   return firestore.collection('saviours').doc(getCurrentUserId());
 }
 
@@ -37,6 +38,7 @@ Future<void> deleteDocumentByReference(DocumentReference reference) async {
       (Transaction transaction) async => transaction.delete(reference));
 }
 
+/// Set the role of the saviour
 setPublicData({
   required Map<String, dynamic> data,
   required Role role,
@@ -70,7 +72,7 @@ Future<void> setRequestStatus({
     'requestStatus': accept ? 'accepted' : 'rejected',
   });
 
-  await usersCollectionReference()
+  await savioursCollectionReference()
       .doc(userId)
       .collection('requests')
       .doc(getCurrentUserId())
@@ -80,7 +82,7 @@ Future<void> setRequestStatus({
 
   if (!accept) return;
   // Current User
-  final doc = await userDocumentReference().get();
+  final doc = await saviourDocumentReference().get();
 
   final data = doc.data()!;
   // print(data);
@@ -94,7 +96,7 @@ Future<void> setRequestStatus({
   types.User currentUser = types.User.fromJson(data);
 
   // Other User
-  final otherDoc = await usersCollectionReference().doc(userId).get();
+  final otherDoc = await savioursCollectionReference().doc(userId).get();
 
   final Map<String, dynamic> otherData =
       otherDoc.data()! as Map<String, dynamic>;
@@ -111,4 +113,26 @@ Future<void> setRequestStatus({
   // print(jsify(otherUser));
 
   await FirebaseChatCore.instance.createRoom(currentUser, otherUser);
+}
+
+/// Get all the client requests
+Future<List<PolicyModel>> getAllRequests() async {
+  final requestDocuments = await firestore
+      .collection('client_requests')
+      .where('requestStatus', isEqualTo: 'PENDING')
+      .get();
+
+  final List<PolicyModel> requests = [];
+
+  for (QueryDocumentSnapshot<Map<String, dynamic>> element
+      in requestDocuments.docs) {
+    requests.add(
+      PolicyModel.fromJson(
+        json: element.data(),
+        requestId: element.id,
+      ),
+    );
+  }
+
+  return requests;
 }

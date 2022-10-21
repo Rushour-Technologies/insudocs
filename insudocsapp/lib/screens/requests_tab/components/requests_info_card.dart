@@ -1,18 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:insudox_app/classes/policy_model.dart';
 import 'package:insudox_app/classes/user_model.dart';
 import 'package:insudox_app/drawer/components/drawer_card_field.dart';
+import 'package:insudox_app/globals.dart';
 
-class RequestsInfoCard extends StatefulWidget {
-  const RequestsInfoCard({Key? key}) : super(key: key);
+class RequestsInfoCard extends StatelessWidget {
+  const RequestsInfoCard({Key? key, required this.policy}) : super(key: key);
 
-  @override
-  State<RequestsInfoCard> createState() => _RequestsInfoCardState();
-}
-
-class _RequestsInfoCardState extends State<RequestsInfoCard> {
-  UserModel userModel = UserModel.getModel();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  /// The policy information to be displayed
+  final PolicyModel policy;
 
   @override
   Widget build(BuildContext context) {
@@ -31,20 +28,37 @@ class _RequestsInfoCardState extends State<RequestsInfoCard> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(screenWidth * 0.05),
       ),
-      color: const Color(0xFF3E3763),
+      color: GlobalColor.secondary,
       child: Padding(
         padding: EdgeInsets.symmetric(
             vertical: screenHeight * 0.02, horizontal: screenWidth * 0.05),
-        child: Wrap(
-          direction: Axis.vertical,
-          crossAxisAlignment: WrapCrossAlignment.start,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            drawerCardField("Insurance Type", userModel.insuranceType,
-                screenHeight, screenWidth),
-            drawerCardField("Insurance Service", userModel.claimTrack,
-                screenHeight, screenWidth),
-            drawerCardField("Insurance Comapny name",
-                userModel.insuranceCompanyName, screenHeight, screenWidth),
+            drawerCardField(
+              "Insurance Type",
+              policy.insuranceType.name,
+              screenHeight,
+              screenWidth,
+            ),
+            drawerCardField(
+              "Insurance Service",
+              policy.insuranceStatus.name,
+              screenHeight,
+              screenWidth,
+            ),
+            drawerCardField(
+              "Insurance Comapny name",
+              policy.insuranceCompanyName,
+              screenHeight,
+              screenWidth,
+            ),
+            drawerCardField(
+              "Request Status",
+              policy.requestStatus.name,
+              screenHeight,
+              screenWidth,
+            ),
           ],
         ),
       ),

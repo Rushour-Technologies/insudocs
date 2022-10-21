@@ -5,6 +5,7 @@ import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:insudox_app/globals.dart';
 
 import 'package:insudox_app/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox_app/services/Firebase/firestore/firestore.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({
@@ -159,7 +160,10 @@ class _ChatPageState extends State<ChatPage> {
                     .toList()[0]
                     .id;
 
-                // await reportPerson(id: otherId, roomId: widget.room.id);
+                await reportSaviour(
+                  saviourId: otherId,
+                  roomId: widget.room.id,
+                );
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },

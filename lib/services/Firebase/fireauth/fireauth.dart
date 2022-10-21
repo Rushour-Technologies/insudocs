@@ -24,7 +24,7 @@ Future<UserCredential> signInAnon() async {
 Future<bool> signInWithGoogle() async {
   UserCredential? result = await google_auth.signInWithGoogle();
 
-  CollectionReference users = usersCollectionReference();
+  CollectionReference users = savioursCollectionReference();
 
   if (!(await users.doc(result!.user!.uid).get()).exists) {
     initialData();
@@ -111,7 +111,7 @@ Future<List<dynamic>> registerUser(
 
 // Check if user is admin
 Future<bool> checkAdmin() async {
-  DocumentReference user = userDocumentReference();
+  DocumentReference user = saviourDocumentReference();
   Map<String, dynamic>? data =
       (await user.get()).data() as Map<String, dynamic>;
   if (data.keys.contains('isAdmin')) {
@@ -126,7 +126,7 @@ Future<bool> checkAdmin() async {
 
 // Check if form is filled
 Future<bool> checkFormFilled() async {
-  CollectionReference users = usersCollectionReference();
+  CollectionReference users = savioursCollectionReference();
   User user = getCurrentUser()!;
   if (checkLoggedIn()) {
     Map<String, dynamic> data =
@@ -139,7 +139,7 @@ Future<bool> checkFormFilled() async {
 
 // Check if form is filled
 Future<bool> checkAadhar() async {
-  CollectionReference users = usersCollectionReference();
+  CollectionReference users = savioursCollectionReference();
   print('checking aadhar');
   User user = getCurrentUser()!;
   if (checkLoggedIn()) {
@@ -153,7 +153,7 @@ Future<bool> checkAadhar() async {
 
 // Check if details are filled
 Future<bool> checkDetails() async {
-  CollectionReference users = usersCollectionReference();
+  CollectionReference users = savioursCollectionReference();
   User user = getCurrentUser()!;
   if (checkLoggedIn()) {
     Map<String, dynamic> data =
@@ -202,7 +202,7 @@ Future<bool> signOutGoogle() async {
 
 // Setup initial data
 void initialData() async {
-  CollectionReference users = usersCollectionReference();
+  CollectionReference users = savioursCollectionReference();
   // print(kIsWeb);
   User user = getCurrentUser()!;
 
@@ -223,7 +223,7 @@ void initialData() async {
 
 Future<bool> deviceFCMKeyOperations({bool add = false}) async {
   if (kIsWeb) return false;
-  DocumentReference userDocument = userDocumentReference();
+  DocumentReference userDocument = saviourDocumentReference();
   late Map<String, dynamic>? deviceIDs, data;
   await userDocument.get().then((value) async {
     data = value.data() as Map<String, dynamic>;
@@ -268,7 +268,7 @@ Future<bool> deviceFCMKeyOperations({bool add = false}) async {
 }
 
 Future<String> checkRole() async {
-  CollectionReference users = usersCollectionReference();
+  CollectionReference users = savioursCollectionReference();
   User user = getCurrentUser()!;
   if (checkLoggedIn()) {
     Map<String, dynamic> data =
