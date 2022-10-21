@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:insudox/globals.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
@@ -29,4 +30,11 @@ Future<types.Role> getRole() async {
     role = types.Role.none;
   }
   return role;
+}
+
+void setPageTitle(String title, BuildContext context) {
+  SystemChrome.setApplicationSwitcherDescription(ApplicationSwitcherDescription(
+    label: title,
+    primaryColor: Theme.of(context).primaryColor.value,
+  ));
 }

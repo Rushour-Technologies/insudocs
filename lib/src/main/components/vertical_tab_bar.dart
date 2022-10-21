@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insudox/globals.dart';
+import 'package:insudox/src/main/components/default.dart';
 
 class VerticalTabBar extends StatefulWidget {
   const VerticalTabBar({
@@ -41,6 +42,7 @@ class _VerticalTabBarState extends State<VerticalTabBar> {
 
   @override
   Widget build(BuildContext context) {
+    setPageTitle(widget.tabs[_currentIndex].label, context);
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
 
@@ -61,6 +63,8 @@ class _VerticalTabBarState extends State<VerticalTabBar> {
               }
 
               _currentIndex = index;
+              setPageTitle(widget.tabs[_currentIndex].label, context);
+
               widget.controller.setIndex = _currentIndex;
               if (tab.extraFunction != null) {
                 tab.extraFunction!();
