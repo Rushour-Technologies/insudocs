@@ -111,6 +111,11 @@ Future<void> acceptDenyClient({
   // If rejected, return
   if (!accept) return;
 
+  await saviourDocumentCollection(collection: 'clients').doc(clientId).set({
+    'clientId': clientId,
+    'requestId': requestId,
+  });
+
   // saviour User class for chat
   types.User currentUserSaviour = types.User(
     id: getCurrentUserId(),
@@ -132,25 +137,25 @@ Future<void> acceptDenyClient({
 }
 
 /// Get all the client requests
-Future<List<PolicyModel>> getAllRequests() async {
-  final requestDocuments = await firestore
-      .collection('client_requests')
-      .where('requestStatus', isEqualTo: 'PENDING')
-      .get();
+Stream<QuerySnapshot<Map<String, dynamic>>> getAllRequests() async* {
+  QuerySnapshot<Object?> servingUsers =
+      await saviourDocumentCollection(collection: 'clients').get();
 
-  final List<PolicyModel> requests = [];
+  List<String> servingIds = servingUsers.docs.map((e) => e.id).toList();
+  print(servingIds);
 
-  for (QueryDocumentSnapshot<Map<String, dynamic>> element
-      in requestDocuments.docs) {
-    requests.add(
-      PolicyModel.fromJson(
-        json: element.data(),
-        requestId: element.id,
-      ),
-    );
+  if (servingIds.isEmpty) {
+    yield* firestore
+        .collection('client_requests')
+        .where('requestStatus', isEqualTo: 'PENDING')
+        .snapshots();
+  } else {
+    yield* firestore
+        .collection('client_requests')
+        .where("userId", whereNotIn: servingIds)
+        .where('requestStatus', isEqualTo: 'PENDING')
+        .snapshots();
   }
-
-  return requests;
 }
 
 /// Update chat roles neatly

@@ -14,6 +14,7 @@ Widget saviourIncoming({
   required double screenWidth,
   required double screenHeight,
   required TextStyle noRequestStyle,
+  required Function(Function()) setState,
 }) {
   const bool protoTypeMode = false;
 
@@ -30,14 +31,11 @@ Widget saviourIncoming({
               spacing: screenWidth * 0.01,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: clientRequestInfoList.map((requestStatus) {
-                return RequestCard(clientRequestInfo: requestStatus);
+                return RequestCard(
+                    clientRequestInfo: requestStatus, setState: setState);
               }).toList())
           : StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: firestore
-                  .collection('client_requests')
-                  .where('requestStatus',
-                      isEqualTo: ApprovalStatus.PENDING.data)
-                  .snapshots(),
+              stream: getAllRequests(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
                   if (snapshot.hasData) {
@@ -55,6 +53,7 @@ Widget saviourIncoming({
                                 map: policyJson,
                                 requestId: document.id,
                               ),
+                              setState: setState,
                             );
                           }).toList());
                     } else {

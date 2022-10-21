@@ -12,9 +12,11 @@ class RequestCard extends StatelessWidget {
     super.key,
     this.clientRequestInfo,
     this.saviourRequestInfo,
+    this.setState,
   });
   final ClientRequestInfo? clientRequestInfo;
   final SaviourRequestInfo? saviourRequestInfo;
+  final Function(Function())? setState;
 
   bool get isClient => clientRequestInfo != null;
 
@@ -77,19 +79,21 @@ class RequestCard extends StatelessWidget {
                         acceptDeny(
                           height: screenHeight,
                           width: screenWidth,
-                          onAccept: () {
-                            acceptDenyClient(
+                          onAccept: () async {
+                            await acceptDenyClient(
                               accept: true,
                               clientId: clientRequestInfo!.userId,
                               requestId: clientRequestInfo!.policy.requestId,
                             );
+                            setState!(() {});
                           },
-                          onDeny: () {
-                            acceptDenyClient(
+                          onDeny: () async {
+                            await acceptDenyClient(
                               accept: false,
                               clientId: clientRequestInfo!.userId,
                               requestId: clientRequestInfo!.policy.requestId,
                             );
+                            setState!(() {});
                           },
                         ),
                       ],
@@ -152,14 +156,14 @@ class RequestCard extends StatelessWidget {
                         acceptDeny(
                           height: screenHeight,
                           width: screenWidth,
-                          onAccept: () {
-                            acceptDenySaviour(
+                          onAccept: () async {
+                            await acceptDenySaviour(
                               userId: saviourRequestInfo!.userId,
                               accept: true,
                             );
                           },
-                          onDeny: () {
-                            acceptDenySaviour(
+                          onDeny: () async {
+                            await acceptDenySaviour(
                               userId: saviourRequestInfo!.userId,
                               accept: false,
                             );

@@ -46,7 +46,9 @@ class _IncomingRequestPageState extends State<IncomingRequestPage> {
             user: user!,
             screenWidth: screenWidth,
             screenHeight: screenHeight,
-            noRequestStyle: noRequestStyle)
+            noRequestStyle: noRequestStyle,
+            setState: setState,
+          )
         : superAdminIncoming(
             user: user!,
             screenWidth: screenWidth,

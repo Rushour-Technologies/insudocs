@@ -42,6 +42,7 @@ class _ChatPageState extends State<ChatPage> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: GlobalColor.transparent,
       appBar: AppBar(
         actions: [
           IconButton(
