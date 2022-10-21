@@ -9,9 +9,9 @@ class SaviourRequestInfo extends IncomingRequestInfo {
     required this.experience,
     required this.adhaarNumber,
     required this.gender,
-    required super.email,
+    required this.email,
     required super.photoURL,
-    required super.uid,
+    required super.userId,
     required this.qualification,
     required this.specialization,
     required this.approvalStatus,
@@ -30,14 +30,14 @@ class SaviourRequestInfo extends IncomingRequestInfo {
         photoURL: map['photoURL'] as String,
         email: map['email'] as String,
         gender: map['gender'] as String,
-        uid: map['uid'] as String,
+        userId: map['uid'] as String,
         approvalStatus: map['approvalStatus'] as String,
       );
 
   final String universityName;
   final String qualificationFileLink;
   final String experienceFileLink;
-
+  final String email;
   final String experience;
   final String adhaarNumber;
   final String gender;

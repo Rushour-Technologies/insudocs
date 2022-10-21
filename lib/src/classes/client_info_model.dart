@@ -1,28 +1,29 @@
+import 'package:insudox/globals.dart';
 import 'package:insudox/src/classes/incoming_request_info_model.dart';
+import 'package:insudox/src/classes/insurance_enums.dart';
+import 'package:insudox/src/classes/policy_model.dart';
 
 class ClientRequestInfo extends IncomingRequestInfo {
   const ClientRequestInfo({
     required super.photoURL,
     required super.name,
-    required this.insuranceType,
-    required this.insuraceStatus,
-    required super.email,
-    required this.reportLink,
-    required super.uid,
+    required super.userId,
+    required this.policy,
   });
 
-  factory ClientRequestInfo.fromMap(Map<String, dynamic> map) =>
+  factory ClientRequestInfo.fromMap({
+    required Map<String, dynamic> map,
+    required String requestId,
+  }) =>
       ClientRequestInfo(
-        email: map['email'] as String,
         name: map['name'] as String,
-        insuraceStatus: map['insuranceStatus'] as int,
-        insuranceType: map['insuranceType'] as int,
-        photoURL: map['photoURL'] as String,
-        reportLink: map['reportLink'] as String,
-        uid: map['uid'] as String,
+        photoURL: map['photoURL'] ?? DEFAULT_PROFILE_PICTURE,
+        userId: map['userId'] as String,
+        policy: PolicyModel.fromJson(
+          json: map,
+          requestId: requestId,
+        ),
       );
 
-  final int insuranceType;
-  final int insuraceStatus;
-  final String reportLink;
+  final PolicyModel policy;
 }

@@ -31,28 +31,10 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     personUid = (widget.room.users
         .where((element) =>
-            element.role == types.Role.student ||
-            element.role == types.Role.parent)
+            element.role == types.Role.user ||
+            element.role == types.Role.saviour)
         .toList()[0]
         .id);
-    checkForNegativeSentiments();
-  }
-
-  Future<bool> checkForNegativeSentiments() async {
-    String userId = (widget.room.users
-        .where((element) =>
-            element.role == types.Role.student ||
-            element.role == types.Role.parent)
-        .toList()[0]
-        .id);
-    Map<String, dynamic> data =
-        (await firestore.collection('users').doc(userId).get()).data()
-            as Map<String, dynamic>;
-    print("A LOT OF DATA WAS HERERERERERER : ${data['firstName']}");
-    isNegative = data['negative_sentiments'] ?? false;
-    // print(data);
-    setState(() {});
-    return isNegative;
   }
 
   @override
@@ -81,18 +63,13 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: GlobalColor.drawerBg,
         title: Padding(
           padding: EdgeInsets.only(left: screenWidth * 0.025),
-          child: FutureBuilder(
-            initialData: Colors.white,
-            future: checkForNegativeSentiments(),
-            builder: (builder, snapshot) => Text(
-              (widget.room.name ?? 'Chat') +
-                  (!isNegative ? "" : " - Experiencing negative sentiments"),
-              style: TextStyle(
-                fontFamily: 'DM Sans',
-                color: isNegative ? Colors.red : Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: screenWidth * 0.01,
-              ),
+          child: Text(
+            (widget.room.name ?? 'Chat'),
+            style: TextStyle(
+              fontFamily: 'DM Sans',
+              color: isNegative ? Colors.red : Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: screenWidth * 0.01,
             ),
           ),
         ),

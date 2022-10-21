@@ -3,23 +3,25 @@ import 'package:flutter/material.dart';
 drawerCardField(
         String title, String text, double screenHeight, double screenWidth) =>
     Row(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           "$title  :  ",
           style: TextStyle(
             fontFamily: "DM Sans",
-            fontSize: screenWidth * 0.05,
+            fontSize: screenWidth * 0.04,
             fontWeight: FontWeight.bold,
             color: Colors.white,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         Text(
           text,
           style: TextStyle(
             fontFamily: "DM Sans",
-            fontSize: screenWidth * 0.045,
+            fontSize: screenWidth * 0.035,
             color: Colors.white,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

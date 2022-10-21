@@ -13,7 +13,7 @@ final FirebaseFirestore firestore = FirebaseFirestore.instance;
 CollectionReference saviourDocumentCollection({required String collection}) {
   // print(getCurrentUserId());
   return firestore
-      .collection('saviours')
+      .collection('users')
       .doc(getCurrentUserId())
       .collection(collection);
 }
@@ -25,12 +25,41 @@ DocumentReference exploreDataRoleSpecificDocument({required Role role}) {
       .doc(role.toString().split('.').last);
 }
 
-CollectionReference savioursCollectionReference() {
-  return firestore.collection('saviours');
+DocumentReference<Map<String, dynamic>> saviourDocumentReference() {
+  return firestore.collection('users').doc(getCurrentUserId());
 }
 
-DocumentReference<Map<String, dynamic>> saviourDocumentReference() {
-  return firestore.collection('saviours').doc(getCurrentUserId());
+CollectionReference userDocumentCollection(
+    {required String userId, required String collection}) {
+  return firestore.collection('users').doc(userId).collection(collection);
+}
+
+/// Get the ```users``` collection
+CollectionReference usersCollectionReference() {
+  return firestore.collection('users');
+}
+
+/// Get the current user's document
+DocumentReference<Map<String, dynamic>> userDocumentReference({
+  required String userId,
+}) {
+  return firestore.collection('users').doc(userId);
+}
+
+/// Check the request status for a specific document / request
+Future<ApprovalStatus> checkRequestStatus({required String docId}) async {
+  Map<String, dynamic> document =
+      (await firestore.collection('client_requests').doc(docId).get()).data() ??
+          {};
+  ApprovalStatus requestStatus = ApprovalStatus.PENDING;
+  for (var element in ApprovalStatus.values) {
+    if (document['requestStatus'] == element.name) {
+      requestStatus = element;
+      break;
+    }
+  }
+
+  return requestStatus;
 }
 
 Future<void> deleteDocumentByReference(DocumentReference reference) async {
@@ -49,70 +78,57 @@ setPublicData({
 
 /// Super Admin Portal
 Future<void> acceptDenySaviour({
-  bool accept = true,
+  required bool accept,
   required String userId,
 }) async {
-  await firestore.collection('saviours').doc(userId).update({
+  await firestore.collection('users').doc(userId).update({
     'approvalStatus':
         (accept ? ApprovalStatus.APPROVED : ApprovalStatus.REJECTED).data,
   });
 }
 
 /// Saviour Portal
-Future<void> setRequestStatus({
-  bool accept = true,
-  required String userId,
+Future<void> acceptDenyClient({
+  required bool accept,
+  required String clientId,
+  required String requestId,
 }) async {
-  await firestore
-      .collection('all_requests')
-      .doc(getCurrentUserId())
-      .collection('requests')
-      .doc(userId)
-      .update({
-    'requestStatus': accept ? 'accepted' : 'rejected',
+  // Set the request status in the client_requests collection
+  await firestore.collection('client_requests').doc(requestId).update({
+    'requestStatus':
+        accept ? ApprovalStatus.APPROVED.data : ApprovalStatus.REJECTED.data,
   });
 
-  await savioursCollectionReference()
-      .doc(userId)
-      .collection('requests')
-      .doc(getCurrentUserId())
-      .update({
-    'requestStatus': accept ? 'accepted' : 'rejected',
+  // Set the approval status in the client's document
+  await userDocumentCollection(
+    userId: clientId,
+    collection: 'policies',
+  ).doc(requestId).update({
+    'requestStatus':
+        accept ? ApprovalStatus.APPROVED.data : ApprovalStatus.REJECTED.data,
   });
 
+  // If rejected, return
   if (!accept) return;
-  // Current User
-  final doc = await saviourDocumentReference().get();
 
-  final data = doc.data()!;
-  // print(data);
+  // saviour User class for chat
+  types.User currentUserSaviour = types.User(
+    id: getCurrentUserId(),
+    role: types.Role.saviour,
+    createdAt: DateTime.now().millisecondsSinceEpoch,
+    updatedAt: DateTime.now().millisecondsSinceEpoch,
+  );
 
-  data['createdAt'] = data['createdAt']?.millisecondsSinceEpoch;
-  data['id'] = doc.id;
-  data['lastSeen'] = data['lastSeen']?.millisecondsSinceEpoch;
-  data['role'] = data['role'];
-  data['updatedAt'] = data['updatedAt']?.millisecondsSinceEpoch;
+  // client User class for chat
+  types.User currentUserClient = types.User(
+    id: clientId,
+    role: types.Role.user,
+    createdAt: DateTime.now().millisecondsSinceEpoch,
+    updatedAt: DateTime.now().millisecondsSinceEpoch,
+  );
 
-  types.User currentUser = types.User.fromJson(data);
-
-  // Other User
-  final otherDoc = await savioursCollectionReference().doc(userId).get();
-
-  final Map<String, dynamic> otherData =
-      otherDoc.data()! as Map<String, dynamic>;
-  // print(data);
-
-  otherData['createdAt'] = otherData['createdAt']?.millisecondsSinceEpoch;
-  otherData['id'] = userId;
-  otherData['lastSeen'] = otherData['lastSeen']?.millisecondsSinceEpoch;
-  otherData['role'] = otherData['role'];
-  otherData['updatedAt'] = otherData['updatedAt']?.millisecondsSinceEpoch;
-
-  types.User otherUser = types.User.fromJson(otherData);
-
-  // print(jsify(otherUser));
-
-  await FirebaseChatCore.instance.createRoom(currentUser, otherUser);
+  types.Room room =
+      await FirebaseChatCore.instance.createRoom(currentUserClient);
 }
 
 /// Get all the client requests
@@ -135,4 +151,27 @@ Future<List<PolicyModel>> getAllRequests() async {
   }
 
   return requests;
+}
+
+/// Update chat roles neatly
+Future<void> updateChatRoles({
+  required String roomId,
+  required String clientId,
+}) async {
+  return firestore.collection('rooms').doc(roomId).update({
+    'users': FieldValue.arrayUnion([
+      {
+        'id': clientId,
+        'role': 'user',
+        'createdAt': DateTime.now().millisecondsSinceEpoch,
+        'updatedAt': DateTime.now().millisecondsSinceEpoch,
+      },
+      {
+        'id': getCurrentUserId(),
+        'role': 'saviour',
+        'createdAt': DateTime.now().millisecondsSinceEpoch,
+        'updatedAt': DateTime.now().millisecondsSinceEpoch,
+      },
+    ]),
+  });
 }

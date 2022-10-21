@@ -128,7 +128,7 @@ class _ChatPageState extends State<ChatPage> {
                   onSendPressed: _handleSendPressed,
                   user: types.User(
                     id: FirebaseChatCore.instance.firebaseUser?.uid ?? '',
-                    role: types.Role.student,
+                    role: types.Role.user,
                     imageUrl: FirebaseChatCore.instance.firebaseUser?.photoURL,
                   ),
                 );

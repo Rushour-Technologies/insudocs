@@ -138,6 +138,7 @@ Future<List<dynamic>> registerUser(
 /// Check if form is filled
 Future<bool> checkFormFilled() async {
   CollectionReference users = usersCollectionReference();
+
   User user = getCurrentUser()!;
   if (checkLoggedIn()) {
     Map<String, dynamic> data =

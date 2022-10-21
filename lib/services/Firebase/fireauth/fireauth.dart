@@ -2,8 +2,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:insudox/globals.dart';
 
@@ -24,14 +23,12 @@ Future<UserCredential> signInAnon() async {
 Future<bool> signInWithGoogle() async {
   UserCredential? result = await google_auth.signInWithGoogle();
 
-  CollectionReference users = savioursCollectionReference();
+  CollectionReference users = usersCollectionReference();
 
   if (!(await users.doc(result!.user!.uid).get()).exists) {
     initialData();
   }
-  if (result.user!.uid == _auth.currentUser!.uid) {
-    deviceFCMKeyOperations(add: true);
-  }
+
   return (result.user!.uid == _auth.currentUser!.uid);
 }
 
@@ -43,7 +40,6 @@ Future<List<dynamic>> signInUser(
       email: email,
       password: password,
     );
-    deviceFCMKeyOperations(add: true);
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
       return [1, 'No user found for that email'];
@@ -126,7 +122,7 @@ Future<bool> checkAdmin() async {
 
 // Check if form is filled
 Future<bool> checkFormFilled() async {
-  CollectionReference users = savioursCollectionReference();
+  CollectionReference users = usersCollectionReference();
   User user = getCurrentUser()!;
   if (checkLoggedIn()) {
     Map<String, dynamic> data =
@@ -139,7 +135,7 @@ Future<bool> checkFormFilled() async {
 
 // Check if form is filled
 Future<bool> checkAadhar() async {
-  CollectionReference users = savioursCollectionReference();
+  CollectionReference users = usersCollectionReference();
   print('checking aadhar');
   User user = getCurrentUser()!;
   if (checkLoggedIn()) {
@@ -153,7 +149,7 @@ Future<bool> checkAadhar() async {
 
 // Check if details are filled
 Future<bool> checkDetails() async {
-  CollectionReference users = savioursCollectionReference();
+  CollectionReference users = usersCollectionReference();
   User user = getCurrentUser()!;
   if (checkLoggedIn()) {
     Map<String, dynamic> data =
@@ -186,9 +182,6 @@ bool checkLoggedIn() {
 
 // Sign out user
 Future<bool> signOut() async {
-  if (kIsWeb) {
-    await deviceFCMKeyOperations();
-  }
   await _auth.signOut();
   return !checkLoggedIn();
 }
@@ -202,12 +195,14 @@ Future<bool> signOutGoogle() async {
 
 // Setup initial data
 void initialData() async {
-  CollectionReference users = savioursCollectionReference();
+  CollectionReference users = usersCollectionReference();
   // print(kIsWeb);
   User user = getCurrentUser()!;
 
   await FirebaseChatCore.instance.createUserInFirestore(
     types.User(
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      updatedAt: DateTime.now().millisecondsSinceEpoch,
       firstName: user.displayName!.split(' ')[0],
       id: user.uid,
       imageUrl: user.photoURL ?? DEFAULT_PROFILE_PICTURE,
@@ -215,60 +210,10 @@ void initialData() async {
       role: types.Role.saviour,
     ),
   );
-
-  await users.doc(user.uid).set({
-    'deviceIDs': (!kIsWeb) ? {FirebaseMessaging.instance.getToken(): 0} : {},
-  }, SetOptions(merge: true));
-}
-
-Future<bool> deviceFCMKeyOperations({bool add = false}) async {
-  if (kIsWeb) return false;
-  DocumentReference userDocument = saviourDocumentReference();
-  late Map<String, dynamic>? deviceIDs, data;
-  await userDocument.get().then((value) async {
-    data = value.data() as Map<String, dynamic>;
-    // print(data);
-    // data!.putIfAbsent('deviceIDs', () => []);
-    if (data!['deviceIDs'].runtimeType == int) {
-      await userDocument.set(
-        {'deviceIDs': {}},
-        SetOptions(merge: true),
-      );
-    } else {
-      deviceIDs = data!['deviceIDs'] as Map<String, dynamic>;
-    }
-  });
-
-  if (deviceIDs == null) {
-    await userDocument.set(
-      {'deviceIDs': {}},
-      SetOptions(merge: true),
-    );
-  }
-  if (add) {
-    deviceIDs![(await FirebaseMessaging.instance.getToken())!] = 0;
-    await userDocument.set(
-      {
-        'deviceIDs': deviceIDs,
-      },
-      SetOptions(merge: true),
-    );
-  } else if (deviceIDs!.keys
-      .contains(await FirebaseMessaging.instance.getToken())) {
-    await userDocument.set(
-      {
-        'deviceIDs':
-            deviceIDs!.remove(await FirebaseMessaging.instance.getToken()),
-      },
-      SetOptions(merge: true),
-    );
-  }
-
-  return false;
 }
 
 Future<String> checkRole() async {
-  CollectionReference users = savioursCollectionReference();
+  CollectionReference users = usersCollectionReference();
   User user = getCurrentUser()!;
   if (checkLoggedIn()) {
     Map<String, dynamic> data =

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:insudox_app/classes/policy_model.dart';
-import 'package:insudox_app/classes/user_model.dart';
+
 import 'package:insudox_app/drawer/components/drawer_card_field.dart';
 import 'package:insudox_app/globals.dart';
 
@@ -13,16 +13,8 @@ class RequestsInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<double> tempDimensions = [
-      MediaQuery.of(context).size.width,
-      MediaQuery.of(context).size.height
-    ];
-    final double screenHeight = tempDimensions[0] > tempDimensions[1]
-        ? tempDimensions[0]
-        : tempDimensions[1];
-    final double screenWidth = tempDimensions[0] > tempDimensions[1]
-        ? tempDimensions[1]
-        : tempDimensions[0];
+    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery.of(context).size.width;
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(

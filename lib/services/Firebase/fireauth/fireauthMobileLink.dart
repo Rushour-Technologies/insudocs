@@ -28,7 +28,7 @@ Future<String> linkMobile(PhoneAuthCredential credential) async {
 }
 
 void updateInitialData() async {
-  CollectionReference users = savioursCollectionReference();
+  CollectionReference users = usersCollectionReference();
   await users.doc(_auth.currentUser!.email).update({
     "phone": _auth.currentUser!.phoneNumber,
   });

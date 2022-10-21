@@ -60,35 +60,35 @@ class RequestCard extends StatelessWidget {
                           width: screenWidth,
                           height: screenHeight,
                           heading: 'UID',
-                          info: clientRequestInfo!.uid,
+                          info: clientRequestInfo!.userId,
                         ),
                         headingInfo(
                           width: screenWidth,
                           height: screenHeight,
                           heading: 'Insurance Type',
-                          info: InsuranceType
-                              .values[clientRequestInfo!.insuranceType].data,
+                          info: clientRequestInfo!.policy.insuranceType.data,
                         ),
                         headingInfo(
                           width: screenWidth,
                           height: screenHeight,
                           heading: 'Insurance Status',
-                          info: InsuranceStatus
-                              .values[clientRequestInfo!.insuraceStatus].data,
+                          info: clientRequestInfo!.policy.insuranceStatus.data,
                         ),
                         acceptDeny(
                           height: screenHeight,
                           width: screenWidth,
                           onAccept: () {
-                            acceptDenySaviour(
+                            acceptDenyClient(
                               accept: true,
-                              userId: clientRequestInfo!.uid,
+                              clientId: clientRequestInfo!.userId,
+                              requestId: clientRequestInfo!.policy.requestId,
                             );
                           },
                           onDeny: () {
-                            acceptDenySaviour(
-                              userId: clientRequestInfo!.uid,
+                            acceptDenyClient(
                               accept: false,
+                              clientId: clientRequestInfo!.userId,
+                              requestId: clientRequestInfo!.policy.requestId,
                             );
                           },
                         ),
@@ -117,7 +117,7 @@ class RequestCard extends StatelessWidget {
                           width: screenWidth,
                           height: screenHeight,
                           heading: 'UID',
-                          info: saviourRequestInfo!.uid,
+                          info: saviourRequestInfo!.userId,
                         ),
                         headingInfo(
                           width: screenWidth,
@@ -154,13 +154,13 @@ class RequestCard extends StatelessWidget {
                           width: screenWidth,
                           onAccept: () {
                             acceptDenySaviour(
-                              userId: saviourRequestInfo!.uid,
+                              userId: saviourRequestInfo!.userId,
                               accept: true,
                             );
                           },
                           onDeny: () {
                             acceptDenySaviour(
-                              userId: saviourRequestInfo!.uid,
+                              userId: saviourRequestInfo!.userId,
                               accept: false,
                             );
                           },

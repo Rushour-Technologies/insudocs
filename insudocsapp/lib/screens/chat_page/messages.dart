@@ -44,11 +44,10 @@ class MessagesPageState extends State<MessagesPage> {
             children: snapshot.data!
                 .where(
               (element) =>
-                  element.users.first.role == types.Role.counsellor ||
-                  element.users.first.role == types.Role.expert,
+                  element.users.first.role == types.Role.saviour ||
+                  element.users.first.role == types.Role.user,
             )
                 .map((room) {
-              print(room.users.first.role);
               return GestureDetector(
                 onTap: () async {
                   await Navigator.push(
@@ -80,17 +79,15 @@ class MessagesPageState extends State<MessagesPage> {
                       style: TextStyle(
                         fontFamily: 'DM Sans',
                         color: COLOR_THEME['primary'],
-                        // fontWeight: FontWeight.bold,
-                        fontSize: screenWidth * 0.01,
+                        fontSize: screenWidth * 0.075,
                       ),
                     ),
                     subtitle: Text(
-                      room.users.last.role.toString(),
+                      room.users.last.role!.name,
                       style: TextStyle(
                         fontFamily: 'DM Sans',
                         color: COLOR_THEME['primary'],
-                        // fontWeight: FontWeight.bold,
-                        fontSize: screenWidth * 0.01,
+                        fontSize: screenWidth * 0.05,
                       ),
                     ),
                   ),

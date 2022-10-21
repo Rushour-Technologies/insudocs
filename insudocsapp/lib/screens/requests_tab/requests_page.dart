@@ -19,11 +19,6 @@ class _RequestsPageState extends State<RequestsPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    userDocumentCollection(collection: "policies").get().then((value) {
-      value.docs.forEach((element) {
-        print(element.data());
-      });
-    });
   }
 
   void refresh() {
@@ -71,30 +66,21 @@ class _RequestsPageState extends State<RequestsPage> {
               future: getPolicies(),
               builder: (context, AsyncSnapshot<List<PolicyModel>> policies) {
                 if (policies.hasData) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: policies.data!
-                        .map((policy) => RequestsInfoCard(
-                              policy: policy,
-                            ))
-                        .toList(),
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: screenWidth / 40),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: policies.data!
+                          .map((policy) => RequestsInfoCard(
+                                policy: policy,
+                              ))
+                          .toList(),
+                    ),
                   );
                 } else {
-                  if (policies.connectionState == ConnectionState.done) {
-                    return Center(
-                      child: Text(
-                        'You do not have any ongoing policies registered here!',
-                        style: TextStyle(
-                          fontFamily: 'Cabin',
-                          fontSize: screenWidth * 0.05,
-                        ),
-                      ),
-                    );
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
               }),
         ));

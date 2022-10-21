@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:insudox/services/Firebase/firestore/firestore.dart';
 import 'package:insudox/src/common_widgets/base_components.dart';
 import 'package:insudox/globals.dart';
 import 'package:insudox/src/main/components/vertical_tab_bar.dart';
@@ -122,12 +123,7 @@ class _MessagesPageState extends State<MessagesPage> {
                   Container(
                     width: screenWidth * 0.55,
                     height: screenHeight * 0.75,
-                    decoration: BoxDecoration(
-                      // borderRadius: BorderRadius.only(
-                      //   bottomLeft: Radius.circular(screenHeight / 20),
-                      // ),
-                      color: Colors.transparent,
-                    ),
+                    color: Colors.transparent,
                     child: _chatView ??
                         Center(
                           child: Container(

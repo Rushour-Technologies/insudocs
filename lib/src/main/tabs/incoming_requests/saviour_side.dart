@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:insudox/services/Firebase/firestore/firestore.dart';
 import 'package:insudox/src/classes/client_info_model.dart';
 import 'package:insudox/src/classes/insurance_enums.dart';
+import 'package:insudox/src/classes/policy_model.dart';
 import 'package:insudox/src/common_widgets/base_components.dart';
 import 'package:insudox/src/main/tabs/incoming_requests/components.dart';
 import 'package:insudox/src/main/tabs/incoming_requests/default.dart';
@@ -33,8 +34,8 @@ Widget saviourIncoming({
               }).toList())
           : StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream: firestore
-                  .collection('all_requests')
-                  .where('approvalStatus',
+                  .collection('client_requests')
+                  .where('requestStatus',
                       isEqualTo: ApprovalStatus.PENDING.data)
                   .snapshots(),
               builder: (context, snapshot) {
@@ -45,12 +46,16 @@ Widget saviourIncoming({
                           runSpacing: screenHeight * 0.02,
                           spacing: screenWidth * 0.01,
                           crossAxisAlignment: WrapCrossAlignment.center,
-                          children: snapshot.data!.docs.map((e) {
-                            final Map<String, dynamic> requestStatus = e.data();
+                          children: snapshot.data!.docs.map((document) {
+                            final Map<String, dynamic> policyJson =
+                                document.data();
 
                             return RequestCard(
-                                clientRequestInfo:
-                                    ClientRequestInfo.fromMap(requestStatus));
+                              clientRequestInfo: ClientRequestInfo.fromMap(
+                                map: policyJson,
+                                requestId: document.id,
+                              ),
+                            );
                           }).toList());
                     } else {
                       return Center(

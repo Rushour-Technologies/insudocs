@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:insudox_app/classes/policy_model.dart';
 import 'package:insudox_app/enums/insurance_enums.dart';
+import 'package:insudox_app/globals.dart';
 
 import 'package:insudox_app/services/Firebase/fireauth/fireauth.dart';
 
@@ -64,9 +66,11 @@ Future<String> setDocumentDetails({
   required String extraQueries,
   required List<String> uploadedFilesUrl,
 }) async {
+  User user = getCurrentUser()!;
   return await firestore.collection("client_requests").add({
-    'userId': getCurrentUserId(),
-    'photoURL': getCurrentUser()!.photoURL,
+    'name': user.displayName,
+    'userId': user.uid,
+    'photoURL': user.photoURL ?? DEFAULT_PROFILE_PICTURE,
     'insuranceType': insuranceType,
     'insuranceStatus': insuranceStatus,
     'insuranceCompanyName': insuranceCompanyName,
@@ -113,6 +117,7 @@ Future<void> sendInsuranceHelpRequest({
     'insuranceCompanyName': insuranceCompanyName,
     'extraQueries': extraQueries,
     'uploadedFilesUrl': uploadedFilesUrl,
+    'requestStatus': ApprovalStatus.PENDING.name,
   });
 
   await userDocumentReference().update({
@@ -125,9 +130,10 @@ Future<bool> reportSaviour({
   required String saviourId,
   required String roomId,
 }) async {
-  await firestore.collection("client_requests").doc(roomId).update({
-    "requestStatus": ApprovalStatus.REPORTED.name,
+  await firestore.collection("users").doc(saviourId).update({
+    "reported": true,
   });
+  await FirebaseChatCore.instance.deleteRoom(roomId);
   return true;
 }
 
@@ -150,6 +156,7 @@ Future<List<PolicyModel>> getPolicies({
       .then(
         (value) {
           for (var element in value.docs) {
+            print(element.data());
             policies.add(
               PolicyModel.fromJson(
                 json: element.data() as Map<String, dynamic>,
@@ -159,5 +166,6 @@ Future<List<PolicyModel>> getPolicies({
           }
         },
       );
+  print(policies.length);
   return policies;
 }
