@@ -98,7 +98,7 @@ class _MainPageState extends State<MainPage> {
                                   ),
                                   VerticalTabBarItem(
                                     icon: Icon(Icons.move_to_inbox_outlined),
-                                    label: 'Incoming Requests',
+                                    label: 'Saviours',
                                   ),
                                   VerticalTabBarItem(
                                     icon: Icon(
