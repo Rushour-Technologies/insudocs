@@ -44,36 +44,86 @@ class _MainPageState extends State<MainPage> {
               width: screenWidth * 0.2,
               height: screenWidth * 0.15,
             ),
-            VerticalTabBar(
-              initialIndex: 0,
-              controller: _controller,
-              labelStyle: TextStyle(
-                fontFamily: 'DM Sans',
-                fontSize: screenWidth * 0.0125,
-              ),
-              tabs: const [
-                VerticalTabBarItem(
-                  icon: Icon(Icons.home_outlined),
-                  label: 'Home',
-                ),
-                VerticalTabBarItem(
-                  icon: Icon(Icons.info_outline),
-                  label: 'Clients',
-                ),
-                VerticalTabBarItem(
-                  icon: Icon(Icons.move_to_inbox_outlined),
-                  label: 'Saviours',
-                ),
-                VerticalTabBarItem(
-                  icon: Icon(Icons.notifications_active_outlined),
-                  label: 'Notifications',
-                ),
-                VerticalTabBarItem(
-                  icon: Icon(Icons.person_outline_rounded),
-                  label: 'Profile',
-                ),
-              ],
-            ),
+            FutureBuilder(
+                future: getRole(),
+                builder: (context, AsyncSnapshot<types.Role> role) {
+                  if (role.hasData) {
+                    return role.data == types.Role.saviour
+                        ? VerticalTabBar(
+                            initialIndex: 0,
+                            controller: _controller,
+                            labelStyle: TextStyle(
+                              fontFamily: 'DM Sans',
+                              fontSize: screenWidth * 0.0125,
+                            ),
+                            tabs: const [
+                              VerticalTabBarItem(
+                                icon: Icon(Icons.home_outlined),
+                                label: 'Home',
+                              ),
+                              VerticalTabBarItem(
+                                icon: Icon(Icons.info_outline),
+                                label: 'Clients',
+                              ),
+                              VerticalTabBarItem(
+                                icon: Icon(Icons.message_outlined),
+                                label: 'Messages',
+                              ),
+                              VerticalTabBarItem(
+                                icon: Icon(Icons.notifications_active_outlined),
+                                label: 'Notifications',
+                              ),
+                              VerticalTabBarItem(
+                                icon: Icon(Icons.person_outline_rounded),
+                                label: 'Profile',
+                              ),
+                            ],
+                          )
+                        : role.data == types.Role.superadmin
+                            ? VerticalTabBar(
+                                initialIndex: 0,
+                                controller: _controller,
+                                labelStyle: TextStyle(
+                                  fontFamily: 'DM Sans',
+                                  fontSize: screenWidth * 0.0125,
+                                ),
+                                tabs: const [
+                                  VerticalTabBarItem(
+                                    icon: Icon(Icons.home_outlined),
+                                    label: 'Home',
+                                  ),
+                                  VerticalTabBarItem(
+                                    icon: Icon(Icons.info_outline),
+                                    label: 'Clients',
+                                  ),
+                                  VerticalTabBarItem(
+                                    icon: Icon(Icons.move_to_inbox_outlined),
+                                    label: 'Incoming Requests',
+                                  ),
+                                  VerticalTabBarItem(
+                                    icon: Icon(
+                                        Icons.notifications_active_outlined),
+                                    label: 'Notifications',
+                                  ),
+                                  VerticalTabBarItem(
+                                    icon: Icon(Icons.person_outline_rounded),
+                                    label: 'Profile',
+                                  ),
+                                ],
+                              )
+                            : Column(
+                                children: const [
+                                  Center(
+                                    child: Text("No information available"),
+                                  )
+                                ],
+                              );
+                  } else {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                }),
             Align(
               alignment: Alignment.bottomCenter,
               child: MouseRegion(

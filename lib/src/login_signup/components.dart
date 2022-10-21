@@ -24,7 +24,7 @@ TextFormField normalformfield(
     style: TextStyle(
       fontSize: screenHeight * 0.02,
       fontFamily: 'DM Sans',
-      color: Colors.black,
+      color: GlobalColor.formFieldText,
     ),
     controller: controller,
     onChanged: (value) {
@@ -43,6 +43,11 @@ TextFormField normalformfield(
     keyboardType: keyboardType,
     decoration: InputDecoration(
       hintText: hintText,
+      hintStyle: TextStyle(
+        fontSize: screenHeight * 0.02,
+        fontFamily: 'DM Sans',
+        color: GlobalColor.formFieldHintText,
+      ),
       filled: true,
       fillColor: Colors.white,
       enabledBorder: OutlineInputBorder(
@@ -78,7 +83,7 @@ TextFormField phoneformfield(
     style: TextStyle(
       fontSize: screenHeight * 0.02,
       fontFamily: 'DM Sans',
-      color: Colors.black,
+      color: GlobalColor.formFieldText,
     ),
     controller: phoneController,
     validator: (value) {
@@ -102,6 +107,11 @@ TextFormField phoneformfield(
     keyboardType: TextInputType.number,
     decoration: InputDecoration(
       hintText: "Phone",
+      hintStyle: TextStyle(
+        fontSize: screenHeight * 0.02,
+        fontFamily: 'DM Sans',
+        color: GlobalColor.formFieldHintText,
+      ),
       filled: true,
       fillColor: Colors.white,
       enabledBorder: OutlineInputBorder(
@@ -140,7 +150,7 @@ TextFormField emailformfield(
     style: TextStyle(
       fontSize: screenHeight * 0.02,
       fontFamily: 'DM Sans',
-      color: Colors.black,
+      color: GlobalColor.formFieldText,
     ),
     controller: emailController,
     onChanged: (value) {
@@ -159,6 +169,11 @@ TextFormField emailformfield(
     keyboardType: TextInputType.emailAddress,
     decoration: InputDecoration(
       hintText: "Email",
+      hintStyle: TextStyle(
+        fontSize: screenHeight * 0.02,
+        fontFamily: 'DM Sans',
+        color: GlobalColor.formFieldHintText,
+      ),
       filled: true,
       fillColor: Colors.white,
       errorText: errorTextEmail == '' ? null : errorTextEmail,
@@ -206,7 +221,7 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
       style: TextStyle(
         fontSize: screenHeight * 0.02,
         fontFamily: 'DM Sans',
-        color: Colors.black,
+        color: GlobalColor.formFieldText,
       ),
       controller: widget.passwordController,
       onChanged: (value) {
@@ -222,6 +237,11 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
+        hintStyle: TextStyle(
+          fontSize: screenHeight * 0.02,
+          fontFamily: 'DM Sans',
+          color: GlobalColor.formFieldHintText,
+        ),
         hintText: widget.hintText,
         errorText:
             widget.errorTextPassword == '' ? null : widget.errorTextPassword,
@@ -334,7 +354,7 @@ Widget headingCard({
       fontSize: screenWidth * 0.02,
       fontFamily: 'DM Sans',
       fontWeight: FontWeight.bold,
-      color: Colors.white,
+      color: GlobalColor.white,
     ),
   );
 }
@@ -390,7 +410,7 @@ Widget continueCard(
           fontFamily: 'Cabin',
           fontWeight: FontWeight.bold,
           fontSize: screenWidth * 0.01,
-          color: Colors.white,
+          color: GlobalColor.white,
         ),
       ),
     ),
@@ -404,7 +424,7 @@ Widget ORWidget({required double screenHeight, required double screenWidth}) {
       SizedBox(
         width: screenWidth * 0.04,
         child: const Divider(
-          color: Colors.white,
+          color: GlobalColor.white,
           thickness: 1,
         ),
       ),
@@ -415,14 +435,14 @@ Widget ORWidget({required double screenHeight, required double screenWidth}) {
           style: TextStyle(
             fontFamily: "DM Sans",
             fontSize: screenWidth * 0.01,
-            color: Colors.white,
+            color: GlobalColor.white,
           ),
         ),
       ),
       SizedBox(
         width: screenWidth * 0.04,
         child: const Divider(
-          color: Colors.white,
+          color: GlobalColor.white,
           thickness: 1,
         ),
       ),
@@ -478,7 +498,7 @@ Widget uploadButton(
               fontFamily: 'Cabin',
               fontStyle: FontStyle.italic,
               fontSize: screenWidth * 0.01,
-              color: Colors.white,
+              color: GlobalColor.white,
             ),
           ),
           Icon(
