@@ -30,11 +30,8 @@ Future<bool> signInWithGoogle() async {
   if (result.user!.uid == _auth.currentUser!.uid) {
     deviceFCMKeyOperations(add: true);
   }
-  String id = await userDocumentReference().get().then(
-      (value) => value.data()!['role'] + value.data()!['question'].toString());
-  PushNotificationService.registerCustomNotificationListeners(
-      id: id, title: id, description: id);
-  userDocumentReference().update({
+
+  await userDocumentReference().update({
     'email': result.user!.email,
   });
   return (result.user!.uid == _auth.currentUser!.uid);
@@ -51,7 +48,7 @@ Future<bool> logInWithGoogle() async {
   if (result.user!.uid == _auth.currentUser!.uid) {
     deviceFCMKeyOperations(add: true);
   }
-  userDocumentReference().update({
+  await userDocumentReference().update({
     'email': result.user!.email,
   });
   return (result.user!.uid == _auth.currentUser!.uid);
@@ -69,10 +66,6 @@ Future<List<dynamic>> signInUser(
       password: password,
     );
     await deviceFCMKeyOperations(add: true);
-    String id = await userDocumentReference().get().then((value) =>
-        value.data()!['role'] + value.data()!['question'].toString());
-    PushNotificationService.registerCustomNotificationListeners(
-        id: id, title: id, description: id);
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
       return [1, 'No user found for that email'];
@@ -176,7 +169,7 @@ Future<bool> signOut() async {
 
 // google sign out
 Future<bool> signOutGoogle() async {
-  // await deviceFCMKeyOperations();
+  await deviceFCMKeyOperations();
   await google_auth.signOutGoogle();
   return !checkLoggedIn();
 }

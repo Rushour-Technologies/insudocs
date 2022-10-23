@@ -35,12 +35,6 @@ class _InformationCollectionState extends State<InformationCollection> {
   bool isLoading = false;
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final bool isKeyBoardOpen = MediaQuery.of(context).viewInsets.bottom != 0.0;
     final List<double> tempDimensions = [

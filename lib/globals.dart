@@ -22,6 +22,10 @@ const String IMAGE_DIRECTORY = "assets/images";
 /// Path to Login Type Image Directory
 const String LOGIN_TYPES_IMAGE_DIRECTORY = '$IMAGE_DIRECTORY/login_types';
 
+/// Server key
+const String SERVER_KEY =
+    "AAAAo6916H4:APA91bFyVDLcZVPtU7vw9xOXna6IgO0TZtlvE_a5xn9ztMDxUVVLrjVyEnT5NPNYa_erbknscGQFtMbsrBuRz4FzsEny0zJyuxHwuuCOcJiFucRH6hcElVLnIk7Ajxvt7D6COti2MpzW";
+
 /// Class used to store all the color constants used in the app
 class GlobalColor {
   static const Color primary = Color(0xFF3E3763);
