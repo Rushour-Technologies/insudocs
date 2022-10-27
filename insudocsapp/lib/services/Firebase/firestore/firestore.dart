@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:insudox_app/classes/policy_model.dart';
 import 'package:insudox_app/enums/insurance_enums.dart';
@@ -159,6 +160,9 @@ Future<void> sendInsuranceHelpRequest({
   await userDocumentReference().update({
     "formFilled": true,
   });
+
+  await FirebaseMessaging.instance.subscribeToTopic(insuranceStatus);
+  await FirebaseMessaging.instance.subscribeToTopic(insuranceType);
 }
 
 /// Report a saviour

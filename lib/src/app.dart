@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
-import 'package:insudox/src/login_signup/aadhar/aadhar_otp_page.dart';
-import 'package:insudox/src/login_signup/aadhar/aadhar_page.dart';
+import '../services/Firebase/fireauth/fireauth.dart';
 
-import 'package:insudox/src/login_signup/details_page.dart';
-import 'package:insudox/src/login_signup/intro_page.dart';
-import 'package:insudox/src/login_signup/login_page.dart';
-import 'package:insudox/src/login_signup/setup_complete_page.dart';
-import 'package:insudox/src/login_signup/signup_page.dart';
-import 'package:insudox/src/main/main_page.dart';
+import 'login_signup/aadhar/aadhar_otp_page.dart';
+import 'login_signup/aadhar/aadhar_page.dart';
+import 'login_signup/details_page.dart';
+import 'login_signup/intro_page.dart';
+import 'login_signup/login_page.dart';
+import 'login_signup/setup_complete_page.dart';
+import 'login_signup/signup_page.dart';
+import 'main/main_page.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -69,7 +69,6 @@ class MyApp extends StatelessWidget {
           settings: routeSettings,
           builder: (BuildContext context) {
             if (checkLoggedIn()) {}
-
             switch (routeSettings.name) {
               case MainPage.routeName:
                 return const MainPage();
@@ -79,7 +78,6 @@ class MyApp extends StatelessWidget {
                 return const LoginPage();
               case SignUpPage.routeName:
                 return const SignUpPage();
-
               case DetailsPage.routeName:
                 return const DetailsPage();
               case AadharPage.routeName:

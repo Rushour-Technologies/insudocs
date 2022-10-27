@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:insudox/globals.dart';
+import 'package:insudox/services/Firebase/notifications/send_notifications.dart';
 import 'package:insudox/src/classes/insurance_enums.dart';
+import 'package:insudox/src/classes/notification_model.dart';
 import 'package:insudox/src/main/components/default.dart';
 
 import 'package:insudox/src/main/components/search_fields.dart';
+import 'package:insudox/src/main/tabs/notifications/notifications_page.dart';
 
 class NotificationSendCard extends StatefulWidget {
   const NotificationSendCard({super.key});
@@ -21,8 +24,27 @@ class _NotificationSendCardState extends State<NotificationSendCard> {
 
   void onAttach() {}
 
-  void sendNotification() {
-    print(optionValue.value);
+  Future<void> onPressSendNotification() async {
+    if (_titleController.text.isEmpty || _descriptionController.text.isEmpty) {
+      return;
+    }
+
+    if (optionValue.value == 0) {
+      // send to all
+    } else {
+      NotificationModel notification = NotificationModel(
+        sendTo: Filters.values[optionValue.value].name,
+        title: _titleController.text,
+        body: _descriptionController.text,
+        isTopic: true,
+      );
+
+      // send to selected
+      await sendNotification(notification: notification);
+
+      _titleController.text = "";
+      _descriptionController.text = "";
+    }
   }
 
   @override
@@ -32,7 +54,6 @@ class _NotificationSendCardState extends State<NotificationSendCard> {
     return Container(
       width: screenWidth * 0.75,
       decoration: BoxDecoration(
-        // boxShadow: defaultBoxShadow(),
         color: GlobalColor.notificationBg,
         borderRadius: BorderRadius.circular(screenHeight / 50),
       ),
@@ -109,7 +130,7 @@ class _NotificationSendCardState extends State<NotificationSendCard> {
                 screenWidth: screenWidth,
                 screenHeight: screenHeight,
                 onAttach: onAttach,
-                onPressed: sendNotification,
+                onPressed: onPressSendNotification,
               ),
             )
           ],

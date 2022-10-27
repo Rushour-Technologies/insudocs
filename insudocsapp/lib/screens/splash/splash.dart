@@ -5,8 +5,6 @@ import 'package:insudox_app/screens/information_collection/have_insurance.dart';
 // import 'package:lottie/lottie.dart';
 import 'package:insudox_app/globals.dart';
 import 'package:insudox_app/services/Firebase/fireauth/fireauth.dart';
-import 'package:insudox_app/services/Firebase/firestore/firestore.dart';
-import 'package:insudox_app/services/Firebase/push_notification/push_notification_service.dart';
 
 class Splash extends StatefulWidget {
   /// Loading/Buffering screen when app intially starts and initializes.
@@ -21,10 +19,6 @@ class _SplashState extends State<Splash> {
   void check() async {
     if (checkLoggedIn()) {
       if (await checkFormFilled()) {
-        String id = await userDocumentReference().get().then((value) =>
-            value.data()!['role'] + value.data()!['question'].toString());
-        PushNotificationService.registerCustomNotificationListeners(
-            id: id, title: id, description: id);
         await Navigator.pushNamedAndRemoveUntil(
             context, '/main', (route) => false);
       } else {
