@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:insudox_app/services/Firebase/firestore/firestore.dart';
 
 /// Service for the push notifications
 class PushNotificationService {
@@ -43,7 +44,7 @@ class PushNotificationService {
         onDidReceiveNotificationResponse: (message) async {});
 
     // onMessage is called when the app is in foreground and a notification is received
-    FirebaseMessaging.onMessage.listen((RemoteMessage? message) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage? message) async {
       print("GOD");
       RemoteNotification? notification = message!.notification;
       AndroidNotification? android = message.notification?.android;
@@ -52,6 +53,11 @@ class PushNotificationService {
       // local notification to show to users using the created channel.
 
       print(message);
+      await userDocumentCollection(collection: "messages").add({
+        "title": notification!.title,
+        "body": notification.body,
+        "data": message.data,
+      });
 
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
