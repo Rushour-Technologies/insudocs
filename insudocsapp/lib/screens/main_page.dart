@@ -174,8 +174,7 @@ class _StudentMainPageState extends State<MainPage>
                 // Put FIVE pages in the tab bar view
                 RequestsPage(),
                 HomePage(),
-                HomePage(),
-                // MessagesPage(),
+                MessagesPage(),
                 // NoIt
                 //emsInTab(text: "0"),
                 // NoItemsInTab(text: "4"),
