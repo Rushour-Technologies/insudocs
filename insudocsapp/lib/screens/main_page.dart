@@ -82,8 +82,16 @@ class _StudentMainPageState extends State<MainPage>
         screenWidth: screenWidth,
         screenHeight: screenHeight,
         scaffoldKey: scaffoldKey,
-        title: LanguageDropDown(
-          parentSet: setState,
+        // title: LanguageDropDown(
+        //   parentSet: setState,
+        // ),
+        title: Text(
+          tabNames[_tabController.index],
+          style: TextStyle(
+            fontFamily: "DM Sans",
+            color: Colors.white,
+            fontSize: screenWidth * 0.05,
+          ),
         ),
         profilePicture: true,
       ),
@@ -166,7 +174,8 @@ class _StudentMainPageState extends State<MainPage>
                 // Put FIVE pages in the tab bar view
                 RequestsPage(),
                 HomePage(),
-                MessagesPage(),
+                HomePage(),
+                // MessagesPage(),
                 // NoIt
                 //emsInTab(text: "0"),
                 // NoItemsInTab(text: "4"),

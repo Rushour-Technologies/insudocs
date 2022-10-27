@@ -61,7 +61,7 @@ class _InformationCollectionState extends State<InformationCollection> {
               height: screenHeight * 0.06,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: const Color(0xff615793),
+                  backgroundColor: const Color(0xff615793),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(screenHeight * 0.01),
                   ),
@@ -98,7 +98,15 @@ class _InformationCollectionState extends State<InformationCollection> {
                     uploadedFilesUrl: uploadedFileUrls,
                   );
                   if (widget.popBack) {
-                    Navigator.pop(context);
+                    await Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainPage(
+                          tabIndex: 0,
+                        ),
+                      ),
+                      (route) => false,
+                    );
                     return;
                   } else {
                     await Navigator.pushAndRemoveUntil(
@@ -267,7 +275,7 @@ class _InformationCollectionState extends State<InformationCollection> {
                                                   top: screenHeight * 0.005),
                                               child: ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
-                                                  primary:
+                                                  backgroundColor:
                                                       const Color(0xff615793),
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:

@@ -90,12 +90,12 @@ class _DrawerUserInfoCardState extends State<DrawerUserInfoCard> {
             //           ),
             //         ),
             // ),
-            drawerCardField("Insurance Type", userModel.insuranceType,
+            drawerCardField("Current Requests", "${userModel.currentRequests}",
                 screenHeight, screenWidth),
-            drawerCardField("Insurance Service", userModel.claimTrack,
+            drawerCardField("Closed Requests", "${userModel.closedRequests}",
                 screenHeight, screenWidth),
-            drawerCardField("Insurance Comapny name",
-                userModel.insuranceCompanyName, screenHeight, screenWidth),
+            drawerCardField("Raised Requests", "${userModel.raisedRequests}",
+                screenHeight, screenWidth),
             Padding(
               padding: EdgeInsets.only(top: screenHeight * 0.01),
               child: Align(

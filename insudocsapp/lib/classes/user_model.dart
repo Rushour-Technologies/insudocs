@@ -3,45 +3,45 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserModel {
-  String claimTrack = "";
-  String insuranceCompanyName = "";
-  String insuranceType = "";
+  int currentRequests = 0;
+  int closedRequests = 0;
+  int raisedRequests = 0;
   UserModel({
-    required this.claimTrack,
-    required this.insuranceCompanyName,
-    required this.insuranceType,
+    required this.currentRequests,
+    required this.closedRequests,
+    required this.raisedRequests,
   });
 
   UserModel.clear() {
-    userModel.claimTrack = "";
-    userModel.insuranceCompanyName = "";
-    userModel.insuranceType = "";
+    userModel.currentRequests = 0;
+    userModel.closedRequests = 0;
+    userModel.raisedRequests = 0;
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'claimTrack': claimTrack,
-      'insuranceCompanyName': insuranceCompanyName,
-      'insuranceType': insuranceType,
+      'current requests': currentRequests,
+      'closed requests': closedRequests,
+      'raised requests': raisedRequests,
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      claimTrack: map['claimTrack'] ?? '',
-      insuranceCompanyName: map['insuranceCompanyName'] ?? '',
-      insuranceType: map['insuranceType'] ?? '',
+      currentRequests: map['current requests']?.toInt() ?? 0,
+      closedRequests: map['closed requests']?.toInt() ?? 0,
+      raisedRequests: map['raised requests']?.toInt() ?? 0,
     );
   }
 
   factory UserModel.initializeFromMap(Map<String, dynamic> map) {
-    userModel.claimTrack = map['claimTrack'] ?? '';
-    userModel.insuranceCompanyName = map['insuranceCompanyName'] ?? '';
-    userModel.insuranceType = map['insuranceType'] ?? '';
+    userModel.currentRequests = map['current requests']?.toInt() ?? 0;
+    userModel.closedRequests = map['closed requests']?.toInt() ?? 0;
+    userModel.raisedRequests = map['raised requests']?.toInt() ?? 0;
     return UserModel(
-      claimTrack: map['claimTrack'] ?? '',
-      insuranceCompanyName: map['insuranceCompanyName'] ?? '',
-      insuranceType: map['insuranceType'] ?? '',
+      currentRequests: map['current requests']?.toInt() ?? 0,
+      closedRequests: map['closed requests']?.toInt() ?? 0,
+      raisedRequests: map['raised requests']?.toInt() ?? 0,
     );
   }
 

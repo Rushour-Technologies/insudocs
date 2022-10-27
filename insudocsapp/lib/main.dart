@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 
 import 'package:insudox_app/globals.dart';
 import 'package:insudox_app/login_signup/aadhar_login.dart';
@@ -16,6 +17,7 @@ import 'package:insudox_app/services/Firebase/push_notification/push_notificatio
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -26,6 +28,7 @@ void main() async {
   // print('TOKEN : ${await FirebaseMessaging.instance.getToken()}');
   // CollegeExtractionModel collegeExtractionModel = CollegeExtractionModel.getModel();
   // collegeExtractionModel.fetchCollegeInfo();
+  await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
 
   runApp(const MyApp());
 }

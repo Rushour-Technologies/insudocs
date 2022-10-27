@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:insudox_app/classes/policy_model.dart';
 import 'package:insudox_app/enums/insurance_enums.dart';
 import 'package:insudox_app/globals.dart';
 
 import 'package:insudox_app/services/Firebase/fireauth/fireauth.dart';
+import 'package:intl/intl.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -19,6 +21,10 @@ CollectionReference userDocumentCollection({required String collection}) {
 /// Get the ```users``` collection
 CollectionReference usersCollectionReference() {
   return firestore.collection('users');
+}
+
+CollectionReference statsCollectionReference() {
+  return firestore.collection('stats');
 }
 
 /// Get the current user's document
@@ -107,6 +113,36 @@ Future<void> sendInsuranceHelpRequest({
     extraQueries: extraQueries,
     uploadedFilesUrl: uploadedFilesUrl,
   );
+
+  await userDocumentReference().update({
+    'current requests': FieldValue.increment(1),
+    'closed requests': FieldValue.increment(1),
+  });
+
+  await statsCollectionReference().doc("overview").update({
+    'current requests': FieldValue.increment(1),
+    'raised requests': FieldValue.increment(1),
+  });
+
+  // get date
+  final DateTime now = DateTime.now();
+  final DateFormat formatter = DateFormat('yyyy-MM-dd');
+  final String formattedDate = formatter.format(now);
+  await statsCollectionReference()
+      .doc("current requests")
+      .collection("requestsByDate")
+      .doc(formattedDate)
+      .set({
+    "requests": FieldValue.increment(1),
+  });
+
+  await statsCollectionReference()
+      .doc("raised requests")
+      .collection("requestsByDate")
+      .doc(formattedDate)
+      .set({
+    "requests": FieldValue.increment(1),
+  });
 
   await userDocumentReference()
       .collection("policies")

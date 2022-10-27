@@ -206,6 +206,9 @@ Future<void> initialData(String name) async {
     "formFilled": false,
     "role": types.Role.user.toShortString(),
     "name": name,
+    "current requests": 0,
+    "closed requests": 0,
+    "raised requests": 0,
     'deviceIDs': {await FirebaseMessaging.instance.getToken(): 0},
   }, SetOptions(merge: true));
 
