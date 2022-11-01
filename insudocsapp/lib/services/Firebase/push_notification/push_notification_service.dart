@@ -53,11 +53,6 @@ class PushNotificationService {
       // local notification to show to users using the created channel.
 
       print(message);
-      await userDocumentCollection(collection: "messages").add({
-        "title": notification!.title,
-        "body": notification.body,
-        "data": message.data,
-      });
 
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
@@ -79,6 +74,11 @@ class PushNotificationService {
           ),
         );
       }
+      await userDocumentCollection(collection: "messages").add({
+        "title": notification!.title,
+        "body": notification.body,
+        "data": message.data,
+      });
     });
   }
 

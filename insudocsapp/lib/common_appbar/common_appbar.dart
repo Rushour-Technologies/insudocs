@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insudox_app/classes/language.dart';
 import 'package:insudox_app/globals.dart';
+import 'package:insudox_app/services/Firebase/push_notification/notification_display_page.dart';
 // import 'package:insudox_app/services/Firebase/fireauth/fireauth.dart';
 
 AppBar commonAppBar({
@@ -23,6 +24,19 @@ AppBar commonAppBar({
       ),
     ),
     actions: [
+      Padding(
+        padding: EdgeInsets.only(right: screenWidth * 0.05),
+        child: GestureDetector(
+          onTap: () {
+            Navigator.of(scaffoldKey.currentContext!).push(MaterialPageRoute(
+                builder: (context) => NotificationDisplayPage()));
+          },
+          child: Icon(
+            Icons.notifications,
+            size: screenWidth * 0.08,
+          ),
+        ),
+      ),
       Padding(
         padding: EdgeInsets.only(
           right: screenWidth / 20,

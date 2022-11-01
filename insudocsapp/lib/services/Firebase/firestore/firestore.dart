@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:insudox_app/classes/notification_model.dart';
 import 'package:insudox_app/classes/policy_model.dart';
 import 'package:insudox_app/enums/insurance_enums.dart';
 import 'package:insudox_app/globals.dart';
@@ -117,7 +118,7 @@ Future<void> sendInsuranceHelpRequest({
 
   await userDocumentReference().update({
     'current requests': FieldValue.increment(1),
-    'closed requests': FieldValue.increment(1),
+    'raised requests': FieldValue.increment(1),
   });
 
   await statsCollectionReference().doc("overview").update({
@@ -129,21 +130,13 @@ Future<void> sendInsuranceHelpRequest({
   final DateTime now = DateTime.now();
   final DateFormat formatter = DateFormat('yyyy-MM-dd');
   final String formattedDate = formatter.format(now);
-  await statsCollectionReference()
-      .doc("current requests")
-      .collection("requestsByDate")
-      .doc(formattedDate)
-      .set({
-    "requests": FieldValue.increment(1),
-  });
+  await statsCollectionReference().doc("current requests").set({
+    formattedDate: FieldValue.increment(1),
+  }, SetOptions(merge: true));
 
-  await statsCollectionReference()
-      .doc("raised requests")
-      .collection("requestsByDate")
-      .doc(formattedDate)
-      .set({
-    "requests": FieldValue.increment(1),
-  });
+  await statsCollectionReference().doc("raised requests").set({
+    formattedDate: FieldValue.increment(1),
+  }, SetOptions(merge: true));
 
   await userDocumentReference()
       .collection("policies")
@@ -208,4 +201,18 @@ Future<List<PolicyModel>> getPolicies({
       );
   print(policies.length);
   return policies;
+}
+
+Future<List<NotificationModel>> getNotifications() async {
+  List<NotificationModel> notifications = [];
+  await userDocumentCollection(collection: "messages").get().then(
+    (value) {
+      for (var element in value.docs) {
+        notifications.add(
+          NotificationModel.fromJson(element.data().toString()),
+        );
+      }
+    },
+  );
+  return notifications;
 }
