@@ -33,7 +33,7 @@ class _RequestsPageState extends State<RequestsPage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
       floatingActionButton: Padding(
         padding: EdgeInsets.only(
-            right: screenWidth * 0.03, bottom: screenHeight * 0.15),
+            right: screenWidth * 0.03, bottom: screenHeight * 0.015),
         child: FloatingActionButton.extended(
           onPressed: () {
             Navigator.of(context).push(
