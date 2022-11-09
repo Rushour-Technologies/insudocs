@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:insudox_app/common_widgets/customPageRouter.dart';
@@ -5,6 +6,7 @@ import 'package:insudox_app/screens/information_collection/have_insurance.dart';
 // import 'package:lottie/lottie.dart';
 import 'package:insudox_app/globals.dart';
 import 'package:insudox_app/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox_app/services/Firebase/firestore/firestore.dart';
 
 class Splash extends StatefulWidget {
   /// Loading/Buffering screen when app intially starts and initializes.
@@ -19,6 +21,14 @@ class _SplashState extends State<Splash> {
   void check() async {
     if (checkLoggedIn()) {
       if (await checkFormFilled()) {
+        await userDocumentReference().get().then((value) {
+          Map<String, dynamic> subscribedFormats =
+              value.data() ?? ["subscribedTo"] as Map<String, dynamic>;
+          subscribedFormats.forEach((key, value) {
+            FirebaseMessaging.instance.subscribeToTopic(key);
+          });
+        });
+
         await Navigator.pushNamedAndRemoveUntil(
             context, '/main', (route) => false);
       } else {

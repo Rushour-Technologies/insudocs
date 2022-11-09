@@ -152,6 +152,10 @@ Future<void> sendInsuranceHelpRequest({
 
   await userDocumentReference().update({
     "formFilled": true,
+    "subscribedTo": {
+      insuranceType.toUpperCase(): "",
+      insuranceStatus.toUpperCase(): "",
+    }
   });
 
   await FirebaseMessaging.instance.subscribeToTopic(insuranceStatus);
