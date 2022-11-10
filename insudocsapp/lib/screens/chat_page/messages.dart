@@ -35,7 +35,7 @@ class MessagesPageState extends State<MessagesPage> {
               margin: const EdgeInsets.only(
                 bottom: 200,
               ),
-              child: const Text('No rooms'),
+              child: const Text('Waiting for saviours to begin helping you!'),
             );
           }
           print(snapshot.data!);

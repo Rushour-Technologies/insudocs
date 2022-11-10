@@ -1,7 +1,5 @@
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:insudox_app/screens/home_page/components/testimony_cards.dart';
 
 class TestimonyCarouselSlider extends StatefulWidget {
@@ -34,21 +32,21 @@ class _TestimonyCarouselSliderState extends State<TestimonyCarouselSlider> {
     List<Map<String, dynamic>> testimonyData = [
       {
         "name": "Vinita",
-        "role": "Parents",
+        "role": "User",
         "testimony":
-            "When i downloaded Nakshe Kadam, i did not expect a single platform could encompass this wide range of features, but this app has surely been a sigh of relief when parents and children look for career choices the first time.",
+            "Insudox is very easy to use. It's a great way to track of all your policy claims. The 'saviors' are indeed the most certified and helpful people I needed through my difficult times. Thanks to Insudox, my life is a lot easier right now. My claim settlement was super easy. Called the team and they got my back without any hassle. The team was very cooperative, they listen to your doubts suggest and update you with the right things. Would definitely recommend Insudox for claiming insurance.",
       },
       {
         "name": "Bhavesh",
-        "role": "Student",
+        "role": "User",
         "testimony":
-            "I found out about Nakshe Kadam while i was appearing for my class 10th boards, me along with my friends were saved from the dual and simultaneous struggle of getting through exams while also planning for the next stage of our education, with proper updates and great counsellors , Nakshe Kadam is a must have for any high school student.",
+            "Insudox is extremely simple to utilize. It's an extraordinary method for following of all your strategy claims. The 'savior' are without a doubt the most ensured and supportive individuals I wanted through my troublesome times. Because of Insudox, my life is significantly simpler at the present time. My case settlement was really simple. Called the group and they got me covered with no problem. The group was extremely agreeable, they pay attention to your questions recommend and refresh you with the right things. Would suggest Insudox for asserting protection.",
       },
       {
         "name": "John",
-        "role": "tudent",
+        "role": "User",
         "testimony":
-            "I got to know about insudox_app from one of my friends. I was struggling with finding right resources for information regarding scholarships in india. insudox_app became a one stop solution for me to look through various scholarships in india and  scholarships that are particularly beneficial for me. insudox_app made that tedious process of researching throught various websites for relevant career / education related content very easy for me and my friends.",
+            "Insudox has a very phenomenal technique for following all your procedure claims. The 'saviors' are definitely the most trusted and steady people I needed through my problematic times. Due to Insudox, my life is fundamentally less difficult right now. My case settlement was truly simple through the app. Contacting different people for my claim was easy and they got my paperwork covered with no issue. The meetings were incredibly straightforward, they focus on your inquiries suggest and revive your claim with the right things. Would recommend Insudox for attesting assurance in this field.",
       },
     ];
 
@@ -70,7 +68,7 @@ class _TestimonyCarouselSliderState extends State<TestimonyCarouselSlider> {
         options: CarouselOptions(
           viewportFraction: 1,
           autoPlay: true,
-          aspectRatio: 0.8,
+          aspectRatio: 0.7,
           enlargeCenterPage: true,
           enlargeStrategy: CenterPageEnlargeStrategy.height,
           onPageChanged: (index, reason) {

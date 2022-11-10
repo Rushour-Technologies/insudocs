@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:insudox_app/classes/user_model.dart';
 import 'package:insudox_app/globals.dart';
 import 'package:insudox_app/screens/home_page/components/play_yt_vid.dart';
+import 'package:insudox_app/screens/home_page/components/request_values_card.dart';
 import 'package:insudox_app/screens/home_page/components/testimony_carousel.dart';
 import 'package:insudox_app/services/Firebase/firestore/firestore.dart';
 import 'package:timeline_tile/timeline_tile.dart';
@@ -14,20 +15,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  UserModel userModel = UserModel.getModel();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (UserModel.userModel.insuranceCompanyName == "") {
-      userDocumentReference()
-          .collection("data")
-          .doc("userInfo")
-          .get()
-          .then((value) {
-        UserModel.initializeFromMap(value.data()!);
-        setState(() {});
-      });
-    }
+    userDocumentReference().get().then((value) {
+      UserModel.initializeFromMap(value.data()!);
+      setState(() {});
+    });
   }
 
   @override
@@ -78,20 +74,24 @@ class _HomePageState extends State<HomePage> {
 
     List<Map<String, dynamic>> vidMap = [
       {
-        "title": "Sarvesh Mehtani",
-        "subtitle": "(AIR -1 JEE Advanced 2017)",
+        "title": "HEALTH INSURANCE",
         "desc":
-            "Chandigarh boy, Sarvesh Mehtani grabbed the first rank in JEE Advanced 2017 scoring a total of 339 marks. Not an easy feat to accomplish, Sarvesh who hails from Panchkula has completed his studies from a CBSE background and had secured AIR 55 in JEE Mains 2017.",
-        "link": "https://www.youtube.com/watch?v=aF-7yDAl2as",
+            "Health insurance claim settlement is a procedure where a policyholder makes a request to his or her insurer in order to avail of the medical services listed under the health plan. A health insurance policyholder can either get reimbursed or can opt for direct cashless treatment. This video will help you understand both Cashless & Reimbursement Claim procedure in detail. Hope this will make your Health Insurance Claim Settlement Smoother & Hassle Free.",
+        "link": "https://www.youtube.com/watch?v=FjT_lMTFciE",
       },
       {
-        "title": "Kautilya Pandit",
-        "subtitle": "All you need to know",
+        "title": "LIFE INSURANCE",
         "desc":
-            "Kautilya Pandit is well-versed in mathematics, astronomy, general knowledge, current events, and a variety of other subjects and he known as Google Boy on social media and television. In addition, the youngster is a motivational speaker. Google Boy continues to amaze people with his knowledge and talent.",
-        "link": "https://www.youtube.com/watch?v=_h3mZF1YvmE",
+            "Life insurance is a method of income replacement. What matters is that the claim process remains smooth for the family. Most of the companies offer a smooth claim settlement but it’s important to be aware of the procedure to save yourself from the hassles at the time of filing a claim. In this video, we will look at how the Claim Settlement process works in Life Insurance Policy.",
+        "link": "https://www.youtube.com/watch?v=FjT_lMTFciE",
       }
     ];
+
+    Map<String, int> requestValueMap = {
+      "Raised Requests": userModel.raisedRequests,
+      "Current Requests": userModel.currentRequests,
+      "Closed Requests": userModel.closedRequests,
+    };
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -108,7 +108,8 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(top: screenHeight * 0.02),
+                    padding: EdgeInsets.only(
+                        top: screenHeight * 0.02, bottom: screenHeight * 0.01),
                     child: Text(
                       "Welcome!",
                       style: TextStyle(
@@ -118,9 +119,13 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-                  Image.asset(
-                    "assets/images/studentMain.png",
-                    height: screenHeight * 0.2,
+                  Text(
+                    "Track the status of your requests to file or track your claim with our verified services under InsuDox.\n",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: "Cabin",
+                      fontSize: screenWidth * 0.05,
+                    ),
                   ),
                   Stack(
                     children: [
@@ -189,14 +194,36 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  Align(
-                    alignment: Alignment.centerLeft,
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: screenHeight * 0.02, bottom: screenHeight * 0.01),
                     child: Text(
-                      "Whats New?",
+                      "All REQUESTS",
                       style: TextStyle(
-                        fontFamily: "Cabin",
-                        fontSize: screenWidth * 0.06,
-                        fontWeight: FontWeight.bold,
+                          fontFamily: "Cabin",
+                          fontSize: screenWidth * 0.07,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff32324D)),
+                    ),
+                  ),
+                  Row(
+                    children: requestValueMap.keys.map((String key) {
+                      return Expanded(
+                        child: requestValueCard(key, requestValueMap[key] ?? 0),
+                      );
+                    }).toList(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: screenHeight * 0.04),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Learn about claiming insurances!",
+                        style: TextStyle(
+                          fontFamily: "Cabin",
+                          fontSize: screenWidth * 0.06,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -247,18 +274,6 @@ class _HomePageState extends State<HomePage> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  Text(
-                                    vid["subtitle"],
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: (vidMap.indexOf(vid) == 0)
-                                          ? Colors.black
-                                          : Colors.white,
-                                      fontFamily: "Cabin",
-                                      fontSize: screenWidth * 0.06,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
                                   Padding(
                                     padding: EdgeInsets.only(
                                         top: screenHeight * 0.02),
@@ -287,12 +302,12 @@ class _HomePageState extends State<HomePage> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Whats New?",
+                        "Testimonials",
                         style: TextStyle(
-                          fontFamily: "Cabin",
-                          fontSize: screenWidth * 0.06,
-                          fontWeight: FontWeight.bold,
-                        ),
+                            fontFamily: "Cabin",
+                            fontSize: screenWidth * 0.06,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green),
                       ),
                     ),
                   ),

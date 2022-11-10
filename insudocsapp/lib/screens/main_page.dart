@@ -17,41 +17,33 @@ class MainPage extends StatefulWidget {
   final int tabIndex;
 
   @override
-  State<MainPage> createState() => _StudentMainPageState();
+  State<MainPage> createState() => _MainPageState();
 }
 
-class _StudentMainPageState extends State<MainPage>
-    with TickerProviderStateMixin {
+class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  var _bottomNavIndex = 1;
-  late List<StatefulWidget> bodies;
-  late TabController _tabController;
+  late final PageController _pageController = PageController(
+    initialPage: widget.tabIndex,
+  );
+
+  bool isMounted = false;
 
   List<String> tabNames = ['Requests', 'Home', 'Chat'];
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    _bottomNavIndex = widget.tabIndex;
-    _tabController = TabController(
-      animationDuration: const Duration(milliseconds: 0),
-      initialIndex: widget.tabIndex,
-      length: 3,
-      vsync: this,
-    );
-    _tabController.addListener(
-      () {
-        if (_tabController.previousIndex != _tabController.index) {
-          setState(() {});
-        }
-      },
-    );
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      isMounted = true;
+      setState(() {});
+    });
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -82,97 +74,65 @@ class _StudentMainPageState extends State<MainPage>
         screenWidth: screenWidth,
         screenHeight: screenHeight,
         scaffoldKey: scaffoldKey,
-        title: LanguageDropDown(
-          parentSet: setState,
+        // title: LanguageDropDown(
+        //   parentSet: setState,
+        // ),
+        title: Text(
+          isMounted ? tabNames[_pageController.page!.round()] : "",
+          style: TextStyle(
+            fontFamily: "DM Sans",
+            color: Colors.white,
+            fontSize: screenWidth * 0.05,
+          ),
         ),
         profilePicture: true,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Padding(
-        padding: EdgeInsets.fromLTRB(
-          screenWidth * 0.04,
-          0,
-          screenWidth * 0.04,
-          screenHeight * 0.01,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: screenHeight * 0.01),
-              child: SizedBox(
-                height: screenHeight * 0.075,
-                child: CustomNavigationBar(
-                  selectedColor: COLOR_THEME['bottomNavigationSelected'],
-                  currentIndex: _bottomNavIndex,
-                  backgroundColor: COLOR_THEME['bottomNavigation']!,
-                  elevation: 0,
-                  borderRadius: Radius.circular(screenWidth / 20),
-                  items: tabNames
-                      .map(
-                        (tabName) => CustomNavigationBarItem(
-                          selectedTitle: Text(
-                            tabName,
-                            style: navigationStyle,
-                          ),
-                          title: Text(
-                            tabName,
-                            style: navigationStyle,
-                          ),
-                          selectedIcon: ImageIcon(
-                            AssetImage(
-                                "$BOTTOM_NAVIGATION_IMAGE_DIRECTORY/${tabName.toLowerCase()}.png"),
-                            color: COLOR_THEME['bottomNavigationSelected'],
-                          ),
-                          icon: ImageIcon(
-                            AssetImage(
-                                "$BOTTOM_NAVIGATION_IMAGE_DIRECTORY/${tabName.toLowerCase()}.png"),
-                            color: COLOR_THEME['bottomNavigationUnselected'],
-                          ),
-                        ),
-                      )
-                      .toList(),
-                  onTap: (index) => setState(
-                    () {
-                      _bottomNavIndex = index;
-                      _tabController.index = index;
-                    },
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: isMounted ? _pageController.page!.round() : 1,
+          backgroundColor: COLOR_THEME['bottomNavigation']!,
+          selectedLabelStyle: navigationStyle,
+          unselectedLabelStyle: navigationStyle,
+          elevation: 0,
+          items: tabNames
+              .map(
+                (tabName) => BottomNavigationBarItem(
+                  label: tabName,
+                  activeIcon: ImageIcon(
+                    AssetImage(
+                        "$BOTTOM_NAVIGATION_IMAGE_DIRECTORY/${tabName.toLowerCase()}.png"),
+                    color: COLOR_THEME['bottomNavigationSelected'],
                   ),
-                  //other params
+                  icon: ImageIcon(
+                    AssetImage(
+                        "$BOTTOM_NAVIGATION_IMAGE_DIRECTORY/${tabName.toLowerCase()}.png"),
+                    color: COLOR_THEME['bottomNavigationUnselected'],
+                  ),
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      body: Stack(
-        children: [
-          const BigOneSmallOneBG(),
-          Positioned(
-            top: screenHeight / 7,
-            left: 0,
-            width: tempDimensions[0] > tempDimensions[1]
-                ? tempDimensions[1]
-                : tempDimensions[0],
-            height: tempDimensions[0] > tempDimensions[1]
-                ? tempDimensions[0]
-                : tempDimensions[1] * 0.9,
-            child: TabBarView(
-              // viewportFraction: 0.9,
-              controller: _tabController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: const [
-                // Put FIVE pages in the tab bar view
-                RequestsPage(),
-                HomePage(),
-                MessagesPage(),
-                // NoIt
-                //emsInTab(text: "0"),
-                // NoItemsInTab(text: "4"),
-              ],
-            ),
+              )
+              .toList(),
+          onTap: (index) {
+            print("adsadasd");
+            _pageController.jumpToPage(index);
+            print("${_pageController.page} , $index");
+
+            setState(
+              () {},
+            );
+          }
+          //other params
           ),
+      body: PageView(
+        // viewportFraction: 0.9,
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          // Put FIVE pages in the tab bar view
+          RequestsPage(),
+          HomePage(),
+          MessagesPage(),
+          // NoIt
+          //emsInTab(text: "0"),
+          // NoItemsInTab(text: "4"),
         ],
       ),
     );

@@ -1,8 +1,10 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:insudox_app/common_widgets/backgrounds/bigThreeBg.dart';
 import 'package:insudox_app/common_widgets/formfields.dart';
 import 'package:insudox_app/services/Firebase/fireauth/fireauth.dart';
+import 'package:insudox_app/services/Firebase/firestore/firestore.dart';
 
 class Login extends StatefulWidget {
   /// Login page for the user to login using email/password or google login.
@@ -30,6 +32,13 @@ class _LoginState extends State<Login> {
       errorTextPassword = result[1];
     } else if (result[0] == 0) {
       if (await checkFormFilled()) {
+        await userDocumentReference().get().then((value) {
+          Map<String, dynamic> subscribedFormats =
+              value.data() ?? ["subscribedTo"] as Map<String, dynamic>;
+          subscribedFormats.forEach((key, value) {
+            FirebaseMessaging.instance.subscribeToTopic(key);
+          });
+        });
         await Navigator.pushNamedAndRemoveUntil(
             context, '/main', (route) => false);
       } else {
@@ -244,15 +253,29 @@ class _LoginState extends State<Login> {
                                       print("clicked");
                                       if (await signInWithGoogle()) {
                                         if (await checkFormFilled()) {
-                                          Navigator.pushNamedAndRemoveUntil(
-                                              context,
-                                              '/main',
-                                              (route) => false);
+                                          await userDocumentReference()
+                                              .get()
+                                              .then((value) {
+                                            Map<String, dynamic>
+                                                subscribedFormats =
+                                                value.data() ??
+                                                    ["subscribedTo"]
+                                                        as Map<String, dynamic>;
+                                            subscribedFormats
+                                                .forEach((key, value) {
+                                              FirebaseMessaging.instance
+                                                  .subscribeToTopic(key);
+                                            });
+                                          });
+                                          await Navigator
+                                              .pushNamedAndRemoveUntil(context,
+                                                  '/main', (route) => false);
                                         } else {
-                                          Navigator.pushNamedAndRemoveUntil(
-                                              context,
-                                              '/infoCollection',
-                                              (route) => false);
+                                          await Navigator
+                                              .pushNamedAndRemoveUntil(
+                                                  context,
+                                                  '/infoCollection',
+                                                  (route) => false);
                                         }
                                       }
                                     }),

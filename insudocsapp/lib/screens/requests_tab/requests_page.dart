@@ -30,59 +30,67 @@ class _RequestsPageState extends State<RequestsPage> {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-        floatingActionButton: Padding(
-          padding: EdgeInsets.only(
-              right: screenWidth * 0.03, bottom: screenHeight * 0.15),
-          child: FloatingActionButton.extended(
-            onPressed: () {
-              Navigator.of(context).push(
-                // TODO: Add a new page to generate a new request
-                // DETAILS: The page should have a form to fill in the details of the request
-                // DETAILS: The page should have a button to submit the request
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(
+            right: screenWidth * 0.03, bottom: screenHeight * 0.015),
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.of(context).push(
+              // TODO: Add a new page to generate a new request
+              // DETAILS: The page should have a form to fill in the details of the request
+              // DETAILS: The page should have a button to submit the request
 
-                MaterialPageRoute(
-                  builder: (context) =>
-                      const InformationCollection(popBack: true),
-                ),
-              );
-            },
-            label: Text(
-              "New",
-              style: TextStyle(
-                fontFamily: 'FigTree',
-                fontWeight: FontWeight.bold,
-                fontSize: screenWidth / 20,
+              MaterialPageRoute(
+                builder: (context) =>
+                    const InformationCollection(popBack: true),
               ),
-            ),
-            icon: Icon(
-              Icons.add,
-              size: screenWidth / 20,
+            );
+          },
+          label: Text(
+            "New",
+            style: TextStyle(
+              fontFamily: 'FigTree',
+              fontWeight: FontWeight.bold,
+              fontSize: screenWidth / 20,
             ),
           ),
+          icon: Icon(
+            Icons.add,
+            size: screenWidth / 20,
+          ),
         ),
-        body: Center(
-          child: FutureBuilder(
-              future: getPolicies(),
-              builder: (context, AsyncSnapshot<List<PolicyModel>> policies) {
-                if (policies.hasData) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: screenWidth / 40),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: policies.data!
-                          .map((policy) => RequestsInfoCard(
-                                policy: policy,
-                              ))
-                          .toList(),
-                    ),
-                  );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              }),
-        ));
+      ),
+      body: Center(
+        child: FutureBuilder(
+          future: getPolicies(),
+          builder: (context, AsyncSnapshot<List<PolicyModel>> policies) {
+            if (policies.hasData) {
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      left: screenWidth / 40,
+                      right: screenWidth / 40,
+                      top: screenHeight / 50,
+                      bottom: screenHeight / 7),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: policies.data!
+                        .map((policy) => RequestsInfoCard(
+                              policy: policy,
+                            ))
+                        .toList(),
+                  ),
+                ),
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      ),
+    );
   }
 }

@@ -153,6 +153,8 @@ class GlobalColor {
 
   static const Color tertiary = Color(0xFFDBD3FF);
 
+  static const Color fourth = Color.fromARGB(255, 145, 131, 211);
+
   static const List<Color> backgroundComponents = [
     Color(0xFFFFDBA4),
     Color(0xFFFFB3B3),
