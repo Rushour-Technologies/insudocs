@@ -23,6 +23,8 @@ class NotificationModel {
         'data': {
           'body': body,
           'title': title,
-        }
+        },
+        'priority': 'high',
+        'android_channel_id': 'high_importance_channel',
       };
 }

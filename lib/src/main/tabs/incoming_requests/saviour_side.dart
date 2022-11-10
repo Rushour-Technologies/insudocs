@@ -30,21 +30,29 @@ Widget saviourIncoming({
               runSpacing: screenHeight * 0.02,
               spacing: screenWidth * 0.01,
               crossAxisAlignment: WrapCrossAlignment.center,
-              children: clientRequestInfoList.map((requestStatus) {
-                return RequestCard(
-                    clientRequestInfo: requestStatus, setState: setState);
-              }).toList())
+              children: clientRequestInfoList.map(
+                (requestStatus) {
+                  return RequestCard(
+                      clientRequestInfo: requestStatus, setState: setState);
+                },
+              ).toList(),
+            )
           : StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
               stream: getAllRequests(),
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.active) {
+                print(snapshot.connectionState);
+                if (snapshot.connectionState != ConnectionState.waiting) {
                   if (snapshot.hasData) {
                     if (snapshot.data!.docs.isNotEmpty) {
                       return Wrap(
                           runSpacing: screenHeight * 0.02,
                           spacing: screenWidth * 0.01,
                           crossAxisAlignment: WrapCrossAlignment.center,
-                          children: snapshot.data!.docs.map((document) {
+                          children: snapshot.data!.docs
+                              .where((element) =>
+                                  element.data()['requestStatus'] !=
+                                  ApprovalStatus.PENDING.name)
+                              .map((document) {
                             final Map<String, dynamic> policyJson =
                                 document.data();
 

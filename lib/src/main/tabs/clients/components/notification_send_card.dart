@@ -29,22 +29,29 @@ class _NotificationSendCardState extends State<NotificationSendCard> {
       return;
     }
 
+    late NotificationModel notification;
+
     if (optionValue.value == 0) {
-      // send to all
-    } else {
-      NotificationModel notification = NotificationModel(
+      notification = NotificationModel(
         sendTo: Filters.values[optionValue.value].name,
         title: _titleController.text,
         body: _descriptionController.text,
         isTopic: true,
       );
-
-      // send to selected
-      await sendNotification(notification: notification);
-
-      _titleController.text = "";
-      _descriptionController.text = "";
+      // send to all
+    } else {
+      notification = NotificationModel(
+        sendTo: Filters.values[optionValue.value].name,
+        title: _titleController.text,
+        body: _descriptionController.text,
+        isTopic: true,
+      );
     }
+    // send to selected
+    await sendNotification(notification: notification);
+
+    _titleController.text = "";
+    _descriptionController.text = "";
   }
 
   @override
