@@ -1,12 +1,9 @@
-import 'dart:js_util';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:insudox/services/Firebase/fireauth/fireauth.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:insudox/src/classes/insurance_enums.dart';
-import 'package:insudox/src/classes/policy_model.dart';
 
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -98,7 +95,6 @@ Future<void> acceptDenyClient({
     'requestStatus':
         accept ? ApprovalStatus.APPROVED.data : ApprovalStatus.REJECTED.data,
   });
-
   // Set the approval status in the client's document
   await userDocumentCollection(
     userId: clientId,
@@ -132,8 +128,9 @@ Future<void> acceptDenyClient({
     updatedAt: DateTime.now().millisecondsSinceEpoch,
   );
 
-  types.Room room =
-      await FirebaseChatCore.instance.createRoom(currentUserClient);
+  types.Room room = await FirebaseChatCore.instance.createRoom(
+    currentUserClient,
+  );
 }
 
 /// Get all the client requests
@@ -141,20 +138,10 @@ Stream<QuerySnapshot<Map<String, dynamic>>> getAllRequests() async* {
   QuerySnapshot<Object?> servingUsers =
       await saviourDocumentCollection(collection: 'clients').get();
 
-  List<String> servingIds = servingUsers.docs.map((e) => e.id).toList();
-  print(servingIds);
-
-  if (servingIds.isEmpty) {
-    yield* firestore
-        .collection('client_requests')
-        .where('requestStatus', isEqualTo: 'PENDING')
-        .snapshots();
-  } else {
-    yield* firestore
-        .collection('client_requests')
-        .where("userId", whereNotIn: servingIds)
-        .snapshots();
-  }
+  yield* firestore
+      .collection('client_requests')
+      .where('requestStatus', isEqualTo: 'PENDING')
+      .snapshots();
 }
 
 /// Update chat roles neatly

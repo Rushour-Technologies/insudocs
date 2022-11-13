@@ -55,7 +55,7 @@ class _InformationCollectionState extends State<InformationCollection> {
               height: screenHeight * 0.06,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff615793),
+                  onSurface: const Color(0xff615793),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(screenHeight * 0.01),
                   ),
@@ -269,7 +269,7 @@ class _InformationCollectionState extends State<InformationCollection> {
                                                   top: screenHeight * 0.005),
                                               child: ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
+                                                  onSurface:
                                                       const Color(0xff615793),
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:

@@ -41,7 +41,6 @@ dependencies:
   http: ^0.13.5
   shared_preferences: ^2.0.15
   firebase_messaging: ^13.1.0
-  flutter_firebase_chat_core: ^1.6.3
   google_sign_in: ^5.4.2
   firebase_database: ^9.1.7
   flutter_svg: ^1.1.5
@@ -52,6 +51,7 @@ dependencies:
   flutter_chat_ui: ^1.6.4
   age_calculator: ^1.0.0
   url_strategy: ^0.2.0
+  flutter_firebase_chat_core: ^1.6.3
 
 dev_dependencies:
   flutter_test:

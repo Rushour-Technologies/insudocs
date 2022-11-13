@@ -48,11 +48,7 @@ Widget saviourIncoming({
                           runSpacing: screenHeight * 0.02,
                           spacing: screenWidth * 0.01,
                           crossAxisAlignment: WrapCrossAlignment.center,
-                          children: snapshot.data!.docs
-                              .where((element) =>
-                                  element.data()['requestStatus'] !=
-                                  ApprovalStatus.PENDING.name)
-                              .map((document) {
+                          children: snapshot.data!.docs.map((document) {
                             final Map<String, dynamic> policyJson =
                                 document.data();
 

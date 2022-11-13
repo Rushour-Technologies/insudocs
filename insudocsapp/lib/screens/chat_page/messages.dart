@@ -23,11 +23,10 @@ class MessagesPageState extends State<MessagesPage> {
     final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
       key: scaffoldKey,
       body: StreamBuilder<List<types.Room>>(
         stream: FirebaseChatCore.instance.rooms(),
-        initialData: const [],
+        initialData: [],
         builder: (context, snapshot) {
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Container(
@@ -35,65 +34,74 @@ class MessagesPageState extends State<MessagesPage> {
               margin: const EdgeInsets.only(
                 bottom: 200,
               ),
-              child: const Text('Waiting for saviours to begin helping you!'),
+              child: const Text('Waiting for saviours to begin helping you!'),
             );
           }
-          print(snapshot.data!);
 
-          return Column(
-            children: snapshot.data!
-                .where(
-              (element) =>
-                  element.users.first.role == types.Role.saviour ||
-                  element.users.first.role == types.Role.user,
-            )
-                .map((room) {
-              return GestureDetector(
-                onTap: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatPage(
-                        room: room,
+          return Padding(
+            padding: EdgeInsets.only(
+              top: screenHeight * 0.15,
+            ),
+            child: Column(
+              children: snapshot.data!
+                  .where(
+                (element) =>
+                    element.users.first.role == types.Role.saviour ||
+                    element.users.first.role == types.Role.user,
+              )
+                  .map((room) {
+                print(room.users.map((e) => e.role!.name).toList());
+                return Container(
+                  child: GestureDetector(
+                    onTap: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatPage(
+                            room: room,
+                          ),
+                        ),
+                      );
+                      setState(() {});
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: screenHeight * 0.025,
                       ),
-                    ),
-                  );
-                  setState(() {});
-                },
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: screenHeight * 0.025,
-                  ),
-                  child: ListTile(
-                    leading: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: screenWidth * 0.005),
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          room.imageUrl ?? DEFAULT_PROFILE_PICTURE,
+                      child: ListTile(
+                        leading: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenWidth * 0.005),
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                              room.imageUrl ?? DEFAULT_PROFILE_PICTURE,
+                            ),
+                          ),
+                        ),
+                        title: Text(
+                          room.name ?? '',
+                          style: TextStyle(
+                            fontFamily: 'DM Sans',
+                            color: COLOR_THEME['primary'],
+                            fontSize: screenWidth * 0.075,
+                          ),
+                        ),
+                        subtitle: Text(
+                          room.users.first.role == types.Role.user
+                              ? room.users.last.role!.name
+                              : room.users.first.role!.name,
+                          style: TextStyle(
+                            fontFamily: 'DM Sans',
+                            color: COLOR_THEME['primary'],
+                            fontSize: screenWidth * 0.05,
+                          ),
                         ),
                       ),
                     ),
-                    title: Text(
-                      room.name ?? '',
-                      style: TextStyle(
-                        fontFamily: 'DM Sans',
-                        color: COLOR_THEME['primary'],
-                        fontSize: screenWidth * 0.075,
-                      ),
-                    ),
-                    subtitle: Text(
-                      room.users.last.role!.name,
-                      style: TextStyle(
-                        fontFamily: 'DM Sans',
-                        color: COLOR_THEME['primary'],
-                        fontSize: screenWidth * 0.05,
-                      ),
-                    ),
                   ),
-                ),
-              );
-            }).toList(),
+                );
+              }).toList(),
+            ),
           );
         },
       ),
