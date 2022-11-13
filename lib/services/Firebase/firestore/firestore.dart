@@ -153,7 +153,6 @@ Stream<QuerySnapshot<Map<String, dynamic>>> getAllRequests() async* {
     yield* firestore
         .collection('client_requests')
         .where("userId", whereNotIn: servingIds)
-        .where('requestStatus', isEqualTo: 'PENDING')
         .snapshots();
   }
 }
