@@ -62,33 +62,36 @@ class _RequestsPageState extends State<RequestsPage> {
         ),
       ),
       body: Center(
-        child: FutureBuilder(
-          future: getPolicies(),
-          builder: (context, AsyncSnapshot<List<PolicyModel>> policies) {
-            if (policies.hasData) {
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      left: screenWidth / 40,
-                      right: screenWidth / 40,
-                      top: screenHeight / 50,
-                      bottom: screenHeight / 7),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: policies.data!
-                        .map((policy) => RequestsInfoCard(
-                              policy: policy,
-                            ))
-                        .toList(),
+        child: Padding(
+          padding: EdgeInsets.only(top: screenHeight * 0.13),
+          child: FutureBuilder(
+            future: getPolicies(),
+            builder: (context, AsyncSnapshot<List<PolicyModel>> policies) {
+              if (policies.hasData) {
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                        left: screenWidth / 40,
+                        right: screenWidth / 40,
+                        top: screenHeight / 50,
+                        bottom: screenHeight / 7),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: policies.data!
+                          .map((policy) => RequestsInfoCard(
+                                policy: policy,
+                              ))
+                          .toList(),
+                    ),
                   ),
-                ),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
         ),
       ),
     );

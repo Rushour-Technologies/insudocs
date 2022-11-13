@@ -25,77 +25,80 @@ class MessagesPageState extends State<MessagesPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       key: scaffoldKey,
-      body: StreamBuilder<List<types.Room>>(
-        stream: FirebaseChatCore.instance.rooms(),
-        initialData: const [],
-        builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(
-                bottom: 200,
-              ),
-              child: const Text('Waiting for saviours to begin helping you!'),
-            );
-          }
-          print(snapshot.data!);
+      body: Padding(
+        padding: EdgeInsets.only(top: screenHeight * 0.13),
+        child: StreamBuilder<List<types.Room>>(
+          stream: FirebaseChatCore.instance.rooms(),
+          initialData: const [],
+          builder: (context, snapshot) {
+            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.only(
+                  bottom: 200,
+                ),
+                child: const Text('Waiting for saviours to begin helping you!'),
+              );
+            }
+            print(snapshot.data!);
 
-          return Column(
-            children: snapshot.data!
-                .where(
-              (element) =>
-                  element.users.first.role == types.Role.saviour ||
-                  element.users.first.role == types.Role.user,
-            )
-                .map((room) {
-              return GestureDetector(
-                onTap: () async {
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChatPage(
-                        room: room,
+            return Column(
+              children: snapshot.data!
+                  .where(
+                (element) =>
+                    element.users.first.role == types.Role.saviour ||
+                    element.users.first.role == types.Role.user,
+              )
+                  .map((room) {
+                return GestureDetector(
+                  onTap: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatPage(
+                          room: room,
+                        ),
                       ),
+                    );
+                    setState(() {});
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: screenHeight * 0.025,
                     ),
-                  );
-                  setState(() {});
-                },
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: screenHeight * 0.025,
-                  ),
-                  child: ListTile(
-                    leading: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: screenWidth * 0.005),
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(
-                          room.imageUrl ?? DEFAULT_PROFILE_PICTURE,
+                    child: ListTile(
+                      leading: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenWidth * 0.005),
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            room.imageUrl ?? DEFAULT_PROFILE_PICTURE,
+                          ),
+                        ),
+                      ),
+                      title: Text(
+                        room.name ?? '',
+                        style: TextStyle(
+                          fontFamily: 'DM Sans',
+                          color: COLOR_THEME['primary'],
+                          fontSize: screenWidth * 0.075,
+                        ),
+                      ),
+                      subtitle: Text(
+                        room.users.last.role!.name,
+                        style: TextStyle(
+                          fontFamily: 'DM Sans',
+                          color: COLOR_THEME['primary'],
+                          fontSize: screenWidth * 0.05,
                         ),
                       ),
                     ),
-                    title: Text(
-                      room.name ?? '',
-                      style: TextStyle(
-                        fontFamily: 'DM Sans',
-                        color: COLOR_THEME['primary'],
-                        fontSize: screenWidth * 0.075,
-                      ),
-                    ),
-                    subtitle: Text(
-                      room.users.last.role!.name,
-                      style: TextStyle(
-                        fontFamily: 'DM Sans',
-                        color: COLOR_THEME['primary'],
-                        fontSize: screenWidth * 0.05,
-                      ),
-                    ),
                   ),
-                ),
-              );
-            }).toList(),
-          );
-        },
+                );
+              }).toList(),
+            );
+          },
+        ),
       ),
     );
   }

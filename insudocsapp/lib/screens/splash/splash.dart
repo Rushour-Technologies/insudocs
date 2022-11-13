@@ -22,11 +22,13 @@ class _SplashState extends State<Splash> {
     if (checkLoggedIn()) {
       if (await checkFormFilled()) {
         await userDocumentReference().get().then((value) {
-          Map<String, dynamic> subscribedFormats =
-              value.data() ?? ["subscribedTo"] as Map<String, dynamic>;
-          subscribedFormats.forEach((key, value) {
-            FirebaseMessaging.instance.subscribeToTopic(key);
-          });
+          if (value.data() != null) {
+            Map<String, dynamic> subscribedFormats =
+                value.data()!["subscribedTo"] as Map<String, dynamic>;
+            subscribedFormats.forEach((key, value) {
+              FirebaseMessaging.instance.subscribeToTopic(key);
+            });
+          }
         });
 
         await Navigator.pushNamedAndRemoveUntil(
