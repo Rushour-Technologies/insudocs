@@ -33,11 +33,13 @@ class _LoginState extends State<Login> {
     } else if (result[0] == 0) {
       if (await checkFormFilled()) {
         await userDocumentReference().get().then((value) {
-          Map<String, dynamic> subscribedFormats =
-              value.data() ?? ["subscribedTo"] as Map<String, dynamic>;
-          subscribedFormats.forEach((key, value) {
-            FirebaseMessaging.instance.subscribeToTopic(key);
-          });
+          if (value.data() != null) {
+            Map<String, dynamic> subscribedFormats =
+                value.data()!["subscribedTo"] as Map<String, dynamic>;
+            subscribedFormats.forEach((key, value) {
+              FirebaseMessaging.instance.subscribeToTopic(key);
+            });
+          }
         });
         await Navigator.pushNamedAndRemoveUntil(
             context, '/main', (route) => false);
@@ -68,7 +70,7 @@ class _LoginState extends State<Login> {
         height: screenHeight * 0.06,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            primary: const Color(0xff615793),
+            backgroundColor: const Color(0xff615793),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(screenHeight * 0.01),
             ),
@@ -256,16 +258,17 @@ class _LoginState extends State<Login> {
                                           await userDocumentReference()
                                               .get()
                                               .then((value) {
-                                            Map<String, dynamic>
-                                                subscribedFormats =
-                                                value.data() ??
-                                                    ["subscribedTo"]
-                                                        as Map<String, dynamic>;
-                                            subscribedFormats
-                                                .forEach((key, value) {
-                                              FirebaseMessaging.instance
-                                                  .subscribeToTopic(key);
-                                            });
+                                            if (value.data() != null) {
+                                              Map<String, dynamic>
+                                                  subscribedFormats =
+                                                  value.data()!["subscribedTo"]
+                                                      as Map<String, dynamic>;
+                                              subscribedFormats
+                                                  .forEach((key, value) {
+                                                FirebaseMessaging.instance
+                                                    .subscribeToTopic(key);
+                                              });
+                                            }
                                           });
                                           await Navigator
                                               .pushNamedAndRemoveUntil(context,

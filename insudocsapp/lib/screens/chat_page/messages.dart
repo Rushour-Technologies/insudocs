@@ -24,25 +24,24 @@ class MessagesPageState extends State<MessagesPage> {
 
     return Scaffold(
       key: scaffoldKey,
-      body: StreamBuilder<List<types.Room>>(
-        stream: FirebaseChatCore.instance.rooms(),
-        initialData: [],
-        builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.only(
-                bottom: 200,
-              ),
-              child: const Text('Waiting for saviours to begin helping you!'),
-            );
-          }
+      body: Padding(
+        padding: EdgeInsets.only(top: screenHeight * 0.13),
+        child: StreamBuilder<List<types.Room>>(
+          stream: FirebaseChatCore.instance.rooms(),
+          initialData: const [],
+          builder: (context, snapshot) {
+            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.only(
+                  bottom: 200,
+                ),
+                child: const Text('Waiting for saviours to begin helping you!'),
+              );
+            }
+            print(snapshot.data!);
 
-          return Padding(
-            padding: EdgeInsets.only(
-              top: screenHeight * 0.15,
-            ),
-            child: Column(
+            return Column(
               children: snapshot.data!
                   .where(
                 (element) =>
@@ -50,6 +49,7 @@ class MessagesPageState extends State<MessagesPage> {
                     element.users.first.role == types.Role.user,
               )
                   .map((room) {
+<<<<<<< HEAD
                 print(room.users.map((e) => e.role!.name).toList());
                 return Container(
                   child: GestureDetector(
@@ -71,39 +71,40 @@ class MessagesPageState extends State<MessagesPage> {
                       child: ListTile(
                         leading: Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: screenWidth * 0.005),
-                          child: CircleAvatar(
-                            backgroundImage: NetworkImage(
-                              room.imageUrl ?? DEFAULT_PROFILE_PICTURE,
-                            ),
+                            room.imageUrl ?? DEFAULT_PROFILE_PICTURE,
                           ),
                         ),
-                        title: Text(
-                          room.name ?? '',
-                          style: TextStyle(
-                            fontFamily: 'DM Sans',
-                            color: COLOR_THEME['primary'],
-                            fontSize: screenWidth * 0.075,
-                          ),
+                      ),
+                      title: Text(
+                        room.name ?? '',
+                        style: TextStyle(
+                          fontFamily: 'DM Sans',
+                          color: COLOR_THEME['primary'],
+                          fontSize: screenWidth * 0.075,
                         ),
-                        subtitle: Text(
-                          room.users.first.role == types.Role.user
-                              ? room.users.last.role!.name
-                              : room.users.first.role!.name,
-                          style: TextStyle(
-                            fontFamily: 'DM Sans',
-                            color: COLOR_THEME['primary'],
-                            fontSize: screenWidth * 0.05,
-                          ),
+                      ),
+                      subtitle: Text(
+                        room.users.last.role!.name,
+                        style: TextStyle(
+                          fontFamily: 'DM Sans',
+                          color: COLOR_THEME['primary'],
+                          fontSize: screenWidth * 0.05,
+>>>>>>> e101856a2b3dc7616023060594eb83d1559a5e2f
                         ),
                       ),
                     ),
                   ),
                 );
               }).toList(),
+<<<<<<< HEAD
             ),
           );
         },
+=======
+            );
+          },
+        ),
+>>>>>>> e101856a2b3dc7616023060594eb83d1559a5e2f
       ),
     );
   }

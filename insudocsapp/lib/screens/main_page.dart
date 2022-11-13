@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       isMounted = true;
-      setState(() {});
+      // setState(() {});
     });
   }
 
