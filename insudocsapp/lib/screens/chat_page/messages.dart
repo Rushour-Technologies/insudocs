@@ -49,7 +49,6 @@ class MessagesPageState extends State<MessagesPage> {
                     element.users.first.role == types.Role.user,
               )
                   .map((room) {
-<<<<<<< HEAD
                 print(room.users.map((e) => e.role!.name).toList());
                 return Container(
                   child: GestureDetector(
@@ -71,40 +70,33 @@ class MessagesPageState extends State<MessagesPage> {
                       child: ListTile(
                         leading: Padding(
                           padding: EdgeInsets.symmetric(
-                            room.imageUrl ?? DEFAULT_PROFILE_PICTURE,
+                            vertical: screenWidth * 0.02,
                           ),
                         ),
-                      ),
-                      title: Text(
-                        room.name ?? '',
-                        style: TextStyle(
-                          fontFamily: 'DM Sans',
-                          color: COLOR_THEME['primary'],
-                          fontSize: screenWidth * 0.075,
+                        title: Text(
+                          room.name ?? '',
+                          style: TextStyle(
+                            fontFamily: 'DM Sans',
+                            color: COLOR_THEME['primary'],
+                            fontSize: screenWidth * 0.075,
+                          ),
                         ),
-                      ),
-                      subtitle: Text(
-                        room.users.last.role!.name,
-                        style: TextStyle(
-                          fontFamily: 'DM Sans',
-                          color: COLOR_THEME['primary'],
-                          fontSize: screenWidth * 0.05,
->>>>>>> e101856a2b3dc7616023060594eb83d1559a5e2f
+                        subtitle: Text(
+                          room.users.last.role!.name,
+                          style: TextStyle(
+                            fontFamily: 'DM Sans',
+                            color: COLOR_THEME['primary'],
+                            fontSize: screenWidth * 0.05,
+                          ),
                         ),
                       ),
                     ),
                   ),
                 );
               }).toList(),
-<<<<<<< HEAD
-            ),
-          );
-        },
-=======
             );
           },
         ),
->>>>>>> e101856a2b3dc7616023060594eb83d1559a5e2f
       ),
     );
   }
