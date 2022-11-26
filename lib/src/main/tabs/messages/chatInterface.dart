@@ -1,12 +1,10 @@
-import 'dart:html';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:insudox/globals.dart';
-import 'package:insudox/services/Firebase/firestore/firestore.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 class ChatPage extends StatefulWidget {

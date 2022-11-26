@@ -11,7 +11,6 @@ class PushNotificationService {
     // This function is called when the app is in the background and user clicks on the notification
 
     FirebaseMessaging.instance.setAutoInitEnabled(true);
-    FirebaseMessaging.onBackgroundMessage((message) async {});
 
     await registerNotificationListeners();
   }

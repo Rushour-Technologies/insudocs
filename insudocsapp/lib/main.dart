@@ -33,9 +33,29 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+void testMain(Widget screen) async {
+  WidgetsFlutterBinding.ensureInitialized();
 
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  // await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
+  await PushNotificationService().setupInteractedMessage();
+  // print('TOKEN : ${await FirebaseMessaging.instance.getToken()}');
+  // CollegeExtractionModel collegeExtractionModel = CollegeExtractionModel.getModel();
+  // collegeExtractionModel.fetchCollegeInfo();
+  await FlutterDownloader.initialize(debug: true, ignoreSsl: true);
+
+  runApp(MyApp(
+    screen: screen,
+  ));
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key, this.screen = const Splash()}) : super(key: key);
+  final Widget screen;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -60,7 +80,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => const Splash(),
+        '/': (context) => screen,
         '/main': (context) => const MainPage(),
         '/wt': (context) => const WalkThrough(),
         '/mobno': (context) => const PhoneAuth(),

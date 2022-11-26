@@ -34,11 +34,13 @@ class _LoginState extends State<Login> {
       if (await checkFormFilled()) {
         await userDocumentReference().get().then((value) {
           if (value.data() != null) {
-            Map<String, dynamic> subscribedFormats =
-                value.data()!["subscribedTo"] as Map<String, dynamic>;
-            subscribedFormats.forEach((key, value) {
-              FirebaseMessaging.instance.subscribeToTopic(key);
-            });
+            Map<String, dynamic>? subscribedFormats =
+                value.data()!["subscribedTo"] as Map<String, dynamic>?;
+            if (subscribedFormats != null) {
+              subscribedFormats.forEach((key, value) {
+                FirebaseMessaging.instance.subscribeToTopic(key);
+              });
+            }
           }
         });
         await Navigator.pushNamedAndRemoveUntil(
@@ -70,7 +72,7 @@ class _LoginState extends State<Login> {
         height: screenHeight * 0.06,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xff615793),
+            primary: const Color(0xff615793),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(screenHeight * 0.01),
             ),
@@ -182,18 +184,19 @@ class _LoginState extends State<Login> {
                             child: Column(
                               children: [
                                 Form(
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
+                                  autovalidateMode: AutovalidateMode.always,
                                   child: Column(
                                     children: [
                                       Padding(
-                                          padding: EdgeInsets.only(
-                                              top: screenHeight * 0.02),
-                                          child: emailformfield(
-                                              emailController,
-                                              screenWidth,
-                                              setState,
-                                              errorTextEmail)),
+                                        padding: EdgeInsets.only(
+                                            top: screenHeight * 0.02),
+                                        child: emailformfield(
+                                          emailController,
+                                          screenWidth,
+                                          setState,
+                                          errorTextEmail,
+                                        ),
+                                      ),
                                       Padding(
                                         padding: EdgeInsets.only(
                                             top: screenHeight * 0.025),

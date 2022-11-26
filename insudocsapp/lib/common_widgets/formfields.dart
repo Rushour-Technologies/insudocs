@@ -113,6 +113,7 @@ TextFormField emailformfield(
   String errorTextEmail,
 ) {
   return TextFormField(
+    key: ValueKey('email'),
     controller: emailController,
     onChanged: (value) {
       setState(() {});
@@ -124,6 +125,7 @@ TextFormField emailformfield(
         return null;
       }
     },
+    autovalidateMode: AutovalidateMode.onUserInteraction,
     inputFormatters: [
       FilteringTextInputFormatter.singleLineFormatter,
     ],
